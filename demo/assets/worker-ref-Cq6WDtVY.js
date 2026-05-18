@@ -1,0 +1,1 @@
+var e=`/node_modules/@flyfish-group/file-viewer3/dist/worker/`,t=class{worker=null;constructor(e){this.worker=e}defaults(e){return this.worker||e()}};function n(n,r=!1){return`${e}${n}`,new t(null)}export{n as t};
