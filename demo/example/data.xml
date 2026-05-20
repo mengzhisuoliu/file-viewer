@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<preview-suite name="Flyfish Viewer" version="1.0.8">
+<preview-suite name="Flyfish Viewer" version="1.0.9">
   <environment framework="vue2.7" bundler="vite" />
 
   <groups>
@@ -11,11 +11,18 @@
     <group id="drawing" label="CAD">
       <format extension="dxf" renderer="@cadview/core" pan="true" zoom="true" />
       <format extension="dwg" renderer="compatibility-message" />
+      <format extension="excalidraw" renderer="@excalidraw/excalidraw" async="true" />
+      <format extension="drawio" renderer="diagrams.net GraphViewer" async="true" />
+      <format extension="dio" renderer="diagrams.net GraphViewer" async="true" />
     </group>
     <group id="source" label="Code and Data">
       <format extension="ts" renderer="highlight.js" />
       <format extension="json" renderer="highlight.js" />
       <format extension="vue" renderer="highlight.js" />
+    </group>
+    <group id="ebook" label="Ebooks">
+      <format extension="epub" renderer="epubjs" async="true" />
+      <format extension="umd" renderer="umd-parser" async="true" />
     </group>
   </groups>
 

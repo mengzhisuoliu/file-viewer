@@ -1,14 +1,14 @@
 {
   "name": "file-viewer",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "runtime": {
     "framework": "vue3",
     "viewerSite": "https://viewer.flyfish.dev",
     "docs": "https://doc.flyfish.dev"
   },
   "packages": {
-    "vue3": "@flyfish-group/file-viewer3@1.0.8",
-    "vue2": "@flyfish-group/file-viewer@1.0.8"
+    "vue3": "@flyfish-group/file-viewer3@1.0.9",
+    "vue2": "@flyfish-group/file-viewer@1.0.9"
   },
   "features": [
     {
@@ -19,8 +19,14 @@
     },
     {
       "group": "drawing",
-      "extensions": ["dxf", "dwg"],
-      "notes": ["DXF renders in browser", "DWG shows compatibility guidance"]
+      "extensions": ["dxf", "dwg", "excalidraw", "drawio", "dio"],
+      "notes": ["DXF renders in browser", "DWG shows compatibility guidance", "Excalidraw uses @excalidraw/excalidraw", "draw.io uses diagrams.net GraphViewer"]
+    },
+    {
+      "group": "ebook",
+      "extensions": ["epub", "umd"],
+      "renderer": "epubjs-or-umd-parser",
+      "lazyLoaded": true
     },
     {
       "group": "source",

@@ -2,6 +2,8 @@
 
 当前目录用于演示文件预览与 iframe 嵌入联调。主示例页会从这里读取内置样本，覆盖当前已注册的主要格式入口。
 
+CAD、绘图、音频和 EPUB 类样例已经替换为可追溯的公开样本，UMD 电子书样例由项目内生成，来源和许可见下方“公开样例来源”。这样既能避免手写占位文件过于理想化，也方便后续升级依赖时复现真实文件的兼容性问题。
+
 代码/配置/日志类样本刻意保留了更接近真实业务的结构，例如异步加载计划、文件类型识别、错误处理、配置嵌套、SQL CTE、Shell 参数处理和多语言类型定义。这样可以更充分地验证 `highlight.js` 对注释、字符串、泛型、对象嵌套、缩进、diff 和长行滚动的展示效果。
 
 ## 当前内置样本
@@ -16,11 +18,15 @@
 - `excel.ods`: 验证 `ods` 扩展名入口
 - `excel.fods`: 验证 `fods` 扩展名入口
 - `excel.numbers`: 验证 `numbers` 扩展名入口
-- `ppt.pptx`: 验证 `pptx` 幻灯片渲染
+- `ppt.pptx`: 验证 `pptx` 幻灯片渲染、组合图形、主题背景和图片资源
 - `pdf.pdf`: 验证 `pdf` 阅读体验
 - `ofd.ofd`: 验证 `ofd.js` 在线预览
-- `drawing.dxf`: 验证 CAD/DXF 图纸预览
-- `sample.dwg`: 验证 DWG 兼容提示
+- `drawing.dxf`: 使用公开 DXF CAD 样例验证图纸预览
+- `sample.dwg`: 使用公开 DWG 样例验证 DWG 兼容提示
+- `flow.excalidraw`: 使用公开 Excalidraw 图纸验证官方 SVG 导出预览
+- `process.drawio`: 使用官方 draw.io 示例验证 diagrams.net 图纸预览
+- `book.epub`: 使用 Project Gutenberg 公开 EPUB 验证电子书目录和滚动阅读
+- `book.umd`: 验证 UMD 电子书元数据、目录和 zlib 正文解析
 - `markdown.md`: 验证 Markdown 阅读样式
 - `notes.markdown`: 验证 Markdown 长扩展名
 - `text.txt`: 验证纯文本预览
@@ -64,12 +70,33 @@
 - `pic.tif`: 验证 TIF 图片预览
 - `vector.svg`: 验证 SVG 图片预览
 - `pic.webp`: 验证 WEBP 图片预览
+- `audio.mp3`: 使用 MDN CC0 音频验证 MP3 原生播放
+- `audio.ogg`: 使用 Wikimedia Commons 音频验证 OGG 原生播放
 - `video.mp4`: 验证视频播放
 
 ## 说明
 
 部分兼容扩展名样本复用了同一份可解析文件内容来确认渲染入口，例如表格兼容格式和图片兼容格式。生产上线前，仍建议用业务真实文件补一轮回归。
 
+## 公开样例来源
+
+| 文件 | 公开来源 | 许可 |
+| --- | --- | --- |
+| `drawing.dxf` | `mozman/ezdxf` 的 `examples_dxf/wipeout_door.dxf` | MIT |
+| `sample.dwg` | `dshn06/cad-webviewer-unity` 的 `baseline-sample.dwg` | MIT |
+| `flow.excalidraw` | `neo4j-labs/agent-memory` 的 `poleo-model.excalidraw` | Apache-2.0 |
+| `process.drawio` | `jgraph/drawio-diagrams` 的 `blog/data-flow.drawio` | Apache-2.0 |
+| `book.umd` | 项目内生成的最小 UMD 文本电子书 fixture | Apache-2.0 |
+| `audio.mp3` | MDN interactive examples 的 `t-rex-roar.mp3` | CC0 |
+| `audio.ogg` | Wikimedia Commons 的 `Example.ogg` | CC BY-SA 3.0 |
+| `book.epub` | Project Gutenberg 的 `Alice's Adventures in Wonderland` EPUB | Public domain in the USA |
+
+这些样例只作为预览器验收文件使用。更新样例时请继续保留公开来源、固定路径和许可信息，避免重新引入无法追溯的本地占位文件。
+
 `ofd.ofd` 示例来自 Apache-2.0 授权的 `DLTech21/ofd.js` 项目公开样本，用于确认 OFD 在浏览器端的基础解析和渲染链路。运行时使用同仓库纯 JS 解析/渲染源码，避开 npm dist 的授权 wasm 分支。
 
-DWG 当前作为 CAD 兼容入口保留，`sample.dwg` 用于演示转换提示。组件会提示先转换为 DXF 后预览，避免默认引入 GPL 授权的 DWG 解析运行时。
+DWG 当前作为 CAD 兼容入口保留，`sample.dwg` 已换成真实公开 DWG 文件，但组件仍只演示兼容提示。运行时会提示先转换为 DXF 后预览，避免默认引入 GPL 授权的 DWG 解析运行时。
+
+`flow.excalidraw` 与 `process.drawio` 用于验证绘图类文本格式。Excalidraw 使用官方 `@excalidraw/excalidraw` 的 `restore` 与 `exportToSvg`，draw.io 使用官方 diagrams.net `GraphViewer`，组件本身只做按需加载、容器挂载和错误提示。
+
+`audio.mp3` 与 `audio.ogg` 用于验证浏览器原生音频播放能力；`book.epub` 用于验证 `epubjs` 的目录、章节资源和滚动阅读能力；`book.umd` 用于验证早期移动电子书的文件头、元数据、章节偏移、章节标题和 zlib 正文段。

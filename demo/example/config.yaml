@@ -2,8 +2,8 @@ viewer:
   name: Flyfish Viewer
   mode: component
   packages:
-    vue3: "@flyfish-group/file-viewer3@1.0.8"
-    vue2: "@flyfish-group/file-viewer@1.0.8"
+    vue3: "@flyfish-group/file-viewer3@1.0.9"
+    vue2: "@flyfish-group/file-viewer@1.0.9"
   lazy: true
   defaultInput: url
   toolbar:
@@ -16,9 +16,13 @@ viewer:
       formats: [doc, docx, pdf, ofd]
       defaultScale: fit-width
     drawings:
-      label: CAD Drawings
-      formats: [dxf, dwg]
+      label: Drawings
+      formats: [dxf, dwg, excalidraw, drawio, dio]
       fallback: convert-dwg-to-dxf
+    ebooks:
+      label: Ebooks
+      formats: [epub, umd]
+      renderer: epubjs-or-umd-parser
     source:
       label: Code and Data
       renderer: highlight.js

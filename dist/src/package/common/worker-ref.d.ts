@@ -8,5 +8,5 @@ export default class WorkerRefImpl implements WorkerRef {
     constructor(worker: Worker | null);
     defaults(provider: WorkerProvider): Worker;
 }
-export declare function refWorker(name: string, module?: boolean): WorkerRef;
+export declare function refWorker(_name: string, _module?: boolean): WorkerRef;
 export {};
