@@ -1,4 +1,4 @@
-import { FileRef, FileViewerLifecycleContext, FileViewerOperationAvailability, FileViewerOptions, FileViewerOperationContext } from '../../../../package/common/type';
+import { FileRef, FileViewerDocumentAnchor, FileViewerLifecycleContext, FileViewerOperationAvailability, FileViewerOptions, FileViewerOperationContext, FileViewerSearchState } from '../../../../package/common/type';
 type __VLS_Props = {
     /**
      * 本地二进制输入。优先级高于 `url`。
@@ -30,11 +30,23 @@ declare const __VLS_export: import('vue').DefineComponent<__VLS_Props, {
         print: boolean;
         exportHtml: boolean;
     };
+    getScrollContainer: () => HTMLElement | null;
+    searchDocument: (query: string) => Promise<FileViewerSearchState>;
+    clearDocumentSearch: () => Promise<FileViewerSearchState>;
+    nextSearchResult: () => Promise<FileViewerSearchState>;
+    previousSearchResult: () => Promise<FileViewerSearchState>;
+    getSearchState: () => FileViewerSearchState;
+    collectDocumentAnchors: () => Promise<FileViewerDocumentAnchor[]>;
+    scrollToAnchor: (anchor: FileViewerDocumentAnchor | string) => Promise<boolean>;
+    scrollToLine: (line: number) => Promise<boolean>;
+    getDocumentTextChunks: () => import('../../../../package/common/type').FileViewerDocumentChunk[];
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
     "load-start": (context: FileViewerLifecycleContext) => any;
     "load-complete": (context: FileViewerLifecycleContext) => any;
     "unload-start": (context: FileViewerLifecycleContext) => any;
     "unload-complete": (context: FileViewerLifecycleContext) => any;
+    "search-change": (state: FileViewerSearchState) => any;
+    "location-change": (anchor: FileViewerDocumentAnchor | null) => any;
     "operation-before": (context: FileViewerOperationContext) => any;
     "operation-cancel": (context: FileViewerOperationContext) => any;
     "operation-availability-change": (availability: FileViewerOperationAvailability) => any;
@@ -43,6 +55,8 @@ declare const __VLS_export: import('vue').DefineComponent<__VLS_Props, {
     "onLoad-complete"?: ((context: FileViewerLifecycleContext) => any) | undefined;
     "onUnload-start"?: ((context: FileViewerLifecycleContext) => any) | undefined;
     "onUnload-complete"?: ((context: FileViewerLifecycleContext) => any) | undefined;
+    "onSearch-change"?: ((state: FileViewerSearchState) => any) | undefined;
+    "onLocation-change"?: ((anchor: FileViewerDocumentAnchor | null) => any) | undefined;
     "onOperation-before"?: ((context: FileViewerOperationContext) => any) | undefined;
     "onOperation-cancel"?: ((context: FileViewerOperationContext) => any) | undefined;
     "onOperation-availability-change"?: ((availability: FileViewerOperationAvailability) => any) | undefined;

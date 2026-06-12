@@ -95,6 +95,13 @@ export interface FileViewerArchiveOptions {
  */
 export interface FileViewerPdfOptions {
     /**
+     * 是否显示 PDF 渲染器自己的阅读工具栏。
+     *
+     * 独立预览建议保持默认显示；在文档比对这类左右排版场景中可以设为
+     * `false`，让 PDF 与 Word / Markdown 等格式从同一内容起点对齐。
+     */
+    toolbar?: boolean;
+    /**
      * 是否启用左侧页面/目录导航窗格。设为 `false` 时会同时隐藏侧栏和切换按钮。
      */
     navigation?: boolean;
@@ -132,6 +139,154 @@ export interface FileViewerTypstOptions {
      * Typst compiler WASM 地址。需要浏览器端编译时才会加载。
      */
     compilerWasmUrl?: string;
+}
+export type FileViewerCadRenderer = 'auto' | 'webgl' | 'canvas2d';
+export type FileViewerCadDwfLineWeightMode = 'adaptive' | 'physical' | 'hairline';
+/**
+ * CAD 预览配置。
+ *
+ * 默认使用 @flyfish-dev/cad-viewer，并从 viewer 静态目录下的
+ * `wasm/cad/` 按需加载 LibreDWG WASM、DWF raster WASM 与 DWG Worker。
+ * 私有化部署或 CDN 路径不同的场景，可以显式覆盖对应 URL。
+ */
+export interface FileViewerCadOptions {
+    wasmPath?: string;
+    workerUrl?: string | URL;
+    dwfWasmUrl?: string;
+    useWorker?: boolean;
+    workerTimeoutMs?: number;
+    renderer?: FileViewerCadRenderer;
+    preferDwgWasm?: boolean;
+    includePaperSpace?: boolean;
+    maxInsertDepth?: number;
+    keepRaw?: boolean;
+    preloadDwg?: boolean;
+    dwfPreferWebgl?: boolean;
+    dwfPreferWasm?: boolean;
+    dwfBackground?: string;
+    dwfMaxDevicePixelRatio?: number;
+    dwfMaxCanvasPixels?: number;
+    dwfMaxGpuCacheBytes?: number;
+    dwfMaxCachedScenes?: number;
+    dwfLineWeightMode?: FileViewerCadDwfLineWeightMode;
+    dwfMinStrokeCssPx?: number;
+    dwfMaxOverviewStrokeCssPx?: number;
+    dwfMinTextCssPx?: number;
+    dwfMinFilledAreaCssPx?: number;
+    canvasOptions?: Record<string, unknown>;
+}
+/**
+ * 文档定位锚点。
+ *
+ * 预览器会尽量把当前渲染结果中的页面、段落、表格行、代码块等内容
+ * 抽象成稳定锚点。不同格式的“行”粒度不完全相同：文本类文档通常可到
+ * 段落/行块，PDF 这类画布型文档会优先回退到页与可用文本层。
+ */
+export interface FileViewerDocumentAnchor {
+    id: string;
+    index: number;
+    line: number;
+    type: 'page' | 'line' | 'block';
+    label: string;
+    text: string;
+    page?: number;
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+}
+/**
+ * AI / 搜索可复用的文档文本切片。
+ *
+ * 这里不直接绑定任何云端能力，只提供溯源、向量化和高亮所需的稳定结构。
+ */
+export interface FileViewerDocumentChunk {
+    id: string;
+    text: string;
+    anchor: FileViewerDocumentAnchor;
+    startLine: number;
+    endLine: number;
+}
+/**
+ * 文档搜索配置。
+ */
+export interface FileViewerSearchOptions {
+    /**
+     * 是否启用搜索能力。设为 `false` 时公开方法仍存在，但不会执行高亮。
+     */
+    enabled?: boolean;
+    /**
+     * 是否区分大小写。
+     */
+    caseSensitive?: boolean;
+    /**
+     * 是否整词匹配。
+     */
+    wholeWord?: boolean;
+    /**
+     * 单次搜索最多保留的命中数量，避免极端大文档一次性插入过多高亮节点。
+     */
+    maxMatches?: number;
+    /**
+     * 搜索 MutationObserver 重新扫描的防抖时间。
+     */
+    debounce?: number;
+    /**
+     * 自定义高亮类名。
+     */
+    className?: string;
+    /**
+     * 当前命中高亮类名。
+     */
+    activeClassName?: string;
+}
+/**
+ * 单条搜索命中。
+ */
+export interface FileViewerSearchMatch {
+    id: string;
+    index: number;
+    text: string;
+    anchor: FileViewerDocumentAnchor | null;
+    line?: number;
+    page?: number;
+}
+/**
+ * 当前搜索状态。
+ */
+export interface FileViewerSearchState {
+    query: string;
+    total: number;
+    currentIndex: number;
+    current: FileViewerSearchMatch | null;
+    matches: FileViewerSearchMatch[];
+}
+/**
+ * 渲染器自定义搜索提供器。
+ *
+ * PDF.js、EPUB iframe、虚拟表格等格式拥有自己的文本层或虚拟滚动结构，
+ * 不能总是由通用 DOM 高亮直接改写内部节点。渲染器可以在根节点上注册
+ * 该提供器，让 FileViewer 的搜索 API 继续保持统一入口。
+ */
+export interface FileViewerSearchProvider {
+    search: (query: string, options?: FileViewerSearchOptions) => FileViewerSearchState | Promise<FileViewerSearchState>;
+    next?: () => FileViewerSearchState | Promise<FileViewerSearchState>;
+    previous?: () => FileViewerSearchState | Promise<FileViewerSearchState>;
+    clear?: () => FileViewerSearchState | Promise<FileViewerSearchState>;
+    getState?: () => FileViewerSearchState;
+}
+/**
+ * AI 友好能力配置。
+ *
+ * 预览器本身不内置云端模型调用；这里提供可选文本切片结构，业务侧可以
+ * 基于 `getDocumentTextChunks()` 做向量化、溯源、AI 摘要和命中高亮。
+ */
+export interface FileViewerAiOptions {
+    enabled?: boolean;
+    collectText?: boolean;
+    maxTextLength?: number;
+    chunkSize?: number;
+    chunkOverlap?: number;
 }
 /**
  * 预览器主题模式。
@@ -192,9 +347,20 @@ export interface FileViewerOptions {
     theme?: FileViewerThemeMode;
     watermark?: boolean | FileViewerWatermarkOptions;
     toolbar?: boolean | FileViewerToolbarOptions;
+    /**
+     * 文档搜索能力配置。设为 `false` 可关闭内置搜索/高亮扫描；
+     * 默认启用公开 API，业务 UI 可通过组件 ref 调用 `searchDocument()`。
+     */
+    search?: boolean | FileViewerSearchOptions;
+    /**
+     * AI 友好能力配置。预览器只提供文本切片、锚点和溯源上下文，不绑定模型服务。
+     */
+    ai?: boolean | FileViewerAiOptions;
     archive?: FileViewerArchiveOptions;
     pdf?: FileViewerPdfOptions;
+    docx?: FileViewerDocxOptions;
     typst?: FileViewerTypstOptions;
+    cad?: FileViewerCadOptions;
     /**
      * 文档加载/卸载生命周期钩子。直接使用 Vue 组件时可以传函数；
      * iframe 集成时同名事件会通过 `postMessage` 向宿主发送。
@@ -204,6 +370,34 @@ export interface FileViewerOptions {
      * 内置操作按钮执行前的全局前置钩子。返回 `false` 时会取消本次操作。
      */
     beforeOperation?: FileViewerBeforeOperation;
+}
+/**
+ * DOCX 渲染配置。
+ *
+ * 默认使用 Web Worker 承载 `docx-preview` 的 ZIP/XML 解析和 HTML 构建，
+ * 主线程只负责把最终 HTML 挂载到预览区并执行缩放、打印等交互适配。
+ * 这样可以保持 docxjs 的真实渲染结果，同时减少复杂 DOCX 首屏卡顿。
+ */
+export interface FileViewerDocxOptions {
+    /**
+     * 是否启用 DOCX Worker 渲染链路。默认开启。
+     * 极少数 CSP 或低版本浏览器不允许内联 Worker 时，可设为 `false`
+     * 回退到 docx-preview 原生主线程渲染。
+     */
+    worker?: boolean;
+    /**
+     * 是否把 Worker 返回的 docx-preview HTML 按页面分批挂载。默认开启。
+     * 它不改变渲染器，只是避免一次性插入长文档 DOM 时阻塞首屏。
+     */
+    progressive?: boolean;
+    /**
+     * DOCX Worker 最大等待时间，单位毫秒，默认 15000。
+     *
+     * 少量复杂 Word 文件会触发浏览器 Worker DOM 兼容边界，设置超时可以避免
+     * 永久停留在 loading；超时后仍会回到 docx-preview 原生主线程渲染。
+     * 传入 0 或负数可关闭超时保护。
+     */
+    workerTimeout?: number;
 }
 /**
  * 导出/打印模式。
@@ -263,6 +457,11 @@ export interface FileRenderContext {
     streamUrl?: string;
     options?: FileViewerOptions;
     registerExportAdapter?: (adapter: FileRenderExportAdapter | null) => void;
+    /**
+     * 渲染器已经写入可读的渐进式内容，但完整高保真渲染仍在继续。
+     * 主入口收到后可以先露出内容，避免用户长时间只看到 Loading。
+     */
+    onProgressiveRender?: () => void;
 }
 /**
  * 文件处理逻辑，用于声明具体格式的异步渲染器。

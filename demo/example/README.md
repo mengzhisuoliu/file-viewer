@@ -2,14 +2,14 @@
 
 当前目录用于演示文件预览与 iframe 嵌入联调。主示例页会从这里读取内置样本，覆盖当前已注册的主要格式入口。
 
-PDF、CAD、3D 模型、绘图、音频、EPUB、MSG 等样例使用项目方提供的真实资料、可追溯的公开样本或项目内最小夹具；UMD、EML、OLB、DRA 和压缩包样例由项目内生成，来源和许可见下方“公开样例来源”。这样既能避免手写占位文件过于理想化，也方便后续升级依赖时复现真实文件的兼容性问题。
+PDF、DOCX、PPTX、CAD、3D 模型、绘图、音频、EPUB、MSG 等样例使用项目方提供的真实资料、可追溯的公开样本或项目内最小夹具；UMD、EML、OLB、DRA 和压缩包样例由项目内生成，来源和许可见下方“公开样例来源”。这样既能避免手写占位文件过于理想化，也方便后续升级依赖时复现真实文件的兼容性问题。
 
 代码/配置/日志类样本刻意保留了更接近真实业务的结构，例如异步加载计划、文件类型识别、错误处理、配置嵌套、SQL CTE、Shell 参数处理和多语言类型定义。这样可以更充分地验证 `highlight.js` 对注释、字符串、泛型、对象嵌套、缩进、diff 和长行滚动的展示效果。
 
 ## 当前内置样本
 
 - `test.doc`: 验证 `.doc` 老文档与 Word 风格页面容器
-- `word.docx`: 验证现代 Word 文档链路
+- `word.docx`: 使用 Basel Convention 公开中文正式文档验证现代 Word 长文档、标题层级、表格、图示、白色纸张和完整打印
 - `template.dot`: 复用老 Word 二进制样本验证 `.dot` 模板兼容入口
 - `excel.xlsx`: 验证 `xlsx` 样式能力
 - `excel.xlsm`: 验证 `xlsm` 扩展名入口
@@ -19,12 +19,14 @@ PDF、CAD、3D 模型、绘图、音频、EPUB、MSG 等样例使用项目方提
 - `excel.ods`: 验证 `ods` 扩展名入口
 - `excel.fods`: 验证 `fods` 扩展名入口
 - `excel.numbers`: 验证 `numbers` 扩展名入口
-- `ppt.pptx`: 验证 `pptx` 幻灯片渲染、组合图形、主题背景和图片资源
+- `ppt.pptx`: 使用 R4Psy 公开中文课程课件验证 `pptx` 多页幻灯片、图片资源、主题背景、组合元素和富文本排版
 - `pdf.pdf`: 使用项目方提供的 13 页《PDF沉浸式翻译技术说明》验证长文档阅读、缩放工具栏、页面/目录导航、完整打印和 HTML 导出
 - `ofd.ofd`: 验证 `ofd.js` 在线预览
 - `report.typ`: 验证 Typst 源文件直接读取、浏览器 WASM 编译、按页预览、打印和 HTML 导出链路
 - `drawing.dxf`: 使用公开 DXF CAD 样例验证图纸预览
-- `sample.dwg`: 使用公开 DWG 样例验证 DWG 兼容预览和原因提示
+- `sample.dwg`: 使用公开 DWG 样例验证 Worker + LibreDWG WASM 几何解析
+- `samples/autodesk/house.dwfx`: 使用 Autodesk 官方 Viewer 教程 DWFx 样例验证 native DWFx/XPS 渲染、多页结构和 CAD 视图适配
+- `samples/autodesk/robot-arm.dwfx`: 使用 Autodesk 官方 Viewer 教程 DWFx 样例验证 W2D/W3D native renderer 和复杂装配图形
 - `model.gltf`: 使用项目内最小 glTF 验证 Web 3D 预览
 - `model.obj`: 使用项目内 OBJ 四面体验证 OBJ 几何预览
 - `model.stl`: 使用项目内 STL 四面体验证 STL 几何预览
@@ -96,14 +98,18 @@ PDF、CAD、3D 模型、绘图、音频、EPUB、MSG 等样例使用项目方提
 | 文件 | 公开来源 | 许可 |
 | --- | --- | --- |
 | `drawing.dxf` | `mozman/ezdxf` 的 `examples_dxf/wipeout_door.dxf` | MIT |
+| `word.docx` | Basel Convention 的公开中文正式文档 `UNEP-CHW.15-6-Add.5-Rev.1.Chinese.docx` | 公开下载，需保留来源归属 |
 | `template.dot` | 复用项目内 `test.doc` fixture 并以 Word 97-2003 模板扩展名保存 | Apache-2.0 |
+| `ppt.pptx` | `hcp4715/R4Psy` 的 `slides/chapter_1.pptx` 中文课程课件 | CC-BY-4.0 |
 | `pdf.pdf` | 项目方提供的《PDF沉浸式翻译技术说明》真实示例文档 | 项目 Demo 授权 |
 | `sample.dwg` | `dshn06/cad-webviewer-unity` 的 `baseline-sample.dwg` | MIT |
+| `samples/autodesk/house.dwfx` | Autodesk `viewer-javascript-tutorial` 的 `Sample files/House.dwfx` 官方样例 | MIT |
+| `samples/autodesk/robot-arm.dwfx` | Autodesk `viewer-javascript-tutorial` 的 `Sample files/RobotArm1.dwfx` 官方样例 | MIT |
 | `model.gltf` / `model.obj` / `model.stl` / `model.ply` / `model.step` | 项目内生成的最小 3D fixture | Apache-2.0 |
 | `flow.excalidraw` | `neo4j-labs/agent-memory` 的 `poleo-model.excalidraw` | Apache-2.0 |
 | `process.drawio` | `jgraph/drawio-diagrams` 的 `blog/data-flow.drawio` | Apache-2.0 |
 | `book.umd` | 项目内生成的最小 UMD 文本电子书 fixture | Apache-2.0 |
-| `archive.zip` / `archive.tar.gz` | 项目内打包的 PDF、DOCX、Markdown、TypeScript 和 JSON 示例集合 | Apache-2.0 |
+| `archive.zip` / `archive.tar.gz` | 项目内打包的 PDF、公开 DOCX、Markdown、TypeScript 和 JSON 示例集合 | 随内部文件来源 |
 | `sample.eml` | 项目内生成的标准 MIME 邮件 fixture | Apache-2.0 |
 | `sample.msg` | `HiraokaHyperTools/msgreader` 的 `test/A memo.msg` | MIT |
 | `sample.olb` / `sample.dra` | 项目内生成的 CFB EDA fixture | Apache-2.0 |
@@ -116,7 +122,7 @@ PDF、CAD、3D 模型、绘图、音频、EPUB、MSG 等样例使用项目方提
 
 `ofd.ofd` 示例来自 Apache-2.0 授权的 `DLTech21/ofd.js` 项目公开样本，用于确认 OFD 在浏览器端的基础解析和渲染链路。运行时使用同仓库纯 JS 解析/渲染源码，避开 npm dist 的授权 wasm 分支。
 
-DWG 当前作为 CAD 兼容入口保留，`sample.dwg` 已换成真实公开 DWG 文件。运行时会优先识别误命名 DXF，真实 DWG 会尽量提取内嵌 PNG/JPEG/BMP 预览图；完整几何仍建议在业务侧转换为 DXF，避免默认引入 GPL 或闭源 DWG 解析运行时。
+CAD 预览使用 `@flyfish-dev/cad-viewer`。`sample.dwg` 已换成真实公开 DWG 文件，运行时会按需加载 viewer 静态目录下 `wasm/cad/` 中的 DWG Worker 和 LibreDWG WASM；`drawing.dxf` 继续验证 DXF parser、图层和视图适配；`samples/autodesk/house.dwfx` 与 `samples/autodesk/robot-arm.dwfx` 来自 Autodesk 官方 Viewer 教程，用于验证 DWF/DWFx/XPS native renderer、W2D/W3D 图形和 `dwfv-render.wasm` fallback。
 
 `model.gltf`、`model.obj`、`model.stl`、`model.ply` 和 `model.step` 用于验证 Three.js 模型预览、视图适配、线框/网格/坐标轴控制以及工程格式转换提示。
 
