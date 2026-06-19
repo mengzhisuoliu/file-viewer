@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T18:25:45.660Z",
+  "generatedAt": "2026-06-19T18:30:59.970Z",
   "version": "2.0.0",
   "sourcePolicy": "private-complete-original-workspace",
   "openSourcePolicy": "public-open-source-main-repository",
@@ -8,23 +8,23 @@
     "repository": "https://git.flyfish.dev/flyfish-group/file-viewer.git",
     "branch": "main",
     "policy": "private-complete-original-workspace",
-    "authoritativeCommit": "3cc87051625e718d00a4d8b0fe7ce31ec2bef4ab",
+    "authoritativeCommit": "b3b098ed49dbf1ba0abfb4c5cdeb75532f66e7c0",
     "localBranch": "v3",
-    "localCommit": "3cc87051625e718d00a4d8b0fe7ce31ec2bef4ab",
+    "localCommit": "b3b098ed49dbf1ba0abfb4c5cdeb75532f66e7c0",
     "inSync": true,
     "note": "Private Gitea main is the complete original aggregate workspace. The local checkout branch is only the execution context and can be transitional during branch cutover."
   },
   "local": {
     "branch": "v3",
-    "commit": "3cc87051625e718d00a4d8b0fe7ce31ec2bef4ab",
-    "shortCommit": "3cc87051",
+    "commit": "b3b098ed49dbf1ba0abfb4c5cdeb75532f66e7c0",
+    "shortCommit": "b3b098ed",
     "dirty": false
   },
   "sourceRemote": {
     "url": "https://git.flyfish.dev/flyfish-group/file-viewer.git",
     "branch": "main",
     "ok": true,
-    "hash": "3cc87051625e718d00a4d8b0fe7ce31ec2bef4ab",
+    "hash": "b3b098ed49dbf1ba0abfb4c5cdeb75532f66e7c0",
     "error": ""
   },
   "openSourceMain": {
@@ -32,7 +32,7 @@
       "url": "https://github.com/flyfish-dev/file-viewer",
       "branch": "main",
       "ok": true,
-      "hash": "a7221aa3a78c2323d2c6e066dbb373458bbc2e95",
+      "hash": "aca7afc119ca846ecf4259f640912aab85eee096",
       "error": ""
     },
     "gitee": {
@@ -320,7 +320,7 @@
     }
   ],
   "gaps": [
-    "open-source main Gitee repository 8ddb952be08d differs from GitHub a7221aa3a78c",
+    "open-source main Gitee repository 8ddb952be08d differs from GitHub aca7afc119ca",
     "core Gitee repository missing",
     "vue3 Gitee repository missing",
     "vue2.7 Gitee repository missing",
@@ -361,11 +361,11 @@
   },
   "gapDetails": [
     {
-      "id": "gitee-open-source-main-gitee-repository-8ddb952be08d-differs-from-github-a7221aa3a78c",
+      "id": "gitee-open-source-main-gitee-repository-8ddb952be08d-differs-from-github-aca7afc119ca",
       "channel": "gitee",
       "scope": "public-mirror",
       "externalBlocker": true,
-      "message": "open-source main Gitee repository 8ddb952be08d differs from GitHub a7221aa3a78c",
+      "message": "open-source main Gitee repository 8ddb952be08d differs from GitHub aca7afc119ca",
       "nextAction": "Provide a Gitee organization token or wait for the mirror remote/quota to recover, then publish the mirror."
     },
     {
