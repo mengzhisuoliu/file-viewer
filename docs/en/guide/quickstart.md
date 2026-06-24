@@ -21,9 +21,82 @@ Add a preset or a single renderer package for the file formats your product actu
 | `@file-viewer/preset-all` | Full official demo matrix | Demos and internal all-format workbenches |
 | Single renderer | For example `@file-viewer/renderer-pdf` or `@file-viewer/renderer-word` | Minimal custom format cuts |
 
-`@file-viewer/vite-plugin` can auto-discover installed presets and inject renderer modules. If a file extension is supported but the required renderer is not assembled, the viewer shows an install-oriented hint instead of a vague unsupported state.
+`@file-viewer/vite-plugin` can auto-discover installed presets and inject renderer modules without explicit preset configuration. If a file extension is supported but the required renderer is not assembled, the viewer shows an install-oriented hint instead of a vague unsupported state.
+
+### Recommended Vite Setup
+
+In Vite projects, install a standard component package, `@file-viewer/vite-plugin`, and one preset. The plugin automatically activates the installed preset:
+
+```bash
+pnpm add @file-viewer/vue3 @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-office
+```
+
+```ts
+// vite.config.ts
+import { fileViewerRenderers } from '@file-viewer/vite-plugin'
+
+export default {
+  plugins: [
+    fileViewerRenderers({
+      copyAssets: true
+      // No preset:'office' needed; the plugin discovers installed @file-viewer/preset-office.
+    })
+  ]
+}
+```
+
+Heavy users that want the fastest full-capability setup can install the complete preset and keep the same Vite config:
+
+```bash
+pnpm add @file-viewer/vue3 @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-all
+```
+
+Use explicit options only when you need customization:
+
+| Option | Best fit |
+| --- | --- |
+| `copyAssets:true` | Copies Worker, WASM, PDF font, CAD, Typst, Archive, Data, and other offline assets; recommended for production and intranet deployments |
+| `formats` / `renderers` | Generates exact renderer imports when you do not use a preset, or when a preset needs a few extra formats |
+| `scan:true` | Scans source hints such as `fileViewerFormats`, `data-file-viewer-formats`, and upload `accept` attributes |
+| `preset:'auto'` / `autoPresets:true` | Keeps installed preset auto-discovery active while `scan:true` is enabled |
+| `inject:false` | Disables auto injection so you can import `virtual:file-viewer-renderers` and pass `options.renderers` manually |
+| `chunkStrategy:'renderer'` | Splits chunks by renderer for caching, debugging, and heavy-pipeline size analysis |
+
+The recommended default is `fileViewerRenderers({ copyAssets:true })`. Configure the advanced options only for strict bundle cuts, source-hint scanning, or complete registry control.
 
 ## Vanilla JavaScript / Web Component
+
+```bash
+npm install @file-viewer/web @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-office
+```
+
+## Locale And Copy
+
+The viewer defaults to `locale: 'auto'`, which follows the browser language and resolves to Chinese or English. Use the same `options` object across Vanilla JS / Pure Web, Vue, React, jQuery, and Svelte when you need a fixed locale or custom copy:
+
+```ts
+const options = {
+  locale: 'en-US',
+  messages: {
+    'toolbar.download': 'Save file'
+  }
+}
+```
+
+You can also group locale and copy under `i18n`:
+
+```ts
+const options = {
+  i18n: {
+    locale: 'zh-CN',
+    messages(key, params, locale) {
+      return key === 'state.empty.title' ? '请选择文件' : undefined
+    }
+  }
+}
+```
+
+Web Component users can set `locale="en-US"` directly on `<flyfish-file-viewer>`.
 
 ```bash
 npm install @file-viewer/web
@@ -34,6 +107,7 @@ npm install @file-viewer/web
   id="viewer"
   src="/files/demo.pdf"
   filename="demo.pdf"
+  locale="en-US"
   theme="light"
   toolbar-position="bottom-right"
   style="display:block;height:720px"
@@ -59,10 +133,7 @@ import { fileViewerRenderers } from '@file-viewer/vite-plugin'
 export default {
   plugins: [
     fileViewerRenderers({
-      preset: 'office',
-      scan: true,
-      copyAssets: true,
-      chunkStrategy: 'renderer'
+      copyAssets: true
     })
   ]
 }
@@ -87,7 +158,7 @@ createApp(App).use(FileViewer).mount('#app')
 ## React
 
 ```bash
-npm install @file-viewer/react
+npm install @file-viewer/react @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-office
 ```
 
 ```tsx
