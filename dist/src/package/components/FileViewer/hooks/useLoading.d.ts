@@ -1,14 +1,14 @@
 import { MaybeRefOrGetter } from 'vue';
-import { FileViewerLoadingState, FileViewerStateTheme } from '@file-viewer/core';
+import { FileViewerI18nInput, FileViewerLoadingState, FileViewerStateTheme } from '@file-viewer/core';
 export type LoadingTheme = FileViewerStateTheme;
-export declare const resolveLoadingTheme: (extend?: string) => import('@file-viewer/core').FileViewerLoadingTheme;
+export declare const resolveLoadingTheme: (extend?: string, i18n?: FileViewerI18nInput) => import('@file-viewer/core').FileViewerLoadingTheme;
 /**
  * FileViewer loading 响应式门面。
  *
  * 真实 loading 状态机和主题矩阵在 `@file-viewer/core` 中维护，
  * 这里仅把纯 TS controller 的快照同步成组件需要的 Vue ref/computed 形态。
  */
-export declare const useLoading: (extendSource: MaybeRefOrGetter<string>) => {
+export declare const useLoading: (extendSource: MaybeRefOrGetter<string>, i18nSource?: MaybeRefOrGetter<FileViewerI18nInput>) => {
     loading: import('vue').ComputedRef<boolean>;
     error: import('vue').ComputedRef<string>;
     message: import('vue').ComputedRef<string>;

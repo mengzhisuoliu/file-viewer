@@ -10,6 +10,7 @@ interface UseViewerErrorStateOptions {
     currentExtend: ComputedRef<string>;
     error: ComputedRef<string>;
     loadingTheme: ComputedRef<FileViewerStateTheme>;
+    getOptions: () => FileViewerOptions | undefined;
 }
 /**
  * FileViewer 组件层的展示派生状态门面。
@@ -24,5 +25,5 @@ export declare const useViewerPresentation: ({ filename, getFile, getUrl, getOpt
     viewerTheme: ComputedRef<import('@file-viewer/core').FileViewerThemeMode>;
     formatErrorMessage: import('@file-viewer/core').FileViewerErrorMessageFormatter;
 };
-export declare const useViewerErrorState: ({ currentExtend, error, loadingTheme }: UseViewerErrorStateOptions) => ComputedRef<import('@file-viewer/core').FileViewerStateDescriptor>;
+export declare const useViewerErrorState: ({ currentExtend, error, loadingTheme, getOptions }: UseViewerErrorStateOptions) => ComputedRef<import('@file-viewer/core').FileViewerStateDescriptor>;
 export {};

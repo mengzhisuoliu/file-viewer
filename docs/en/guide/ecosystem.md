@@ -14,13 +14,27 @@ Standard component packages are intentionally light. Installing `@file-viewer/vu
 | Strategy | Install | Notes |
 | --- | --- | --- |
 | Lightest component entry | `npm i @file-viewer/vue3` | Add format capability only after the component shell is wired |
-| Lightweight attachments | `npm i @file-viewer/vue3 @file-viewer/preset-lite` | Text, Markdown, code, image, audio, video |
-| Office document platform | `npm i @file-viewer/vue3 @file-viewer/preset-office` | PDF, Word, Excel, PowerPoint, OFD, RTF, OpenDocument |
-| Engineering platform | `npm i @file-viewer/vue3 @file-viewer/preset-engineering` | CAD, 3D, drawing, XMind, Geo, Typst, Archive, Data, EDA |
-| Full demo capability | `npm i @file-viewer/vue3 @file-viewer/preset-all` | Largest dependency surface; best for demos and internal all-format workbenches |
-| Strict custom cut | `npm i @file-viewer/vue3 @file-viewer/renderer-pdf` | Install one renderer and let the Vite plugin generate exact imports |
+| Lightweight attachments | `npm i @file-viewer/vue3 @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-lite` | Text, Markdown, code, image, audio, video; the Vite plugin discovers the preset |
+| Office document platform | `npm i @file-viewer/vue3 @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-office` | PDF, Word, Excel, PowerPoint, OFD, RTF, OpenDocument; recommended default for document apps |
+| Engineering platform | `npm i @file-viewer/vue3 @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-engineering` | CAD, 3D, drawing, XMind, Geo, Typst, Archive, Data, EDA |
+| Full demo capability | `npm i @file-viewer/vue3 @file-viewer/core @file-viewer/vite-plugin @file-viewer/preset-all` | One-step full capability for demos, admin tools, and internal all-format workbenches |
+| Strict custom cut | `npm i @file-viewer/vue3 @file-viewer/core @file-viewer/vite-plugin @file-viewer/renderer-pdf` | Install one renderer and let `formats` generate exact imports |
 
-`preset-all` is intentionally complete and therefore heavier. The release gate includes a dedicated cold-install target for `vue3 + preset-all`; production apps should normally prefer `preset-lite`, `preset-office`, `preset-engineering`, or individual renderers.
+`fileViewerRenderers()` or `fileViewerRenderers({ copyAssets:true })` auto-discovers installed `@file-viewer/preset-*` packages and injects the generated virtual module into Vite HTML entrypoints. Components keep `autoRenderers:true` by default, so Vue, React, Svelte, jQuery, and Vanilla JavaScript / Pure Web receive the matching preview capability automatically. `preset-all` is intentionally complete and therefore heavier; production apps should normally prefer `preset-lite`, `preset-office`, `preset-engineering`, or individual renderers.
+
+```ts
+// vite.config.ts
+import { fileViewerRenderers } from '@file-viewer/vite-plugin'
+
+export default {
+  plugins: [
+    fileViewerRenderers({
+      copyAssets: true
+      // Installed presets are activated automatically; no hand-written renderers prop.
+    })
+  ]
+}
+```
 
 | Stack | Standard package | Notes |
 | --- | --- | --- |
@@ -69,7 +83,7 @@ For example, PowerPoint preview is provided by `@file-viewer/renderer-presentati
 
 ## Vite Auto Assembly
 
-Use the Vite plugin when your app wants a complete developer experience without hand-writing every renderer import:
+Use the Vite plugin when your app wants a complete developer experience without hand-writing every renderer import. The default setup auto-discovers installed presets; explicit `formats` and `scan:true` are only needed for strict custom cuts or source-hint driven assembly:
 
 ```ts
 import { defineConfig } from 'vite'
@@ -78,8 +92,6 @@ import { fileViewerRenderers } from '@file-viewer/vite-plugin'
 export default defineConfig({
   plugins: [
     fileViewerRenderers({
-      formats: ['pdf', 'docx'],
-      scan: true,
       copyAssets: true,
       chunkStrategy: 'renderer'
     })
@@ -87,7 +99,7 @@ export default defineConfig({
 })
 ```
 
-With `scan: true`, the plugin inspects common source folders for hints such as `fileViewerFormats = ['pdf', 'docx']`, `data-file-viewer-formats="dwg,xmind"`, and upload `accept=".pdf,.xlsx"`. It then generates `virtual:file-viewer-renderers`, imports only the matching renderer packages, and keeps worker/WASM assets self-hostable.
+With `scan: true`, use `preset:'auto'` or `autoPresets:true` when installed presets should remain active while source hints add extra renderers. The scan reads hints such as `fileViewerFormats = ['pdf', 'docx']`, `data-file-viewer-formats="dwg,xmind"`, and upload `accept=".pdf,.xlsx"`.
 
 ## 2.1.0 Modular Import Paths
 
@@ -142,16 +154,14 @@ import { fileViewerRenderers } from '@file-viewer/vite-plugin'
 export default defineConfig({
   plugins: [
     fileViewerRenderers({
-      preset: 'office',
-      scan: true,
-      copyAssets: true,
-      chunkStrategy: 'renderer'
+      copyAssets: true
+      // No preset:'office' needed; installed presets are discovered automatically.
     })
   ]
 })
 ```
 
-Use `preset-lite` for lightweight attachments, `preset-engineering` for CAD / 3D / Typst / EDA / data assets, and `preset-all` for the full sample matrix or all-format admin workbenches. `copyAssets:true` copies Worker, WASM, PDF fonts, CAD, Typst WASM/fonts, Archive, and Data assets into your deployment directory so private intranet deployments do not depend on public CDNs.
+Use `preset-lite` for lightweight attachments, `preset-engineering` for CAD / 3D / Typst / EDA / data assets, and `preset-all` for the full sample matrix or all-format admin workbenches. Add `preset:'auto'` or `autoPresets:true` when you also enable `scan:true`, so installed presets and source hints work together. `copyAssets:true` copies Worker, WASM, PDF fonts, CAD, Typst WASM/fonts, Archive, and Data assets into your deployment directory so private intranet deployments do not depend on public CDNs.
 
 ## jQuery
 
