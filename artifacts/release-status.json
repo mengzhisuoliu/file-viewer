@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T04:48:15.330Z",
+  "generatedAt": "2026-07-01T08:21:45.700Z",
   "version": "2.1.15",
   "sourcePolicy": "private-complete-original-workspace",
   "openSourcePolicy": "public-open-source-main-repository",
@@ -10,14 +10,14 @@
     "policy": "private-complete-original-workspace",
     "authoritativeCommit": "",
     "localBranch": "main",
-    "localCommit": "5bda28d8074323d0489ace47d419418d1dfb4a54",
+    "localCommit": "3b2bc3099160dcb97317b3a8326bcdfedf71d3c0",
     "inSync": false,
     "note": "Private Gitea main is the complete original aggregate workspace. The local checkout branch is only the execution context and can be transitional during branch cutover."
   },
   "local": {
     "branch": "main",
-    "commit": "5bda28d8074323d0489ace47d419418d1dfb4a54",
-    "shortCommit": "5bda28d8",
+    "commit": "3b2bc3099160dcb97317b3a8326bcdfedf71d3c0",
+    "shortCommit": "3b2bc309",
     "dirty": false
   },
   "sourceRemote": {
@@ -25,14 +25,14 @@
     "branch": "main",
     "ok": false,
     "hash": "",
-    "error": "Timed out after 5000ms"
+    "error": "fatal: unable to access 'https://git.flyfish.dev/flyfish-group/file-viewer.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to git.flyfish.dev:443"
   },
   "openSourceMain": {
     "github": {
       "url": "https://github.com/flyfish-dev/file-viewer",
       "branch": "main",
       "ok": true,
-      "hash": "32886de496b2eec4cd8c4b734baa3360acda8326",
+      "hash": "6a84ff88b852ef3edca8af5093c524774d068efe",
       "error": ""
     },
     "gitee": {
@@ -45,7 +45,7 @@
     "inSync": false,
     "syncMode": "stale",
     "treeChecked": true,
-    "referenceTree": "81db61466f69a7867f598dae1360e1e9d36c788c",
+    "referenceTree": "f5c16d5ed5d801037c145db858c09fc17e05b032",
     "giteeTree": "ef9e54e70ed3110034a0103cb80e8fee613104c3",
     "treeError": "",
     "reportHashNote": "The open-source main repository mirrors the current public source tree and records the private source commit in the public commit body for traceability. The observed remote hash can trail until that mirror commit is pushed. Gitee can intentionally use a shallow snapshot commit; inSync is true when the file tree matches even if commit hashes differ. Use pnpm audit:ecosystem-status for live remote heads."
