@@ -1,9 +1,9 @@
 {
   "version": "2.1.15",
   "package": "@flyfish-group/file-viewer-workspace",
-  "generatedAt": "2026-07-01T08:21:36.140Z",
+  "generatedAt": "2026-07-01T12:16:57.069Z",
   "sourceBranch": "main",
-  "sourceCommit": "3b2bc309",
+  "sourceCommit": "88a76319",
   "corePackage": {
     "packageName": "@file-viewer/core",
     "description": "Framework-neutral modular TypeScript file preview core with format registry, renderer orchestration, lifecycle APIs, search, zoom, print, and export.",
@@ -88,6 +88,18 @@
       "role": "release-status-schema",
       "required": true,
       "description": "JSON Schema for release-status.json."
+    },
+    {
+      "name": "release-matrix.json",
+      "role": "release-matrix",
+      "required": true,
+      "description": "Standardized ecosystem release matrix generated from wrapper, renderer and smoke manifests."
+    },
+    {
+      "name": "release-matrix.schema.json",
+      "role": "release-matrix-schema",
+      "required": true,
+      "description": "JSON Schema for release-matrix.json."
     }
   ],
   "staticArtifacts": [
@@ -142,8 +154,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-pdf",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-pdf",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -160,8 +172,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-ofd",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-ofd",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types",
@@ -179,8 +191,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-presentation",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-presentation",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -216,8 +228,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-word",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-word",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -234,8 +246,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-spreadsheet",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-spreadsheet",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types",
@@ -253,8 +265,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-drawing",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-drawing",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -271,8 +283,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-3d",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-3d",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -289,8 +301,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-mindmap",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-mindmap",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -307,8 +319,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-cad",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-cad",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -325,8 +337,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-typst",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-typst",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -343,8 +355,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-archive",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-archive",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -361,8 +373,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-email",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-email",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -379,8 +391,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-epub",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-epub",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -397,8 +409,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-text",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-text",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -415,8 +427,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-image",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-image",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -433,8 +445,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-media",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-media",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -451,8 +463,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-geo",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-geo",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -469,8 +481,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-data",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-data",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -487,8 +499,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/eda-layout",
-      "gitee": "https://gitee.com/flyfish-dev/eda-layout",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -505,8 +517,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/eda-orcad",
-      "gitee": "https://gitee.com/flyfish-dev/eda-orcad",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -523,8 +535,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/geometry-engine",
-      "gitee": "https://gitee.com/flyfish-dev/geometry-engine",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -541,8 +553,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-renderer-eda",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-renderer-eda",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [
         "esm",
         "types"
@@ -578,8 +590,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-preset-all",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-preset-all",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [],
       "historicalPackages": []
     },
@@ -593,8 +605,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-preset-lite",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-preset-lite",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [],
       "historicalPackages": []
     },
@@ -608,8 +620,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-preset-office",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-preset-office",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [],
       "historicalPackages": []
     },
@@ -623,8 +635,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-preset-engineering",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-preset-engineering",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [],
       "historicalPackages": []
     },
@@ -638,8 +650,8 @@
       "artifactIncluded": true,
       "artifactDuplicateOf": null,
       "artifactNote": null,
-      "github": "https://github.com/flyfish-dev/file-viewer-vite-plugin",
-      "gitee": "https://gitee.com/flyfish-dev/file-viewer-vite-plugin",
+      "github": "https://github.com/flyfish-dev/file-viewer",
+      "gitee": "https://gitee.com/flyfish-dev/file-viewer",
       "entryFormats": [],
       "historicalPackages": []
     },
