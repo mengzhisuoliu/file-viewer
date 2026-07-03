@@ -26,8 +26,11 @@ import {
   formatCssPixels,
   DEFAULT_PDF_RANGE_CHUNK_SIZE,
   resolveFileViewerLocale,
+  resolveFileViewerFitScale,
   type FileRenderContext,
   type FileRenderExportOptions,
+  type FileViewerFitRequest,
+  type FileViewerFitResult,
   type FileViewerPdfOptions,
   type FileViewerRenderedInstance,
   type FileViewerSearchOptions,
@@ -374,6 +377,7 @@ export default async function renderPdf(
   let viewStateApplyVersion = 0;
   let activeViewStateApplyVersion = 0;
   let pendingInitialViewState: FileViewerViewState | null = initialViewState;
+  let pendingFitRequest: FileViewerFitRequest | null = null;
   let suppressScrollEventUntil = 0;
   let scrollStateFrame = 0;
   let pdfSearchState = createPdfSearchState();
@@ -1130,21 +1134,34 @@ export default async function renderPdf(
     }
   };
 
-  const getPageWidthAtScaleOne = (pdfViewer: PDFViewer) => {
-    const pageView = pdfViewer.getPageView(0);
+  const getPageSizeAtScaleOne = (pdfViewer: PDFViewer) => {
+    const pageIndex = Math.max(0, Math.min(pageCount - 1, currentPage - 1));
+    const pageView = pdfViewer.getPageView(pageIndex) || pdfViewer.getPageView(0);
     const pdfPage = pageView?.pdfPage;
     if (pdfPage) {
-      return pdfPage.getViewport({
+      const viewportAtScaleOne = pdfPage.getViewport({
         scale: PixelsPerInch.PDF_TO_CSS_UNITS,
         rotation: currentRotation,
-      }).width;
+      });
+      return {
+        width: viewportAtScaleOne.width,
+        height: viewportAtScaleOne.height,
+      };
     }
 
     const viewportWidth = pageView?.viewport?.width;
-    if (viewportWidth && currentScale) {
-      return viewportWidth / currentScale;
+    const viewportHeight = pageView?.viewport?.height;
+    if (viewportWidth && viewportHeight && currentScale) {
+      return {
+        width: viewportWidth / currentScale,
+        height: viewportHeight / currentScale,
+      };
     }
-    return 0;
+    return { width: 0, height: 0 };
+  };
+
+  const getPageWidthAtScaleOne = (pdfViewer: PDFViewer) => {
+    return getPageSizeAtScaleOne(pdfViewer).width;
   };
 
   const getFitWidthScale = (pdfViewer: PDFViewer) => {
@@ -1166,6 +1183,68 @@ export default async function renderPdf(
     void waitForPaint(targetWindow).then(() => {
       pdfContext.viewer?.update();
     });
+  };
+
+  const applyPdfFit = async (request: FileViewerFitRequest): Promise<FileViewerFitResult> => {
+    if (!pdfContext.viewer || loadStatus !== 'ready') {
+      pendingFitRequest = request;
+      return {
+        applied: false,
+        mode: request.mode,
+        resize: request.resize,
+        source: request.source,
+        reason: 'pending',
+        provider: 'view-state',
+      };
+    }
+
+    const pageSize = getPageSizeAtScaleOne(pdfContext.viewer);
+    const mode = request.mode === 'auto' ? 'width' : request.mode;
+    const scale = resolveFileViewerFitScale({
+      mode,
+      viewportWidth: Math.max(
+        96,
+        (request.viewportWidth || container.clientWidth || targetWindow.innerWidth) -
+          FIT_HORIZONTAL_PADDING -
+          PAGE_BORDER_WIDTH
+      ),
+      viewportHeight: Math.max(
+        96,
+        (container.clientHeight || request.viewportHeight || targetWindow.innerHeight) -
+          PAGE_BORDER_WIDTH
+      ),
+      contentWidth: pageSize.width,
+      contentHeight: pageSize.height,
+      currentScale,
+      minScale: request.minScale ?? MIN_SCALE,
+      maxScale: request.maxScale ?? MAX_SCALE,
+    });
+
+    if (!scale) {
+      return {
+        applied: false,
+        mode: request.mode,
+        resize: request.resize,
+        source: request.source,
+        reason: 'unmeasurable',
+        provider: 'view-state',
+      };
+    }
+
+    autoFitWidth = request.mode === 'auto' || request.mode === 'width';
+    setScale(scale, 'fit', request.source);
+    await waitForPaint(targetWindow);
+    pdfContext.viewer?.update();
+    const state = getPdfViewState();
+    return {
+      applied: true,
+      mode: request.mode,
+      resize: request.resize,
+      scale: state.scale,
+      source: request.source,
+      provider: 'view-state',
+      state,
+    };
   };
 
   const scheduleFitToWidth = () => {
@@ -1475,7 +1554,13 @@ export default async function renderPdf(
             source: 'initial',
           });
         } else {
-          emitViewStateChange('init', 'viewer');
+          const fitRequest = pendingFitRequest;
+          pendingFitRequest = null;
+          if (fitRequest) {
+            void applyPdfFit(fitRequest);
+          } else {
+            emitViewStateChange('init', 'viewer');
+          }
         }
         if (pdfContext.search) {
           eventBus.dispatch('find', { type: '', query: pdfContext.search });
@@ -1597,6 +1682,7 @@ export default async function renderPdf(
       setScale(scale, 'zoom-change', 'api');
       return getPdfZoomState();
     },
+    fit: applyPdfFit,
     getState: getPdfZoomState,
     subscribe: zoomEmitter.subscribe,
   });
@@ -1604,6 +1690,7 @@ export default async function renderPdf(
   registerFileViewerViewStateProvider(root, {
     getState: getPdfViewState,
     applyState: applyPdfViewState,
+    fit: applyPdfFit,
     subscribe: viewStateEmitter.subscribe,
   });
 

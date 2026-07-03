@@ -7,6 +7,8 @@ import {
   registerFileViewerViewStateProvider,
   unregisterFileViewerViewStateProvider,
   type FileRenderContext,
+  type FileViewerFitRequest,
+  type FileViewerFitResult,
   type FileViewerRenderedInstance,
   type FileViewerApplyViewStateOptions,
   type FileViewerViewState,
@@ -453,6 +455,29 @@ export default async function renderModel(
     emitViewStateChange('fit', source);
   };
 
+  const applyModelFit = (request: FileViewerFitRequest): FileViewerFitResult => {
+    if (!modelRoot || !camera || !controls) {
+      return {
+        applied: false,
+        mode: request.mode,
+        resize: request.resize,
+        source: request.source,
+        reason: 'not-ready',
+        provider: 'view-state',
+      };
+    }
+    fitToView(request.source);
+    const state = getModelViewState();
+    return {
+      applied: true,
+      mode: request.mode,
+      resize: request.resize,
+      source: request.source,
+      provider: 'view-state',
+      state,
+    };
+  };
+
   const addModelToScene = async (object: THREE.Object3D) => {
     if (!scene) {
       return;
@@ -729,6 +754,7 @@ export default async function renderModel(
   registerFileViewerViewStateProvider(root, {
     getState: getModelViewState,
     applyState: applyModelViewState,
+    fit: applyModelFit,
     subscribe: viewStateEmitter.subscribe,
   });
   resizeObserver = new ResizeObserver(resize);

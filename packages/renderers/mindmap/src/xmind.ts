@@ -15,6 +15,8 @@ import {
   unregisterFileViewerZoomProvider,
   type FileViewerApplyViewStateOptions,
   type FileRenderContext,
+  type FileViewerFitRequest,
+  type FileViewerFitResult,
   type FileViewerRenderedInstance,
   type FileViewerViewState,
   type FileViewerViewStateChangeAction,
@@ -693,6 +695,63 @@ export default async function renderXMind(
     return getZoomState();
   };
 
+  const applyXMindFit = (request: FileViewerFitRequest): FileViewerFitResult => {
+    const sheet = sheets[activeSheetIndex];
+    if (!sheet) {
+      return {
+        applied: false,
+        mode: request.mode,
+        resize: request.resize,
+        source: request.source,
+        reason: 'not-ready',
+        provider: 'view-state',
+      };
+    }
+
+    const availableWidth = Math.max(1, (request.viewportWidth || stage.clientWidth) - CANVAS_PADDING);
+    const availableHeight = Math.max(1, (request.viewportHeight || stage.clientHeight) - CANVAS_PADDING);
+    const widthScale = availableWidth / sheet.width;
+    const heightScale = availableHeight / sheet.height;
+    const containScale = Math.min(widthScale, heightScale);
+    const requestedScale = (() => {
+      switch (request.mode) {
+        case 'cover':
+          return Math.max(widthScale, heightScale);
+        case 'width':
+          return widthScale;
+        case 'height':
+          return heightScale;
+        case 'actual':
+          return 1;
+        case 'scale-down':
+          return Math.min(1, containScale);
+        case 'auto':
+        case 'contain':
+        default:
+          return containScale;
+      }
+    })();
+
+    zoom = clampZoom(Math.min(
+      request.maxScale ?? 2.5,
+      Math.max(request.minScale ?? 0.25, requestedScale)
+    ));
+    panX = (stage.clientWidth - sheet.width * zoom) / 2;
+    panY = (stage.clientHeight - sheet.height * zoom) / 2;
+    applyZoom();
+    zoomEmitter.emit();
+    const state = emitViewStateChange('fit', request.source);
+    return {
+      applied: true,
+      mode: request.mode,
+      resize: request.resize,
+      scale: state.scale,
+      source: request.source,
+      provider: 'view-state',
+      state,
+    };
+  };
+
   const scrollToNode = (node: MindNodeView) => {
     userAdjustedViewport = true;
     panX = stage.clientWidth / 2 - (node.x + node.width / 2) * zoom;
@@ -814,6 +873,7 @@ export default async function renderXMind(
     zoomOut: () => setZoomAtStageCenter(zoom - 0.15),
     resetZoom: () => fitSheetToStage(true),
     setZoom,
+    fit: applyXMindFit,
     getState: getZoomState,
     subscribe: zoomEmitter.subscribe,
   });
@@ -860,6 +920,7 @@ export default async function renderXMind(
       }
       return getXMindViewState();
     },
+    fit: applyXMindFit,
     subscribe: viewStateEmitter.subscribe,
   });
 

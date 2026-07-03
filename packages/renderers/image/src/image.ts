@@ -1,9 +1,12 @@
 import {
   createFileViewerTranslator,
   createFileViewerZoomChangeEmitter as createZoomChangeEmitter,
+  resolveFileViewerFitScale,
   registerFileViewerZoomProvider,
   unregisterFileViewerZoomProvider,
   type FileRenderContext,
+  type FileViewerFitRequest,
+  type FileViewerFitResult,
   type FileViewerRenderedInstance,
   type FileViewerZoomState,
 } from '@file-viewer/core';
@@ -220,6 +223,54 @@ export default async function renderImage(
     return getZoomState();
   };
 
+  const fitImage = (request: FileViewerFitRequest): FileViewerFitResult => {
+    const naturalWidth = image.naturalWidth || 0;
+    const naturalHeight = image.naturalHeight || 0;
+    if (!naturalWidth || !naturalHeight) {
+      return {
+        applied: false,
+        mode: request.mode,
+        resize: request.resize,
+        source: request.source,
+        reason: 'image-not-ready',
+        provider: 'zoom',
+      };
+    }
+
+    const mode = request.mode === 'auto' ? 'scale-down' : request.mode;
+    const scale = resolveFileViewerFitScale({
+      mode,
+      viewportWidth: Math.max(1, request.viewportWidth || root.clientWidth || 0),
+      viewportHeight: Math.max(1, request.viewportHeight || root.clientHeight || viewportHeight || 0),
+      contentWidth: naturalWidth,
+      contentHeight: naturalHeight,
+      currentScale,
+      minScale: request.minScale ?? getMinScale(),
+      maxScale: request.maxScale ?? 5,
+    });
+
+    if (!scale) {
+      return {
+        applied: false,
+        mode: request.mode,
+        resize: request.resize,
+        source: request.source,
+        reason: 'unmeasurable',
+        provider: 'zoom',
+      };
+    }
+
+    const state = setZoom(scale);
+    return {
+      applied: true,
+      mode: request.mode,
+      resize: request.resize,
+      scale: state.scale,
+      source: request.source,
+      provider: 'zoom',
+    };
+  };
+
   registerFileViewerZoomProvider(root, {
     zoomIn: () => setZoom(currentScale + 0.15),
     zoomOut: () => setZoom(currentScale - 0.15),
@@ -230,6 +281,7 @@ export default async function renderImage(
       return getZoomState();
     },
     setZoom,
+    fit: fitImage,
     getState: getZoomState,
     subscribe: zoomEmitter.subscribe,
   });

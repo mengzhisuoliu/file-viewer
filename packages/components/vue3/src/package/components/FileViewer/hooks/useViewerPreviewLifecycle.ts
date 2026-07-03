@@ -11,8 +11,10 @@ interface UseViewerPreviewLifecycleOptions {
   getSourceFilename?: () => unknown;
   refreshPreview: () => Promise<void> | void;
   cancelPreview: (reason: FileViewerLifecycleContext['reason']) => void;
+  clearRenderedContent: (reason: FileViewerLifecycleContext['reason']) => void;
   resetLoading: () => void;
   stopZoomObserver: () => void;
+  stopFitObserver: () => void;
   stopViewStateObserver: () => void;
 }
 
@@ -28,8 +30,10 @@ export const useViewerPreviewLifecycle = ({
   getSourceFilename,
   refreshPreview,
   cancelPreview,
+  clearRenderedContent,
   resetLoading,
   stopZoomObserver,
+  stopFitObserver,
   stopViewStateObserver
 }: UseViewerPreviewLifecycleOptions) => {
   watch([getFile, getUrl, getSourceFilename || (() => undefined)], () => {
@@ -41,8 +45,10 @@ export const useViewerPreviewLifecycle = ({
   onBeforeUnmount(() => {
     runFileViewerPreviewComponentUnmount({
       onCancelPreview: cancelPreview,
+      onClearRenderedContent: clearRenderedContent,
       onResetLoading: resetLoading,
       onStopZoomObserver: stopZoomObserver,
+      onStopFitObserver: stopFitObserver,
       onStopViewStateObserver: stopViewStateObserver
     })
   })

@@ -10,6 +10,8 @@ import {
   unregisterFileViewerZoomProvider,
   type FileViewerApplyViewStateOptions,
   type FileRenderContext,
+  type FileViewerFitRequest,
+  type FileViewerFitResult,
   type FileViewerGeoBasemapOptions,
   type FileViewerGeoOptions,
   type FileViewerRenderedInstance,
@@ -1125,6 +1127,20 @@ const mountMapLibre = async (
   const onMapMoveEnd = () => {
     emitViewStateChange('map-move', 'user');
   };
+  const applyGeoFit = (request: FileViewerFitRequest): FileViewerFitResult => {
+    fit();
+    zoomEmitter.emit();
+    const state = emitViewStateChange('fit', request.source);
+    return {
+      applied: true,
+      mode: request.mode,
+      resize: request.resize,
+      scale: state.scale,
+      source: request.source,
+      provider: 'view-state',
+      state,
+    };
+  };
   map.on('zoomend', onMapZoomEnd);
   map.on('moveend', onMapMoveEnd);
   registerFileViewerZoomProvider(root, {
@@ -1151,6 +1167,7 @@ const mountMapLibre = async (
       zoomEmitter.emit();
       return createZoomState(map, parsed.bounds);
     },
+    fit: applyGeoFit,
     getState: () => createZoomState(map, parsed.bounds),
     subscribe: zoomEmitter.subscribe,
   });
@@ -1192,6 +1209,7 @@ const mountMapLibre = async (
       }
       return getGeoViewState();
     },
+    fit: applyGeoFit,
     subscribe: viewStateEmitter.subscribe,
   });
 

@@ -16,6 +16,9 @@ import {
   type FileViewerEventHandler,
   type FileViewerEventType,
   type FileViewerFileRef,
+  type FileViewerFitMode,
+  type FileViewerFitOptions,
+  type FileViewerFitResult,
   type FileViewerInstance,
   type FileViewerLifecycleContext,
   type FileViewerOperationAvailability,
@@ -50,6 +53,9 @@ export type ViewerTypstOptions = FileViewerTypstOptions;
 export type ViewerCadOptions = FileViewerCadOptions;
 export type ViewerSearchOptions = FileViewerSearchOptions;
 export type ViewerAiOptions = FileViewerAiOptions;
+export type ViewerFitMode = FileViewerFitMode;
+export type ViewerFitOptions = FileViewerFitOptions;
+export type ViewerFitResult = FileViewerFitResult;
 export type ViewerThemeMode = FileViewerThemeMode;
 export type ViewerOptions = FileViewerOptions;
 export type ViewerEventType = FileViewerEventType;
@@ -127,6 +133,7 @@ export interface ViewerController {
   zoomIn(): Promise<FileViewerZoomState | null>;
   zoomOut(): Promise<FileViewerZoomState | null>;
   resetZoom(): Promise<FileViewerZoomState | null>;
+  fitToView(fit?: FileViewerFitMode | FileViewerFitOptions): Promise<FileViewerFitResult | null>;
   searchDocument(query: string): Promise<FileViewerSearchState | null>;
   clearDocumentSearch(): Promise<FileViewerSearchState | null>;
   nextSearchResult(): Promise<FileViewerSearchState | null>;
@@ -157,6 +164,7 @@ export interface ViewerControllerHandle {
   zoomIn(): Promise<FileViewerZoomState | null>;
   zoomOut(): Promise<FileViewerZoomState | null>;
   resetZoom(): Promise<FileViewerZoomState | null>;
+  fitToView(fit?: FileViewerFitMode | FileViewerFitOptions): Promise<FileViewerFitResult | null>;
   searchDocument(query: string): Promise<FileViewerSearchState | null>;
   clearDocumentSearch(): Promise<FileViewerSearchState | null>;
   nextSearchResult(): Promise<FileViewerSearchState | null>;
@@ -309,6 +317,9 @@ export const createViewerControllerHandle = (
   },
   resetZoom() {
     return getController()?.resetZoom() ?? Promise.resolve(null);
+  },
+  fitToView(fit) {
+    return getController()?.fitToView(fit) ?? Promise.resolve(null);
   },
   searchDocument(query) {
     return getController()?.searchDocument(query) ?? Promise.resolve(null);
@@ -546,6 +557,9 @@ export const mountViewer = (
     },
     resetZoom() {
       return callApi(instance, api => api.resetZoom(), null);
+    },
+    fitToView(fit) {
+      return callApi(instance, api => api.fitToView(fit), null);
     },
     searchDocument(query) {
       return callApi(instance, api => api.search(query), null);

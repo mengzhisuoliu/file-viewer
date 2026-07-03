@@ -189,6 +189,9 @@ export const FileViewer = Vue.extend({
     resetZoom() {
       return getVmHandle(toVm(this)).resetZoom()
     },
+    fitToView(fit?: Parameters<ViewerControllerHandle['fitToView']>[0]) {
+      return getVmHandle(toVm(this)).fitToView(fit)
+    },
     searchDocument(query: string) {
       return getVmHandle(toVm(this)).searchDocument(query)
     },
