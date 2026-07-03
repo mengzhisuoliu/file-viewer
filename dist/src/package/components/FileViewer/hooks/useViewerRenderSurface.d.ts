@@ -14,6 +14,9 @@ interface UseViewerRenderSurfaceOptions {
     stopZoomObserver: () => void;
     clearZoomProvider: () => void;
     refreshZoomProvider: () => void;
+    startFitObserver: () => void;
+    stopFitObserver: () => void;
+    applyInitialFit: () => Promise<unknown> | unknown;
     startViewStateObserver: () => void;
     stopViewStateObserver: () => void;
     clearViewStateProvider: () => void;
@@ -25,7 +28,7 @@ interface UseViewerRenderSurfaceOptions {
  * 它只管理 Vue component package 的 DOM surface、渲染 session 和 export adapter；
  * 具体格式派发仍由 core registry + Vue renderer bridge 完成。
  */
-export declare const useViewerRenderSurface: ({ output, getOptions, isCurrentRequest, notifyActiveUnloadStart, notifyActiveUnloadComplete, clearActiveDocumentContext, clearDocumentState, refreshDocumentIndex, startZoomObserver, stopZoomObserver, clearZoomProvider, refreshZoomProvider, startViewStateObserver, stopViewStateObserver, clearViewStateProvider, refreshViewStateProvider }: UseViewerRenderSurfaceOptions) => {
+export declare const useViewerRenderSurface: ({ output, getOptions, isCurrentRequest, notifyActiveUnloadStart, notifyActiveUnloadComplete, clearActiveDocumentContext, clearDocumentState, refreshDocumentIndex, startZoomObserver, stopZoomObserver, clearZoomProvider, refreshZoomProvider, startFitObserver, stopFitObserver, applyInitialFit, startViewStateObserver, stopViewStateObserver, clearViewStateProvider, refreshViewStateProvider }: UseViewerRenderSurfaceOptions) => {
     destroyRenderSession: (session?: FileViewerVueRenderSession | null | undefined) => void;
     setActiveRenderSession: (session: FileViewerVueRenderSession | null) => import('@file-viewer/core').MutableFileViewerRenderSurfaceState<FileViewerVueRenderSession>;
     clearRenderedContent: (reason?: FileViewerLifecycleContext["reason"]) => import('@file-viewer/core').FileViewerRenderSurfaceClearState<FileViewerVueRenderSession, FileViewerLifecycleContext | null>;

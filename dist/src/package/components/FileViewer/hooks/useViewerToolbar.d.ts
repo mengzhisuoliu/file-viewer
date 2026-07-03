@@ -1,5 +1,5 @@
 import { ComputedRef, Ref, ShallowRef } from 'vue';
-import { FileRenderExportAdapter, FileViewerOperationAvailability, FileViewerOptions, FileViewerToolbarOptions, FileViewerToolbarPosition, FileViewerZoomState } from '@file-viewer/core';
+import { FileRenderExportAdapter, FileViewerOperationAvailability, FileViewerOptions, FileViewerResolvedToolbarItem, FileViewerToolbarOptions, FileViewerToolbarPosition, FileViewerZoomState } from '@file-viewer/core';
 interface UseViewerToolbarOptions {
     activeExportAdapter: ShallowRef<FileRenderExportAdapter | null>;
     currentBuffer: Ref<ArrayBuffer | null>;
@@ -25,6 +25,7 @@ interface UseViewerToolbarOptions {
 export declare const useViewerToolbar: ({ activeExportAdapter, currentBuffer, currentExtend, currentFile, currentSourceUrl, error, getOptions, getZoomState, loading, normalizedToolbar, renderedReady, zoomState, emitOperationAvailabilityChange, emitZoomChange }: UseViewerToolbarOptions) => {
     operationAvailability: ComputedRef<FileViewerOperationAvailability>;
     visibleToolbar: ComputedRef<FileViewerToolbarOptions>;
+    toolbarOrder: ComputedRef<FileViewerResolvedToolbarItem[]>;
     showToolbar: ComputedRef<boolean>;
     toolbarPosition: ComputedRef<FileViewerToolbarPosition>;
     toolbarDisabled: ComputedRef<boolean>;

@@ -5,8 +5,10 @@ interface UseViewerPreviewLifecycleOptions {
     getSourceFilename?: () => unknown;
     refreshPreview: () => Promise<void> | void;
     cancelPreview: (reason: FileViewerLifecycleContext['reason']) => void;
+    clearRenderedContent: (reason: FileViewerLifecycleContext['reason']) => void;
     resetLoading: () => void;
     stopZoomObserver: () => void;
+    stopFitObserver: () => void;
     stopViewStateObserver: () => void;
 }
 /**
@@ -15,5 +17,5 @@ interface UseViewerPreviewLifecycleOptions {
  * 组件只负责传入当前 source getter 和清理动作；实际加载、取消和缩放状态
  * 仍由各自 hooks/core controller 负责，避免入口继续散落 watch/unmount 细节。
  */
-export declare const useViewerPreviewLifecycle: ({ getFile, getUrl, getSourceFilename, refreshPreview, cancelPreview, resetLoading, stopZoomObserver, stopViewStateObserver }: UseViewerPreviewLifecycleOptions) => void;
+export declare const useViewerPreviewLifecycle: ({ getFile, getUrl, getSourceFilename, refreshPreview, cancelPreview, clearRenderedContent, resetLoading, stopZoomObserver, stopFitObserver, stopViewStateObserver }: UseViewerPreviewLifecycleOptions) => void;
 export {};

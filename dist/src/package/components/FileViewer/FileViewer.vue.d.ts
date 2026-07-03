@@ -9,8 +9,9 @@ declare const __VLS_export: import('vue').DefineComponent<FileViewerProps, impor
     "operation-cancel": (context: import('@file-viewer/core').FileViewerOperationContext) => any;
     "operation-availability-change": (availability: import('@file-viewer/core').FileViewerOperationAvailability) => any;
     "location-change": (anchor: import('@file-viewer/core').FileViewerDocumentAnchor | null) => any;
-    "view-state-change": (change: import('@file-viewer/core').FileViewerViewStateChange) => any;
+    "fit-change": (result: import('@file-viewer/core').FileViewerFitResult) => any;
     "zoom-change": (state: import('@file-viewer/core').FileViewerZoomState) => any;
+    "view-state-change": (change: import('@file-viewer/core').FileViewerViewStateChange) => any;
 }, string, import('vue').PublicProps, Readonly<FileViewerProps> & Readonly<{
     "onLoad-start"?: ((context: import('@file-viewer/core').FileViewerLifecycleContext) => any) | undefined;
     "onLoad-complete"?: ((context: import('@file-viewer/core').FileViewerLifecycleContext) => any) | undefined;
@@ -21,8 +22,9 @@ declare const __VLS_export: import('vue').DefineComponent<FileViewerProps, impor
     "onOperation-cancel"?: ((context: import('@file-viewer/core').FileViewerOperationContext) => any) | undefined;
     "onOperation-availability-change"?: ((availability: import('@file-viewer/core').FileViewerOperationAvailability) => any) | undefined;
     "onLocation-change"?: ((anchor: import('@file-viewer/core').FileViewerDocumentAnchor | null) => any) | undefined;
-    "onView-state-change"?: ((change: import('@file-viewer/core').FileViewerViewStateChange) => any) | undefined;
+    "onFit-change"?: ((result: import('@file-viewer/core').FileViewerFitResult) => any) | undefined;
     "onZoom-change"?: ((state: import('@file-viewer/core').FileViewerZoomState) => any) | undefined;
+    "onView-state-change"?: ((change: import('@file-viewer/core').FileViewerViewStateChange) => any) | undefined;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
 declare const _default: typeof __VLS_export;
 export default _default;
