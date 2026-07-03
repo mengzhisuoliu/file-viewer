@@ -29,6 +29,8 @@ import {
   type FileViewerApplyViewStateOptions,
   type FileRenderContext,
   type FileViewerCadOptions,
+  type FileViewerFitRequest,
+  type FileViewerFitResult,
   type FileViewerRenderedInstance,
   type FileViewerViewState,
   type FileViewerViewStateChangeAction,
@@ -893,12 +895,42 @@ export default async function renderCad(
     return true;
   };
 
-  const fitToView = () => {
+  const fitToView = (
+    source: FileViewerViewStateChangeSource = 'user',
+    action: FileViewerViewStateChangeAction = 'zoom-reset'
+  ) => {
     fitViewActive = true;
     applyCadFit();
     cadZoomEmitter.emit();
     syncState();
-    emitCadViewStateChange('zoom-reset', 'user');
+    emitCadViewStateChange(action, source);
+  };
+
+  const applyCadFitRequest = (request: FileViewerFitRequest): FileViewerFitResult => {
+    fitViewActive = true;
+    const applied = applyCadFit();
+    if (!applied) {
+      return {
+        applied: false,
+        mode: request.mode,
+        resize: request.resize,
+        source: request.source,
+        reason: 'not-ready',
+        provider: 'view-state',
+      };
+    }
+    cadZoomEmitter.emit();
+    syncState();
+    const state = emitCadViewStateChange('fit', request.source);
+    return {
+      applied: true,
+      mode: request.mode,
+      resize: request.resize,
+      scale: state.scale,
+      source: request.source,
+      provider: 'view-state',
+      state,
+    };
   };
 
   const zoomIn = () => {
@@ -930,6 +962,7 @@ export default async function renderCad(
       fitToView();
       return getCadZoomState();
     },
+    fit: applyCadFitRequest,
     getState: getCadZoomState,
     subscribe: cadZoomEmitter.subscribe,
   });
@@ -947,10 +980,11 @@ export default async function renderCad(
       }
       return getCadViewState();
     },
+    fit: applyCadFitRequest,
     subscribe: cadViewStateEmitter.subscribe,
   });
 
-  fitButton.addEventListener('click', fitToView);
+  fitButton.addEventListener('click', () => fitToView());
   zoomInButton.addEventListener('click', zoomIn);
   zoomOutButton.addEventListener('click', zoomOut);
 

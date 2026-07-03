@@ -34,6 +34,7 @@ export default class FileViewer extends SvelteComponentTyped<
   zoomIn(): ReturnType<ViewerControllerHandle['zoomIn']>
   zoomOut(): ReturnType<ViewerControllerHandle['zoomOut']>
   resetZoom(): ReturnType<ViewerControllerHandle['resetZoom']>
+  fitToView(fit?: Parameters<ViewerControllerHandle['fitToView']>[0]): ReturnType<ViewerControllerHandle['fitToView']>
   searchDocument(query: string): ReturnType<ViewerControllerHandle['searchDocument']>
   clearDocumentSearch(): ReturnType<ViewerControllerHandle['clearDocumentSearch']>
   nextSearchResult(): ReturnType<ViewerControllerHandle['nextSearchResult']>

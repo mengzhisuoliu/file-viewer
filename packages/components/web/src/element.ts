@@ -7,6 +7,8 @@ import {
   type ViewerCoreOptions,
   type ViewerEvent,
   type ViewerEventHandler,
+  type ViewerFitMode,
+  type ViewerFitOptions,
   type ViewerMountOptions,
   type ViewerOptions,
   type ViewerState,
@@ -58,6 +60,7 @@ const observedAttributes = [
   'toolbar-position',
   'watermark',
   'search',
+  'fit',
   'options',
 ] as const;
 
@@ -229,6 +232,21 @@ export class FileViewerElement extends ElementBase implements ViewerControllerHa
     });
   }
 
+  get fit(): ViewerOptions['fit'] | undefined {
+    return this.mountOptions.options?.fit ||
+      (this.getAttribute('fit') as ViewerFitMode | null) ||
+      undefined;
+  }
+
+  set fit(value: ViewerOptions['fit'] | undefined) {
+    this.setMountOptions({
+      options: {
+        ...(this.mountOptions.options || {}),
+        fit: value,
+      },
+    });
+  }
+
   get source(): FileViewerElementSource {
     return {
       ...this.mountOptions,
@@ -330,6 +348,10 @@ export class FileViewerElement extends ElementBase implements ViewerControllerHa
 
   resetZoom(): ReturnType<ViewerControllerHandle['resetZoom']> {
     return this.controller?.resetZoom() ?? Promise.resolve(null);
+  }
+
+  fitToView(fit?: ViewerFitMode | ViewerFitOptions): ReturnType<ViewerControllerHandle['fitToView']> {
+    return this.controller?.fitToView(fit) ?? Promise.resolve(null);
   }
 
   getViewState(): ReturnType<ViewerControllerHandle['getViewState']> {
@@ -543,6 +565,14 @@ export class FileViewerElement extends ElementBase implements ViewerControllerHa
       options.search = searchJson;
     } else if (searchBoolean !== undefined) {
       options.search = searchBoolean;
+    }
+
+    const fit = this.getAttribute('fit');
+    const fitJson = parseJsonObject<ViewerOptions['fit']>(fit);
+    if (fitJson !== undefined) {
+      options.fit = fitJson;
+    } else if (fit) {
+      options.fit = fit as ViewerFitMode;
     }
 
     return Object.keys(options).length ? options : undefined;

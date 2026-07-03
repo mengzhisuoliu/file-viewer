@@ -99,6 +99,10 @@
     return handle.resetZoom()
   }
 
+  export function fitToView(fit) {
+    return handle.fitToView(fit)
+  }
+
   export function searchDocument(query) {
     return handle.searchDocument(query)
   }

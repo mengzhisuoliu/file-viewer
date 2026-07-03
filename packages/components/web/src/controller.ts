@@ -9,6 +9,7 @@ import {
   normalizeFilename,
   readFileViewerBuffer,
   resolveFileViewerSourceFilename,
+  resolveFileViewerToolbarOrder,
   resolveFileViewerToolbarPosition,
   resolveVisibleFileViewerToolbar,
   wrapFileViewerFileRef,
@@ -23,6 +24,9 @@ import {
   type FileViewerEventHandler,
   type FileViewerEventType,
   type FileViewerFileRef,
+  type FileViewerFitMode,
+  type FileViewerFitOptions,
+  type FileViewerFitResult,
   type FileViewerInstance,
   type FileViewerLifecycleContext,
   type FileViewerOperationAvailability,
@@ -60,6 +64,9 @@ export type ViewerTypstOptions = FileViewerTypstOptions;
 export type ViewerCadOptions = FileViewerCadOptions;
 export type ViewerSearchOptions = FileViewerSearchOptions;
 export type ViewerAiOptions = FileViewerAiOptions;
+export type ViewerFitMode = FileViewerFitMode;
+export type ViewerFitOptions = FileViewerFitOptions;
+export type ViewerFitResult = FileViewerFitResult;
 export type ViewerViewState = FileViewerViewState;
 export type ViewerApplyViewStateOptions = FileViewerApplyViewStateOptions;
 export type ViewerThemeMode = FileViewerThemeMode;
@@ -140,6 +147,7 @@ export interface ViewerController {
   zoomIn(): Promise<FileViewerZoomState | null>;
   zoomOut(): Promise<FileViewerZoomState | null>;
   resetZoom(): Promise<FileViewerZoomState | null>;
+  fitToView(fit?: FileViewerFitMode | FileViewerFitOptions): Promise<FileViewerFitResult | null>;
   getViewState(): FileViewerViewState | null;
   applyViewState(
     state: FileViewerViewState,
@@ -175,6 +183,7 @@ export interface ViewerControllerHandle {
   zoomIn(): Promise<FileViewerZoomState | null>;
   zoomOut(): Promise<FileViewerZoomState | null>;
   resetZoom(): Promise<FileViewerZoomState | null>;
+  fitToView(fit?: FileViewerFitMode | FileViewerFitOptions): Promise<FileViewerFitResult | null>;
   getViewState(): FileViewerViewState | null;
   applyViewState(
     state: FileViewerViewState,
@@ -333,6 +342,9 @@ export const createViewerControllerHandle = (
   resetZoom() {
     return getController()?.resetZoom() ?? Promise.resolve(null);
   },
+  fitToView(fit) {
+    return getController()?.fitToView(fit) ?? Promise.resolve(null);
+  },
   getViewState() {
     return getController()?.getViewState() ?? null;
   },
@@ -418,6 +430,7 @@ const WEB_VIEWER_STYLE = `
 .file-viewer-web-content{position:relative;flex:1 1 auto;min-height:0;min-width:0;overflow:auto;overscroll-behavior:contain}
 .file-viewer-web-toolbar{flex:0 0 auto;min-height:45px;display:inline-flex;align-items:center;justify-content:flex-end;gap:6px;padding:6px 10px;border-bottom:1px solid rgba(20,35,53,.06);background:rgba(255,255,255,.92);box-sizing:border-box;z-index:20}
 .file-viewer-web-toolbar[hidden]{display:none!important}
+.file-viewer-web-toolbar[data-toolbar-position="top-center"]{justify-content:center}
 .file-viewer-web-toolbar[data-toolbar-position="bottom-right"]{position:absolute;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));min-height:42px;padding:6px;border:1px solid rgba(20,35,53,.1);border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 18px 44px rgba(15,23,42,.16);backdrop-filter:blur(16px)}
 .file-viewer-web-toolbar-group{display:inline-flex;align-items:center;gap:2px;padding:2px;border:1px solid rgba(20,35,53,.08);border-radius:999px;background:rgba(20,35,53,.035)}
 .file-viewer-web-toolbar button{min-width:42px;height:30px;padding:0 10px;border:0;border-radius:8px;background:transparent;color:#40546a;font:inherit;font-size:12px;font-weight:800;line-height:1;white-space:nowrap;cursor:pointer}
@@ -588,7 +601,11 @@ export const mountViewer = (
       return;
     }
 
-    if (showSearchToolbar) {
+    const appendSearchToolbar = () => {
+      if (!showSearchToolbar) {
+        return;
+      }
+
       const searchState = state.search;
       const searchTotal = searchState?.total ?? 0;
       const currentIndex = searchTotal > 0 ? (searchState?.currentIndex ?? -1) + 1 : 0;
@@ -647,9 +664,13 @@ export const mountViewer = (
 
       group.append(input, searchButton, previousButton, nextButton, clearButton, count);
       toolbarEl.appendChild(group);
-    }
+    };
 
-    if (visibleToolbar.zoom) {
+    const appendZoomToolbar = () => {
+      if (!visibleToolbar.zoom) {
+        return;
+      }
+
       const group = documentRef.createElement('div');
       group.className = 'file-viewer-web-toolbar-group';
       group.setAttribute('aria-label', t('toolbar.zoomGroup'));
@@ -714,26 +735,51 @@ export const mountViewer = (
       if (group.childElementCount) {
         toolbarEl.appendChild(group);
       }
-    }
+    };
 
-    if (visibleToolbar.download) {
-      const button = createButton(documentRef, t('toolbar.download'), '', () => controller?.downloadOriginalFile());
-      button.title = t('toolbar.downloadTitle');
+    const appendToolbarButton = (
+      visible: boolean | undefined,
+      label: string,
+      title: string,
+      onClick: () => void | Promise<unknown>
+    ) => {
+      if (!visible) {
+        return;
+      }
+      const button = createButton(documentRef, label, '', onClick);
+      button.title = title;
       button.disabled = toolbarDisabled;
       toolbarEl.appendChild(button);
-    }
-    if (visibleToolbar.print) {
-      const button = createButton(documentRef, t('toolbar.print'), '', () => controller?.printRenderedHtml());
-      button.title = t('toolbar.printTitle');
-      button.disabled = toolbarDisabled;
-      toolbarEl.appendChild(button);
-    }
-    if (visibleToolbar.exportHtml) {
-      const button = createButton(documentRef, t('toolbar.exportHtml'), '', () => controller?.exportRenderedHtml());
-      button.title = t('toolbar.exportHtmlTitle');
-      button.disabled = toolbarDisabled;
-      toolbarEl.appendChild(button);
-    }
+    };
+
+    resolveFileViewerToolbarOrder(toolbar).forEach(item => {
+      if (item === 'search') {
+        appendSearchToolbar();
+      } else if (item === 'zoom') {
+        appendZoomToolbar();
+      } else if (item === 'download') {
+        appendToolbarButton(
+          visibleToolbar.download,
+          t('toolbar.download'),
+          t('toolbar.downloadTitle'),
+          () => controller?.downloadOriginalFile()
+        );
+      } else if (item === 'print') {
+        appendToolbarButton(
+          visibleToolbar.print,
+          t('toolbar.print'),
+          t('toolbar.printTitle'),
+          () => controller?.printRenderedHtml()
+        );
+      } else if (item === 'exportHtml') {
+        appendToolbarButton(
+          visibleToolbar.exportHtml,
+          t('toolbar.exportHtml'),
+          t('toolbar.exportHtmlTitle'),
+          () => controller?.exportRenderedHtml()
+        );
+      }
+    });
   };
   const notifyState = (event?: ViewerEvent) => {
     const snapshot = snapshotState();
@@ -891,6 +937,9 @@ export const mountViewer = (
     },
     resetZoom() {
       return callApi(instance, api => api.resetZoom(), null);
+    },
+    fitToView(fit) {
+      return callApi(instance, api => api.fitToView(fit), null);
     },
     getViewState() {
       return instance.getViewState();
