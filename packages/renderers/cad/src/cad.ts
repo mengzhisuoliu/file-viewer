@@ -1,11 +1,18 @@
 import {
   CadViewer,
+  inferEntityKind,
+  type CadBlock,
+  type CadBounds,
+  type CadDocument,
+  type CadEntity,
   type CadLayer,
   type CadLoadProgress,
+  type CadPoint2D,
   type CadViewer as CadViewerInstance,
   type CadViewerLoadResult,
   type CanvasViewerOptions,
   type RenderStats,
+  type ViewState,
   type ViewChangeEvent,
 } from '@flyfish-dev/cad-viewer';
 import { resolveFileViewerCadAssetUrls } from '@file-viewer/core/assets';
@@ -33,9 +40,14 @@ type CadStatus = 'loading' | 'ready' | 'error';
 
 type CadLayerItem = CadLayer & {
   name: string;
+  sourceNames: string[];
+  duplicateCount: number;
 };
 
 const CAD_WORKER_TIMEOUT = 120000;
+const CAD_DEFAULT_FIT_PADDING = 0.92;
+const CAD_BOUNDS_EPSILON = 1e-9;
+const CAD_BEST_FIT_OUTLIER_RATIO = 8;
 
 const cadStyle = `
 .cad-shell{display:flex;height:100%;min-height:100%;flex-direction:column;background:#f5f7fb;color:#142335}
@@ -46,17 +58,19 @@ const cadStyle = `
 .cad-tools button:hover{background:rgba(31,150,110,.14);color:#0f8f62}
 .cad-zoom,.cad-meta span{color:#64748b;font-size:12px;font-weight:800;letter-spacing:0}
 .cad-meta span{border-radius:999px;padding:5px 9px;background:rgba(15,23,42,.06)}
-.cad-body{display:grid;min-height:0;flex:1;grid-template-columns:minmax(168px,220px) minmax(0,1fr) minmax(150px,190px);background:#eef2f7}
-.cad-body.without-layers{grid-template-columns:minmax(0,1fr) minmax(150px,190px)}
+.cad-body{display:grid;min-height:0;flex:1;grid-template-columns:minmax(176px,236px) minmax(0,1fr) minmax(142px,176px);background:#eef2f7}
+.cad-body.without-layers{grid-template-columns:minmax(0,1fr) minmax(142px,176px)}
 .cad-layers,.cad-inspector{min-height:0;overflow:auto;border-right:1px solid rgba(15,23,42,.08);background:#fff}
 .cad-layers[hidden]{display:none}
 .cad-inspector{border-right:0;border-left:1px solid rgba(15,23,42,.08);padding:14px}
-.cad-layers-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px;background:#fff;color:#1f2a3d;font-size:13px;z-index:1}
-.cad-layers-head span{color:#7b8ca5;font-size:12px;font-weight:700}
-.cad-layers-list{display:flex;flex-direction:column;padding:0 0 8px}
-.cad-layers button{display:flex;width:calc(100% - 16px);min-height:34px;align-items:center;gap:8px;margin:0 8px 6px;border:1px solid rgba(148,163,184,.22);border-radius:8px;background:#f8fafc;color:#25344c;cursor:pointer;font-size:12px;font-weight:700;text-align:left}
-.cad-layers button.muted{opacity:.48}
-.cad-layer-color{width:10px;height:10px;flex:0 0 auto;border-radius:50%;background:#1f966e;box-shadow:inset 0 0 0 1px rgba(15,23,42,.14)}
+.cad-layers-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 12px 9px;border-bottom:1px solid rgba(148,163,184,.16);background:rgba(255,255,255,.96);color:#1f2a3d;font-size:12px;z-index:1}
+.cad-layers-head span{color:#7b8ca5;font-size:11px;font-weight:800;white-space:nowrap}
+.cad-layers-list{display:flex;flex-direction:column;gap:2px;padding:7px 8px 10px}
+.cad-layers button{display:grid;width:100%;min-height:30px;grid-template-columns:14px minmax(0,1fr);align-items:center;gap:7px;border:0;border-radius:6px;background:transparent;color:#25344c;cursor:pointer;font-size:12px;font-weight:700;text-align:left}
+.cad-layers button:hover{background:#f1f5f9}
+.cad-layers button.muted{color:#94a3b8}
+.cad-layers button span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cad-layer-color{width:8px;height:8px;justify-self:center;border-radius:50%;background:#1f966e;box-shadow:0 0 0 1px rgba(15,23,42,.12),0 0 0 3px rgba(31,150,110,.1)}
 .cad-canvas-wrap{position:relative;min-width:0;min-height:0;overflow:hidden;background:linear-gradient(90deg,rgba(15,23,42,.04) 1px,transparent 1px),linear-gradient(180deg,rgba(15,23,42,.04) 1px,transparent 1px),#f8fafc;background-size:28px 28px}
 .cad-stage{position:relative;width:100%;height:100%;min-height:420px;overflow:hidden}
 .cad-stage canvas{position:absolute;inset:0;display:block;width:100%!important;height:100%!important}
@@ -142,14 +156,87 @@ const normalizeType = (type?: string) => {
   return (type || 'dxf').toLowerCase();
 };
 
+const normalizeLayerKey = (name: string) => name.trim().toLocaleLowerCase();
+
+const getLayerNameScore = (name: string) => {
+  const letters = name.replace(/[^a-z]/gi, '');
+  if (!letters) {
+    return 0;
+  }
+  const isUpper = letters === letters.toLocaleUpperCase();
+  const isLower = letters === letters.toLocaleLowerCase();
+  if (!isUpper && !isLower) {
+    return 3;
+  }
+  return isUpper ? 2 : 1;
+};
+
+const shouldPreferLayerName = (candidate: string, current: string) => {
+  const nextScore = getLayerNameScore(candidate);
+  const currentScore = getLayerNameScore(current);
+  if (nextScore !== currentScore) {
+    return nextScore > currentScore;
+  }
+  if (candidate.length !== current.length) {
+    return candidate.length > current.length;
+  }
+  return candidate.localeCompare(current, undefined, { sensitivity: 'base' }) < 0;
+};
+
+const addLayerSourceName = (layer: CadLayerItem, name: unknown) => {
+  if (typeof name !== 'string' && typeof name !== 'number') {
+    return;
+  }
+  const nextName = String(name);
+  if (!nextName || layer.sourceNames.includes(nextName)) {
+    return;
+  }
+  layer.sourceNames.push(nextName);
+};
+
 const collectLayers = (result: CadViewerLoadResult | null): CadLayerItem[] => {
   if (!result) {
     return [];
   }
 
-  return Object.entries(result.document.layers)
-    .map(([name, layer]) => ({ ...layer, name }))
-    .sort((left, right) => left.name.localeCompare(right.name));
+  const groups = new Map<string, CadLayerItem>();
+  Object.entries(result.document.layers).forEach(([key, layer]) => {
+    const sourceName = typeof layer.name === 'string' && layer.name ? layer.name : key;
+    const groupKey = normalizeLayerKey(sourceName || key);
+    const current = groups.get(groupKey);
+    if (!current) {
+      groups.set(groupKey, {
+        ...layer,
+        name: sourceName || key,
+        sourceNames: Array.from(new Set(
+          [key, sourceName].filter((name): name is string => typeof name === 'string' && name.length > 0)
+        )),
+        duplicateCount: 1,
+      });
+      return;
+    }
+
+    current.duplicateCount += 1;
+    addLayerSourceName(current, key);
+    addLayerSourceName(current, sourceName);
+    current.isVisible = current.isVisible !== false || layer.isVisible !== false;
+    current.isFrozen = !!current.isFrozen && !!layer.isFrozen;
+    current.isLocked = !!current.isLocked || !!layer.isLocked;
+    current.color = current.color ?? layer.color;
+    current.colorIndex = current.colorIndex ?? layer.colorIndex;
+    current.trueColor = current.trueColor ?? layer.trueColor;
+    current.lineType = current.lineType ?? layer.lineType;
+    current.lineweight = current.lineweight ?? layer.lineweight;
+    if (shouldPreferLayerName(sourceName, current.name)) {
+      current.name = sourceName;
+    }
+  });
+
+  return Array.from(groups.values())
+    .sort((left, right) => left.name.localeCompare(right.name, undefined, {
+      numeric: true,
+      sensitivity: 'base',
+    }));
 };
 
 const formatNumber = (value: number | undefined, locale = 'zh-CN') => {
@@ -161,6 +248,393 @@ const formatNumber = (value: number | undefined, locale = 'zh-CN') => {
 
 const getCadDocumentBaseUrl = (target: HTMLElement) => {
   return target.ownerDocument?.baseURI || 'http://localhost/';
+};
+
+type CadFitMatrix = {
+  a: number;
+  b: number;
+  c: number;
+  d: number;
+  e: number;
+  f: number;
+};
+
+type CadRendererViewAdapter = {
+  fitScale?: number;
+  getBounds?: () => CadBounds;
+  setViewState?: (view: ViewState) => void;
+};
+
+const createEmptyCadBounds = (): CadBounds => ({
+  minX: Number.POSITIVE_INFINITY,
+  minY: Number.POSITIVE_INFINITY,
+  maxX: Number.NEGATIVE_INFINITY,
+  maxY: Number.NEGATIVE_INFINITY,
+});
+
+const isCadBoundsValid = (bounds: CadBounds | null | undefined): bounds is CadBounds => {
+  return !!bounds &&
+    Number.isFinite(bounds.minX) &&
+    Number.isFinite(bounds.minY) &&
+    Number.isFinite(bounds.maxX) &&
+    Number.isFinite(bounds.maxY) &&
+    bounds.maxX >= bounds.minX &&
+    bounds.maxY >= bounds.minY;
+};
+
+const getCadBoundsWidth = (bounds: CadBounds) => bounds.maxX - bounds.minX;
+const getCadBoundsHeight = (bounds: CadBounds) => bounds.maxY - bounds.minY;
+
+const isCadBoundsMeaningful = (bounds: CadBounds) => {
+  return getCadBoundsWidth(bounds) > CAD_BOUNDS_EPSILON ||
+    getCadBoundsHeight(bounds) > CAD_BOUNDS_EPSILON;
+};
+
+const isCadPoint = (value: unknown): value is CadPoint2D => {
+  return !!value &&
+    typeof value === 'object' &&
+    Number.isFinite((value as CadPoint2D).x) &&
+    Number.isFinite((value as CadPoint2D).y);
+};
+
+const addCadPointToBounds = (bounds: CadBounds, point: unknown) => {
+  if (!isCadPoint(point)) {
+    return;
+  }
+  bounds.minX = Math.min(bounds.minX, point.x);
+  bounds.minY = Math.min(bounds.minY, point.y);
+  bounds.maxX = Math.max(bounds.maxX, point.x);
+  bounds.maxY = Math.max(bounds.maxY, point.y);
+};
+
+const addCadBounds = (target: CadBounds, source: CadBounds) => {
+  if (!isCadBoundsValid(source)) {
+    return;
+  }
+  addCadPointToBounds(target, { x: source.minX, y: source.minY });
+  addCadPointToBounds(target, { x: source.maxX, y: source.maxY });
+};
+
+const unionCadBounds = (boundsList: CadBounds[]) => {
+  const union = createEmptyCadBounds();
+  boundsList.forEach(bounds => addCadBounds(union, bounds));
+  return isCadBoundsValid(union) ? union : null;
+};
+
+const getCadBoundsArea = (bounds: CadBounds) => {
+  return Math.max(getCadBoundsWidth(bounds), CAD_BOUNDS_EPSILON) *
+    Math.max(getCadBoundsHeight(bounds), CAD_BOUNDS_EPSILON);
+};
+
+const addCadCircleBounds = (bounds: CadBounds, center: unknown, radius: unknown) => {
+  const value = Number(radius);
+  if (!isCadPoint(center) || !Number.isFinite(value)) {
+    return;
+  }
+  const nextRadius = Math.abs(value);
+  addCadPointToBounds(bounds, { x: center.x - nextRadius, y: center.y - nextRadius });
+  addCadPointToBounds(bounds, { x: center.x + nextRadius, y: center.y + nextRadius });
+};
+
+const addCadPointListToBounds = (bounds: CadBounds, points: unknown) => {
+  if (!Array.isArray(points)) {
+    return;
+  }
+  points.forEach(point => addCadPointToBounds(bounds, point));
+};
+
+const addCadPathCommandsToBounds = (bounds: CadBounds, commands: unknown) => {
+  if (!Array.isArray(commands)) {
+    return;
+  }
+  commands.forEach(command => {
+    const points = (command as { points?: unknown }).points;
+    addCadPointListToBounds(bounds, points);
+  });
+};
+
+const addCadTextBounds = (bounds: CadBounds, entity: CadEntity) => {
+  const anchor = entity.insertionPoint || entity.startPoint || entity.center;
+  if (!isCadPoint(anchor)) {
+    return;
+  }
+  const text = String(entity.text ?? entity.value ?? '');
+  const height = Math.abs(Number(entity.textHeight ?? entity.height ?? 1));
+  const lines = text.split(/\r?\n/g);
+  const width = Math.max(1, ...lines.map(line => line.length)) * Math.max(height, 1) * 0.62;
+  const blockHeight = Math.max(1, lines.length) * Math.max(height, 1) * 1.22;
+  addCadPointToBounds(bounds, anchor);
+  addCadPointToBounds(bounds, { x: anchor.x + width, y: anchor.y - blockHeight });
+};
+
+const getCadEntityAnchor = (entity: CadEntity) => {
+  for (const key of ['startPoint', 'insertionPoint', 'center', 'point', 'location'] as const) {
+    const point = entity[key];
+    if (isCadPoint(point)) {
+      return point;
+    }
+  }
+  const vertices = entity.vertices || entity.points;
+  if (Array.isArray(vertices) && isCadPoint(vertices[0])) {
+    return vertices[0];
+  }
+  const command = entity.commands?.find(item => item.points.length > 0);
+  return command?.points[0];
+};
+
+const getCadEntityLocalBounds = (entity: CadEntity): CadBounds | null => {
+  const bounds = createEmptyCadBounds();
+  const type = String(entity.type ?? '').toUpperCase();
+  const kind = entity.kind || inferEntityKind(type);
+  if (kind === 'viewport') {
+    return null;
+  }
+  if (kind === 'line') {
+    addCadPointToBounds(bounds, entity.startPoint);
+    addCadPointToBounds(bounds, entity.endPoint);
+  } else if (kind === 'circle' || kind === 'arc') {
+    addCadCircleBounds(bounds, entity.center, entity.radius);
+  } else if (kind === 'polyline' || kind === 'solid' || kind === 'spline') {
+    addCadPointListToBounds(bounds, entity.vertices);
+    addCadPointListToBounds(bounds, entity.points);
+    addCadPointListToBounds(bounds, entity.controlPoints);
+    addCadPointListToBounds(bounds, entity.fitPoints);
+  } else if (kind === 'ellipse') {
+    const center = entity.center;
+    const major = entity.majorAxisEndPoint;
+    if (isCadPoint(center) && isCadPoint(major)) {
+      const majorRadius = Math.hypot(major.x, major.y);
+      const minorRadius = majorRadius * Math.abs(Number(entity.axisRatio ?? 1));
+      addCadCircleBounds(bounds, center, Math.max(majorRadius, minorRadius));
+    }
+  } else if (kind === 'text') {
+    addCadTextBounds(bounds, entity);
+  } else if (kind === 'path') {
+    addCadPathCommandsToBounds(bounds, entity.commands);
+  } else if (kind === 'hatch') {
+    entity.loops?.forEach(loop => {
+      addCadPointListToBounds(bounds, loop.vertices);
+      addCadPathCommandsToBounds(bounds, loop.commands);
+    });
+  } else if (kind === 'image') {
+    const point = entity.insertionPoint;
+    const width = Number(entity.width ?? 32);
+    const height = Number(entity.height ?? 32);
+    if (isCadPoint(point) && Number.isFinite(width) && Number.isFinite(height)) {
+      addCadPointToBounds(bounds, point);
+      addCadPointToBounds(bounds, { x: point.x + width, y: point.y - height });
+    }
+  } else {
+    addCadPointToBounds(bounds, getCadEntityAnchor(entity));
+  }
+  return isCadBoundsValid(bounds) ? bounds : null;
+};
+
+const identityCadMatrix = (): CadFitMatrix => ({ a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 });
+const translateCadMatrix = (x: number, y: number): CadFitMatrix => ({ a: 1, b: 0, c: 0, d: 1, e: x, f: y });
+const scaleCadMatrix = (x: number, y: number): CadFitMatrix => ({ a: x, b: 0, c: 0, d: y, e: 0, f: 0 });
+const rotateCadMatrix = (rotation: number): CadFitMatrix => {
+  const cos = Math.cos(rotation);
+  const sin = Math.sin(rotation);
+  return { a: cos, b: sin, c: -sin, d: cos, e: 0, f: 0 };
+};
+
+const multiplyCadMatrix = (left: CadFitMatrix, right: CadFitMatrix): CadFitMatrix => ({
+  a: left.a * right.a + left.c * right.b,
+  b: left.b * right.a + left.d * right.b,
+  c: left.a * right.c + left.c * right.d,
+  d: left.b * right.c + left.d * right.d,
+  e: left.a * right.e + left.c * right.f + left.e,
+  f: left.b * right.e + left.d * right.f + left.f,
+});
+
+const transformCadPoint = (point: CadPoint2D, matrix: CadFitMatrix): CadPoint2D => ({
+  x: point.x * matrix.a + point.y * matrix.c + matrix.e,
+  y: point.x * matrix.b + point.y * matrix.d + matrix.f,
+});
+
+const transformCadBounds = (bounds: CadBounds, matrix: CadFitMatrix) => {
+  const next = createEmptyCadBounds();
+  [
+    { x: bounds.minX, y: bounds.minY },
+    { x: bounds.minX, y: bounds.maxY },
+    { x: bounds.maxX, y: bounds.minY },
+    { x: bounds.maxX, y: bounds.maxY },
+  ].forEach(point => addCadPointToBounds(next, transformCadPoint(point, matrix)));
+  return isCadBoundsValid(next) ? next : null;
+};
+
+const createCadInsertMatrix = (entity: CadEntity, blockBasePoint: CadPoint2D = { x: 0, y: 0 }) => {
+  const insertion = entity.insertionPoint || { x: 0, y: 0 };
+  const scale = entity.scale;
+  const scaleX = Number(typeof scale === 'object' && scale ? scale.x ?? 1 : entity.scaleX ?? 1);
+  const scaleY = Number(typeof scale === 'object' && scale ? scale.y ?? scaleX : entity.scaleY ?? scaleX);
+  const rotation = Number(entity.rotation ?? 0);
+  let matrix = translateCadMatrix(isCadPoint(insertion) ? insertion.x : 0, isCadPoint(insertion) ? insertion.y : 0);
+  matrix = multiplyCadMatrix(matrix, rotateCadMatrix(Number.isFinite(rotation) ? rotation : 0));
+  matrix = multiplyCadMatrix(matrix, scaleCadMatrix(Number.isFinite(scaleX) ? scaleX : 1, Number.isFinite(scaleY) ? scaleY : 1));
+  matrix = multiplyCadMatrix(matrix, translateCadMatrix(-blockBasePoint.x, -blockBasePoint.y));
+  return matrix;
+};
+
+const findCadLayer = (document: CadDocument, name: unknown): CadLayer | undefined => {
+  if (typeof name !== 'string' && typeof name !== 'number') {
+    return undefined;
+  }
+  const key = String(name);
+  return document.layers[key] ||
+    document.layers[key.toLocaleLowerCase()] ||
+    Object.values(document.layers).find(layer => normalizeLayerKey(layer.name) === normalizeLayerKey(key));
+};
+
+const findCadBlock = (document: CadDocument, name: unknown): CadBlock | undefined => {
+  if (typeof name !== 'string' && typeof name !== 'number') {
+    return undefined;
+  }
+  const key = String(name);
+  return document.blocks[key] ||
+    document.blocks[key.toLocaleLowerCase()] ||
+    Object.values(document.blocks).find(block => normalizeLayerKey(block.name) === normalizeLayerKey(key));
+};
+
+const isCadEntityVisible = (document: CadDocument, entity: CadEntity) => {
+  if (entity.isVisible === false) {
+    return false;
+  }
+  const layer = findCadLayer(document, entity.layer);
+  return layer ? layer.isVisible !== false && !layer.isFrozen : true;
+};
+
+const collectCadVisibleEntityBounds = (
+  document: CadDocument,
+  maxInsertDepth: number
+): CadBounds[] => {
+  const boundsList: CadBounds[] = [];
+  const visit = (entity: CadEntity, depth: number, matrix: CadFitMatrix) => {
+    if (!isCadEntityVisible(document, entity)) {
+      return;
+    }
+    const type = String(entity.type ?? '').toUpperCase();
+    const kind = entity.kind || inferEntityKind(type);
+    if (kind === 'insert') {
+      const block = findCadBlock(document, entity.blockName ?? entity.name);
+      if (block && depth < maxInsertDepth) {
+        const nextMatrix = multiplyCadMatrix(
+          matrix,
+          createCadInsertMatrix(entity, block.basePoint || { x: 0, y: 0 })
+        );
+        block.entities.forEach(child => visit(child, depth + 1, nextMatrix));
+        return;
+      }
+    }
+
+    const localBounds = getCadEntityLocalBounds(entity);
+    if (!localBounds) {
+      return;
+    }
+    const nextBounds = transformCadBounds(localBounds, matrix);
+    if (nextBounds) {
+      boundsList.push(nextBounds);
+    }
+  };
+
+  document.entities.forEach(entity => visit(entity, 0, identityCadMatrix()));
+  return boundsList;
+};
+
+const inflateCadDegenerateBounds = (bounds: CadBounds) => {
+  const width = getCadBoundsWidth(bounds);
+  const height = getCadBoundsHeight(bounds);
+  if (width > CAD_BOUNDS_EPSILON && height > CAD_BOUNDS_EPSILON) {
+    return bounds;
+  }
+  const centerX = (bounds.minX + bounds.maxX) / 2;
+  const centerY = (bounds.minY + bounds.maxY) / 2;
+  const pad = Math.max(width, height, 1) * 0.5;
+  return {
+    minX: centerX - (width > CAD_BOUNDS_EPSILON ? width / 2 : pad),
+    maxX: centerX + (width > CAD_BOUNDS_EPSILON ? width / 2 : pad),
+    minY: centerY - (height > CAD_BOUNDS_EPSILON ? height / 2 : pad),
+    maxY: centerY + (height > CAD_BOUNDS_EPSILON ? height / 2 : pad),
+  };
+};
+
+const selectCadBestFitBounds = (boundsList: CadBounds[]) => {
+  let candidates = boundsList.filter(isCadBoundsValid);
+  const meaningful = candidates.filter(isCadBoundsMeaningful);
+  if (meaningful.length > 0) {
+    candidates = meaningful;
+  }
+  const globalBounds = unionCadBounds(candidates);
+  if (!globalBounds || candidates.length < 8) {
+    return globalBounds ? inflateCadDegenerateBounds(globalBounds) : null;
+  }
+
+  const centers = candidates.map(bounds => ({
+    bounds,
+    x: (bounds.minX + bounds.maxX) / 2,
+    y: (bounds.minY + bounds.maxY) / 2,
+  }));
+  const trim = Math.max(1, Math.floor(centers.length * 0.05));
+  const sortedX = [...centers].sort((left, right) => left.x - right.x);
+  const sortedY = [...centers].sort((left, right) => left.y - right.y);
+  const minX = sortedX[Math.min(trim, sortedX.length - 1)].x;
+  const maxX = sortedX[Math.max(sortedX.length - 1 - trim, 0)].x;
+  const minY = sortedY[Math.min(trim, sortedY.length - 1)].y;
+  const maxY = sortedY[Math.max(sortedY.length - 1 - trim, 0)].y;
+  const trimmed = centers
+    .filter(item => item.x >= minX && item.x <= maxX && item.y >= minY && item.y <= maxY)
+    .map(item => item.bounds);
+  const minKeep = Math.max(4, Math.floor(candidates.length * 0.55));
+  const trimmedBounds = trimmed.length >= minKeep ? unionCadBounds(trimmed) : null;
+  if (!trimmedBounds) {
+    return inflateCadDegenerateBounds(globalBounds);
+  }
+
+  const globalSpan = Math.max(getCadBoundsWidth(globalBounds), getCadBoundsHeight(globalBounds), CAD_BOUNDS_EPSILON);
+  const trimmedSpan = Math.max(getCadBoundsWidth(trimmedBounds), getCadBoundsHeight(trimmedBounds), CAD_BOUNDS_EPSILON);
+  const areaRatio = getCadBoundsArea(globalBounds) / getCadBoundsArea(trimmedBounds);
+  if (globalSpan / trimmedSpan >= CAD_BEST_FIT_OUTLIER_RATIO || areaRatio >= CAD_BEST_FIT_OUTLIER_RATIO ** 2) {
+    return inflateCadDegenerateBounds(trimmedBounds);
+  }
+  return inflateCadDegenerateBounds(globalBounds);
+};
+
+const resolveCadFitPadding = (options: FileViewerCadOptions) => {
+  const padding = Number(options.fitPadding);
+  if (!Number.isFinite(padding) || padding <= 0) {
+    return CAD_DEFAULT_FIT_PADDING;
+  }
+  return Math.min(1, Math.max(0.2, padding));
+};
+
+const resolveCadFitBounds = (
+  document: CadDocument | undefined,
+  rendererBounds: CadBounds | undefined,
+  options: FileViewerCadOptions
+) => {
+  if (!document || options.fitMode === 'native') {
+    return rendererBounds && isCadBoundsValid(rendererBounds)
+      ? inflateCadDegenerateBounds(rendererBounds)
+      : null;
+  }
+  const configuredDepth = Number(options.maxInsertDepth ?? 16);
+  const maxInsertDepth = Number.isFinite(configuredDepth) ? Math.max(0, configuredDepth) : 16;
+  const entityBounds = collectCadVisibleEntityBounds(document, maxInsertDepth);
+  return selectCadBestFitBounds(entityBounds) ||
+    (rendererBounds && isCadBoundsValid(rendererBounds) ? inflateCadDegenerateBounds(rendererBounds) : null);
+};
+
+const resolveLayerSourceNames = (document: CadDocument, layer: CadLayerItem) => {
+  const normalized = normalizeLayerKey(layer.name);
+  const names = new Set(layer.sourceNames);
+  Object.entries(document.layers).forEach(([key, source]) => {
+    if (normalizeLayerKey(key) === normalized || normalizeLayerKey(source.name) === normalized) {
+      names.add(key);
+      names.add(source.name);
+    }
+  });
+  return Array.from(names);
 };
 
 export default async function renderCad(
@@ -183,6 +657,7 @@ export default async function renderCad(
   let viewer: CadViewerInstance | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let abortController: AbortController | null = null;
+  let fitViewActive = true;
   let disposed = false;
 
   const style = createStyle();
@@ -315,7 +790,12 @@ export default async function renderCad(
     layersList.replaceChildren(...layers.map(layer => {
       const button = createElement('button') as HTMLButtonElement;
       button.type = 'button';
-      button.classList.toggle('muted', layer.isVisible === false || !!layer.isFrozen);
+      const layerVisible = layer.isVisible !== false && !layer.isFrozen;
+      button.classList.toggle('muted', !layerVisible);
+      button.title = layer.duplicateCount > 1
+        ? `${layer.name} (${layer.duplicateCount} merged)`
+        : layer.name;
+      button.setAttribute('aria-pressed', String(layerVisible));
       const color = createElement('span', 'cad-layer-color');
       if (typeof layer.color === 'string') {
         color.style.background = layer.color;
@@ -323,17 +803,23 @@ export default async function renderCad(
       button.append(color, createElement('span', undefined, layer.name));
       button.addEventListener('click', () => {
         const document = viewer?.getDocument();
-        if (!document?.layers[layer.name]) {
+        if (!document) {
           return;
         }
 
-        const current = document.layers[layer.name];
-        current.isVisible = current.isVisible === false;
+        const nextVisible = !layerVisible;
+        resolveLayerSourceNames(document, layer).forEach(sourceName => {
+          const current = document.layers[sourceName] || findCadLayer(document, sourceName);
+          if (current) {
+            current.isVisible = nextVisible;
+          }
+        });
         loadResult = viewer?.setDocument(document, buildFileName()) || null;
         layers = collectLayers(loadResult);
         syncUi();
         queueMicrotask(() => {
-          viewer?.fit();
+          fitViewActive = true;
+          applyCadFit();
           cadZoomEmitter.emit();
           emitCadViewStateChange('layer-toggle', 'user');
         });
@@ -367,14 +853,56 @@ export default async function renderCad(
     syncState();
   };
 
+  const applyCadFit = () => {
+    if (!viewer) {
+      return false;
+    }
+    if (viewer.isNativeRendererActive?.()) {
+      viewer.fit();
+      return true;
+    }
+
+    const renderer = viewer.renderer as unknown as CadRendererViewAdapter;
+    const rendererBounds = renderer.getBounds?.();
+    const fitBounds = resolveCadFitBounds(viewer.getDocument(), rendererBounds, options);
+    if (!fitBounds || !renderer.setViewState) {
+      viewer.fit();
+      return true;
+    }
+
+    const width = Math.max(1, stage.clientWidth || viewer.canvas.clientWidth || target.clientWidth);
+    const height = Math.max(1, stage.clientHeight || viewer.canvas.clientHeight || target.clientHeight);
+    const boundsWidth = Math.max(getCadBoundsWidth(fitBounds), CAD_BOUNDS_EPSILON);
+    const boundsHeight = Math.max(getCadBoundsHeight(fitBounds), CAD_BOUNDS_EPSILON);
+    const canvasOptions = options.canvasOptions || {};
+    const minScale = Number(canvasOptions.minScale ?? CAD_BOUNDS_EPSILON);
+    const maxScale = Number(canvasOptions.maxScale ?? 1e9);
+    const unclampedScale = Math.min(width / boundsWidth, height / boundsHeight) * resolveCadFitPadding(options);
+    const nextScale = Math.min(
+      Number.isFinite(maxScale) ? maxScale : 1e9,
+      Math.max(Number.isFinite(minScale) ? minScale : CAD_BOUNDS_EPSILON, unclampedScale)
+    );
+    const nextView = {
+      centerX: (fitBounds.minX + fitBounds.maxX) / 2,
+      centerY: (fitBounds.minY + fitBounds.maxY) / 2,
+      scale: nextScale,
+    };
+    // Keep cad-viewer's zoom label at 100% for File Viewer's best-fit bounds.
+    renderer.fitScale = nextScale;
+    renderer.setViewState(nextView);
+    return true;
+  };
+
   const fitToView = () => {
-    viewer?.fit();
+    fitViewActive = true;
+    applyCadFit();
     cadZoomEmitter.emit();
     syncState();
     emitCadViewStateChange('zoom-reset', 'user');
   };
 
   const zoomIn = () => {
+    fitViewActive = false;
     viewer?.zoomIn();
     cadZoomEmitter.emit();
     syncState();
@@ -382,6 +910,7 @@ export default async function renderCad(
   };
 
   const zoomOut = () => {
+    fitViewActive = false;
     viewer?.zoomOut();
     cadZoomEmitter.emit();
     syncState();
@@ -510,6 +1039,7 @@ export default async function renderCad(
     renderStats = null;
     viewState = null;
     layers = [];
+    fitViewActive = true;
     syncUi();
 
     abortController?.abort();
@@ -536,7 +1066,7 @@ export default async function renderCad(
       status = 'ready';
       syncUi();
       queueMicrotask(() => {
-        viewer?.fit();
+        applyCadFit();
         cadZoomEmitter.emit();
         emitCadViewStateChange('init', 'viewer');
         syncState();
@@ -555,6 +1085,15 @@ export default async function renderCad(
   if (typeof ResizeObserver !== 'undefined') {
     resizeObserver = new ResizeObserver(() => {
       viewer?.resize();
+      if (fitViewActive) {
+        requestAnimationFrame(() => {
+          if (!disposed && fitViewActive) {
+            applyCadFit();
+            cadZoomEmitter.emit();
+            syncState();
+          }
+        });
+      }
     });
     resizeObserver.observe(stage);
   }
