@@ -751,6 +751,7 @@ export interface FileViewerDrawingOptions {
 
 export type FileViewerCadRenderer = 'auto' | 'webgl' | 'canvas2d';
 export type FileViewerCadDwfLineWeightMode = 'adaptive' | 'physical' | 'hairline';
+export type FileViewerCadFitMode = 'best' | 'native';
 
 export interface FileViewerCadOptions {
   wasmPath?: string;
@@ -765,6 +766,16 @@ export interface FileViewerCadOptions {
   maxInsertDepth?: number;
   keepRaw?: boolean;
   preloadDwg?: boolean;
+  /**
+   * `best` fits the first view to visible drawing geometry and ignores common
+   * CAD outliers such as paper-space frames or far-away markers. `native`
+   * preserves the raw bounds reported by the underlying CAD renderer.
+   */
+  fitMode?: FileViewerCadFitMode;
+  /**
+   * Fraction of the CAD viewport used by fit-to-view. Defaults to 0.92.
+   */
+  fitPadding?: number;
   dwfPreferWebgl?: boolean;
   dwfPreferWasm?: boolean;
   dwfBackground?: string;

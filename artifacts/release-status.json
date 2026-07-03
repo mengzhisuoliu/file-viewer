@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-03T06:42:44.130Z",
+  "generatedAt": "2026-07-03T09:30:29.626Z",
   "version": "2.1.17",
   "sourcePolicy": "private-complete-original-workspace",
   "openSourcePolicy": "public-open-source-main-repository",
@@ -10,14 +10,14 @@
     "policy": "private-complete-original-workspace",
     "authoritativeCommit": "",
     "localBranch": "main",
-    "localCommit": "92d43f8c0078b2cf85258764bb6e698de59dbf69",
+    "localCommit": "0f36ff0b26deaddeac2b8e31cec76f540dc2b83f",
     "inSync": false,
     "note": "Private Gitea main is the complete original aggregate workspace. The local checkout branch is only the execution context and can be transitional during branch cutover."
   },
   "local": {
     "branch": "main",
-    "commit": "92d43f8c0078b2cf85258764bb6e698de59dbf69",
-    "shortCommit": "92d43f8c",
+    "commit": "0f36ff0b26deaddeac2b8e31cec76f540dc2b83f",
+    "shortCommit": "0f36ff0b",
     "dirty": false
   },
   "sourceRemote": {
@@ -32,7 +32,7 @@
       "url": "https://github.com/flyfish-dev/file-viewer",
       "branch": "main",
       "ok": true,
-      "hash": "2be0d59b9757ffe2c8dfea3f455ded7e9504c649",
+      "hash": "15b85973612499c2324cb6b44f081d055458dc24",
       "error": ""
     },
     "gitee": {
@@ -45,7 +45,7 @@
     "inSync": false,
     "syncMode": "stale",
     "treeChecked": true,
-    "referenceTree": "e38ef6d936b00aa0edc2d3a2472e8534e180f1b7",
+    "referenceTree": "3d64d7a23716f667062170f6359098cf478a7493",
     "giteeTree": "ef9e54e70ed3110034a0103cb80e8fee613104c3",
     "treeError": "",
     "reportHashNote": "The open-source main repository mirrors the current public source tree and records the private source commit in the public commit body for traceability. The observed remote hash can trail until that mirror commit is pushed. Gitee can intentionally use a shallow snapshot commit; inSync is true when the file tree matches even if commit hashes differ. Use pnpm audit:ecosystem-status for live remote heads."
