@@ -104,6 +104,7 @@
 | 想降低安装依赖和首屏体积 | [按需渲染架构](/guide/on-demand-renderers) |
 | 想了解最小化引入和组合引入 | [按需渲染架构: 2.1.0 推荐接入步骤](/guide/on-demand-renderers#_2-1-0-推荐接入步骤) |
 | 想看示例文件和回归建议 | [Demo 说明](/guide/demo) |
+| 想零依赖 iframe 嵌入官方 Demo | [快速开始: 零依赖集成](/guide/quickstart#零依赖集成官方-demo-iframe) |
 | 想并排比对两份文件 | [Demo 说明: 文档比对页](/guide/demo#文档比对页) |
 | 想在非框架页面中接入 | [纯 JS / Pure Web 集成](/guide/quickstart-web) |
 | 想在 Vue 3 中接入 | [Vue3 集成](/guide/quickstart-vue3) |

@@ -20,7 +20,7 @@ import {
   DEFAULT_FILE_VIEWER_SPREADSHEET_WORKER_PATH
 } from '@file-viewer/core'
 import { allRenderers } from '@file-viewer/preset-all'
-import { listenForFile } from '@/components/utils'
+import { createDemoFileHandoff } from '@/components/utils'
 import type {
   FileViewerFileRef as FileRef,
   FileViewerFitMode,
@@ -32,15 +32,9 @@ import type {
 } from '@file-viewer/core'
 import brandLogo from '@/assets/logo.png'
 
-const queryParams = new URLSearchParams(window.location.search)
-const isIframeEntry = window.location.pathname.endsWith('/iframe.html') || window.location.pathname.endsWith('/iframe')
-const isEmbedRequest =
-  isIframeEntry ||
-  queryParams.get('embed') === '1' ||
-  queryParams.get('mode') === 'iframe' ||
-  queryParams.has('from')
+const demoFileHandoff = createDemoFileHandoff()
 
-const hidden = ref(isEmbedRequest)
+const hidden = ref(demoFileHandoff.isEmbedRequest)
 const input = ref(true)
 const filename = ref('')
 const file = ref<FileRef | undefined>()
@@ -57,6 +51,7 @@ const normalizeDemoLocale = (value?: string | null): DemoLocale => {
 }
 
 const resolveInitialDemoLocale = (): DemoLocale => {
+  const queryParams = new URLSearchParams(window.location.search)
   const explicitLocale = queryParams.get('locale') || queryParams.get('lang')
   if (explicitLocale) {
     return normalizeDemoLocale(explicitLocale)
@@ -69,7 +64,7 @@ const resolveInitialDemoLocale = (): DemoLocale => {
 }
 
 const demoLocale = ref<DemoLocale>(resolveInitialDemoLocale())
-const url = ref(isEmbedRequest && !queryParams.get('url') ? '' : DEFAULT_DEMO_URL_BY_LOCALE[demoLocale.value])
+const url = ref(demoFileHandoff.isEmbedRequest && !demoFileHandoff.initialUrl ? '' : DEFAULT_DEMO_URL_BY_LOCALE[demoLocale.value])
 const preview = ref('')
 const scenarioPickerOpen = ref(false)
 const samplePickerOpen = ref(false)
@@ -1225,7 +1220,7 @@ function handleViewerZoomChange(state: FileViewerZoomState) {
   viewerZoomState.value = state
 }
 
-listenForFile((body, target, options) => {
+const stopDemoFileHandoff = demoFileHandoff.listen((body, target, options) => {
   hidden.value = true
   runtimeOptions.value = options || {}
   scenarioPickerOpen.value = false
@@ -1260,6 +1255,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('pointerdown', handleDocumentPointerDown)
   document.removeEventListener('keydown', handleDocumentKeydown)
   window.removeEventListener('resize', handleWindowResize)
+  stopDemoFileHandoff()
   if (copyResetTimer) {
     window.clearTimeout(copyResetTimer)
   }

@@ -221,6 +221,30 @@ const options = {
 
 Vite projects can add `@file-viewer/vite-plugin` to auto-discover installed presets and copy Worker/WASM/font/vendor assets. Non-Vite projects can use `options.preset` directly.
 
+### Zero-Dependency iframe
+
+When the host app should not install any npm package, download `file-viewer-v2-*-official-demo-iframe.tar.gz` from GitHub Releases, extract it to a static directory, and embed:
+
+```html
+<iframe
+  src="/file-viewer/iframe.html?url=/files/report.docx"
+  style="width:100%;height:720px;border:0"
+  allow="fullscreen"
+></iframe>
+```
+
+When the parent app must fetch the binary itself, post the `Blob` to the demo entry:
+
+```html
+<iframe id="viewer" src="/file-viewer/iframe.html?from=https%3A%2F%2Fapp.example.com&name=report.docx"></iframe>
+<script>
+  const file = await fetch('/api/files/report.docx').then(response => response.blob())
+  document.querySelector('#viewer').contentWindow.postMessage(file, 'https://static.example.com')
+</script>
+```
+
+`iframe.html` is the recommended chrome-free entry, and clean-URL static hosts can also use `/iframe`. The original `index.html` demo entry keeps the same `url`, `from`, `name`, and `postMessage(Blob)` protocol for existing customer integrations.
+
 ## Architecture
 
 - `@file-viewer/core`: format detection, source loading, renderer protocol, lifecycle, search, zoom, print, export, and controller APIs.
@@ -381,8 +405,8 @@ GitHub Releases provide all distribution downloads:
 
 | File                                     | Purpose                                                                                    |
 | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `file-viewer-v2-*-official-demo-iframe.tar.gz` | Official iframe demo delivery archive with `iframe.html`, parent-page example, docs, samples, and offline Worker/WASM/vendor assets |
-| `file-viewer-v2-*-demo.tar.gz`           | Main demo static site with the primary viewer and `/compare.html` document comparison page |
+| `file-viewer-v2-*-official-demo-iframe.tar.gz` | Official zero-dependency iframe demo archive with `iframe.html`, original-demo-compatible `index.html`, parent-page example, docs, samples, and offline Worker/WASM/vendor assets |
+| `file-viewer-v2-*-demo.tar.gz`           | Main demo static site with the primary viewer, `/iframe.html` embed entry, and `/compare.html` document comparison page |
 | `file-viewer-v2-*-component-demo.tar.gz` | Vanilla JavaScript / React component demo site                                             |
 | `file-viewer-v2-*-lib-dist.tar.gz`       | Vue 3 library dist for offline inspection or self-hosted packaging                         |
 | `file-viewer-v2-*-docs.tar.gz`           | Documentation site static output                                                           |
@@ -405,13 +429,13 @@ When a customer only needs the official demo as a self-hosted iframe page, downl
 
 ```html
 <iframe
-  src="/file-viewer/iframe.html?embed=1&url=/files/demo.docx"
+  src="/file-viewer/iframe.html?url=/files/demo.docx"
   style="width:100%;height:720px;border:0"
   allow="fullscreen"
 ></iframe>
 ```
 
-If the parent application must fetch the file itself, use the `postMessage(Blob)` flow shown in `iframe-example.html`: `iframe.html?embed=1&from=<parent origin>&name=<filename>` stays chrome-free and renders the Blob once the parent posts it.
+If the parent application must fetch the file itself, use the `postMessage(Blob)` flow shown in `iframe-example.html`: `iframe.html?from=<parent origin>&name=<filename>` stays chrome-free and renders the Blob once the parent posts it. The original `index.html` demo entry uses the same protocol, so existing `index.html?from=...&name=...` integrations do not need to move.
 
 The unscoped `file-viewer3` historical alias remains part of the npm release flow. The open-source main repository uses `flyfish-group-file-viewer3-*.tgz` as the Vue 3 compatibility tarball to avoid storing duplicate package bodies.
 
@@ -735,7 +759,7 @@ The open-source main repository also contains:
 | Path              | Purpose                                                                            |
 | ----------------- | ---------------------------------------------------------------------------------- |
 | `dist/`           | Minified Vue 3 library build artifacts copied from `packages/components/vue3/dist` |
-| `demo/`           | Static production demo, including `index.html` and `compare.html`                  |
+| `demo/`           | Static production demo, including `index.html`, `iframe.html`, and `compare.html`  |
 | `component-demo/` | Vanilla JavaScript and React integration demo                                      |
 | `docs/`           | Static documentation site output                                                   |
 | `example/`        | Sample files used by the demo                                                      |
@@ -746,7 +770,7 @@ The open-source main repository also contains:
 
 ## Docker
 
-The project provides a static nginx static image and build scripts for `linux/amd64` and `linux/arm64`. A typical deployment can serve the demo and comparison page directly:
+The project provides a static nginx image and build scripts for `linux/amd64` and `linux/arm64`. A typical deployment can serve the main demo, zero-dependency iframe entry, and comparison page directly:
 
 ```bash
 docker run --rm -p 8080:80 flyfishdev/file-viewer:latest
@@ -756,6 +780,7 @@ Then open:
 
 ```txt
 http://localhost:8080/
+http://localhost:8080/iframe.html?url=/example/word.docx
 http://localhost:8080/compare.html
 ```
 

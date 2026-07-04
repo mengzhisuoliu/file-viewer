@@ -221,6 +221,30 @@ const options = {
 
 Vite 项目可额外安装 `@file-viewer/vite-plugin`，自动发现已安装 preset 并复制 Worker/WASM/字体/vendor 资源；非 Vite 项目直接使用 `options.preset`，不需要额外插件。
 
+### 零依赖 iframe 集成
+
+不想在业务项目安装任何 npm 包时，下载 GitHub Release 的 `file-viewer-v2-*-official-demo-iframe.tar.gz`，解压到静态目录后直接嵌入:
+
+```html
+<iframe
+  src="/file-viewer/iframe.html?url=/files/report.docx"
+  style="width:100%;height:720px;border:0"
+  allow="fullscreen"
+></iframe>
+```
+
+业务接口返回二进制时，父页面只需要把 `Blob` 发给 Demo 入口:
+
+```html
+<iframe id="viewer" src="/file-viewer/iframe.html?from=https%3A%2F%2Fapp.example.com&name=report.docx"></iframe>
+<script>
+  const file = await fetch('/api/files/report.docx').then(response => response.blob())
+  document.querySelector('#viewer').contentWindow.postMessage(file, 'https://static.example.com')
+</script>
+```
+
+`iframe.html` 是推荐的无外壳入口，支持 clean URL 的静态平台也可以写成 `/iframe`；原主 Demo `index.html` 也保留同一套 `url`、`from`、`name` 和 `postMessage(Blob)` 协议，方便兼容已有客户集成。
+
 ## 架构
 
 - `@file-viewer/core`: 格式识别、资源加载、renderer 协议、生命周期、搜索、缩放、打印、导出和 controller API。
@@ -369,8 +393,8 @@ GitHub Release 会同步提供完整下载项:
 
 | 文件                                     | 用途                                                            |
 | ---------------------------------------- | --------------------------------------------------------------- |
-| `file-viewer-v2-*-official-demo-iframe.tar.gz` | 官方 Demo iframe 交付包，包含 `iframe.html`、示例父页面、说明文件、样例和离线 Worker/WASM/vendor 资源 |
-| `file-viewer-v2-*-demo.tar.gz`           | 主 Demo 静态站，解压后即可体验主预览和 `/compare.html` 文档比对 |
+| `file-viewer-v2-*-official-demo-iframe.tar.gz` | 官方 Demo 零依赖 iframe 交付包，包含 `iframe.html`、兼容原主 Demo 的 `index.html`、示例父页面、说明文件、样例和离线 Worker/WASM/vendor 资源 |
+| `file-viewer-v2-*-demo.tar.gz`           | 主 Demo 静态站，解压后即可体验主预览、`/iframe.html` 嵌入入口和 `/compare.html` 文档比对 |
 | `file-viewer-v2-*-component-demo.tar.gz` | Vanilla JS / React 原生组件演示站                               |
 | `file-viewer-v2-*-lib-dist.tar.gz`       | Vue3 组件库构建产物，适合离线检查 dist 内容                     |
 | `file-viewer-v2-*-docs.tar.gz`           | 文档站静态产物                                                  |
@@ -393,13 +417,13 @@ GitHub Release 会同步提供完整下载项:
 
 ```html
 <iframe
-  src="/file-viewer/iframe.html?embed=1&url=/files/demo.docx"
+  src="/file-viewer/iframe.html?url=/files/demo.docx"
   style="width:100%;height:720px;border:0"
   allow="fullscreen"
 ></iframe>
 ```
 
-如果文件只能由父页面接口取回，可使用包内 `iframe-example.html` 展示的 `postMessage(Blob)` 方案: `iframe.html?embed=1&from=<父页面 origin>&name=<文件名>` 会保持无 Demo 外壳状态，收到父页面传入的 `Blob` 后按指定文件名预览。
+如果文件只能由父页面接口取回，可使用包内 `iframe-example.html` 展示的 `postMessage(Blob)` 方案: `iframe.html?from=<父页面 origin>&name=<文件名>` 会保持无 Demo 外壳状态，收到父页面传入的 `Blob` 后按指定文件名预览。原主 Demo `index.html` 使用同一套协议，已有 `index.html?from=...&name=...` 集成不需要迁移。
 
 `file-viewer3` 非 scoped 历史兼容包仍会走 npm 发布链路；开源总仓库下载区使用 `flyfish-group-file-viewer3-*.tgz` 作为 Vue3 兼容 tarball，避免重复存储相同包体。
 
@@ -626,7 +650,7 @@ Flyfish Viewer 会持续保持 Apache-2.0 开源。开源版适合通用 Web 预
 
 ## Demo 与 Docker
 
-本仓库保留两个可运行演示入口:
+本仓库保留多个可运行演示入口:
 
 | 命令 | 说明 |
 | --- | --- |
@@ -648,6 +672,7 @@ docker run -d \
 访问:
 
 - 主预览: `http://localhost:8080/`
+- iframe 嵌入: `http://localhost:8080/iframe.html?url=/example/word.docx`
 - 文档比对: `http://localhost:8080/compare.html`
 
 源码仓库内也提供 `Dockerfile`，本地构建运行:
@@ -660,6 +685,7 @@ docker run --rm -p 8080:80 flyfishdev/file-viewer:latest
 ## 使用说明
 
 - 组件支持两条主要输入路径: `url?: string` 与 `file?: File`
+- 官方零依赖 iframe 入口位于 `/iframe.html`，支持 `?url=` 直接传文件地址，也支持 `?from=<父页面 origin>&name=<文件名>` 后由父页面 `postMessage(Blob)` 传文件数据；原主 Demo `/index.html` 保留同一套协议，完整说明见 [Demo 文档](docs/guide/demo.md#demo-文件传入协议)
 - 独立文档比对页位于 `/compare.html`，可通过 `?left=/example/test.doc&right=/example/word.docx` 预置左右文件；它支持同步滚动、当前聚焦文档的浮层搜索、高亮命中、上一个 / 下一个、行级定位和 PDF 工具栏隐藏，但只做视觉并排预览，不做语义 diff，完整说明见 [Demo 文档](docs/guide/demo.md#文档比对页)
 - 当 `file` 和 `url` 同时存在时，会优先渲染 `file`
 - 如果业务侧拿到的是 `Blob` 或 `ArrayBuffer`，推荐先包装成带扩展名的 `File`

@@ -37,5 +37,6 @@ For pages with uncontrolled host CSS, the Web Component / IIFE entries use Shado
 - Official site: [file-viewer.app](https://file-viewer.app)
 - Documentation: [doc.file-viewer.app](https://doc.file-viewer.app)
 - Live demo: [demo.file-viewer.app](https://demo.file-viewer.app)
+- iframe demo entry: [demo.file-viewer.app/iframe.html?url=/example/en/calibre-demo.docx](https://demo.file-viewer.app/iframe.html?url=/example/en/calibre-demo.docx)
 - Comparison demo: [demo.file-viewer.app/compare.html](https://demo.file-viewer.app/compare.html)
 - GitHub: [github.com/flyfish-dev/file-viewer](https://github.com/flyfish-dev/file-viewer)

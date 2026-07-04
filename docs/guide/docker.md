@@ -4,7 +4,7 @@
 
 <p class="doc-lead">
   Flyfish Viewer 可以作为纯静态预览站点打进 Docker 镜像，通过 nginx 托管构建后的 Demo。
-  镜像内同时包含主预览入口 <code>/</code> 和文档比对入口 <code>/compare.html</code>，适合内网、私有云和客户现场一键部署。
+  镜像内同时包含主预览入口 <code>/</code>、零依赖 iframe 入口 <code>/iframe.html</code> 和文档比对入口 <code>/compare.html</code>，适合内网、私有云和客户现场一键部署。
 </p>
 
 ## Docker Hub 一键运行
@@ -22,6 +22,7 @@ docker run -d \
 打开:
 
 - 主预览: `http://localhost:8080/`
+- iframe 嵌入: `http://localhost:8080/iframe.html?url=/example/word.docx`
 - 文档比对: `http://localhost:8080/compare.html`
 - 健康检查: `http://localhost:8080/healthz`
 
@@ -123,6 +124,7 @@ pnpm docker:publish
 Docker 镜像只包含构建后的静态产物，不携带源码工作区:
 
 - `/usr/share/nginx/html/index.html`: 主预览入口
+- `/usr/share/nginx/html/iframe.html`: 无 Demo 外壳的 iframe 嵌入入口，兼容 `?url=` 与 `postMessage(Blob)`
 - `/usr/share/nginx/html/compare.html`: 文档比对入口
 - `/usr/share/nginx/html/assets/*`: Vite hash 资源
 - `/usr/share/nginx/html/example/*`: 示例文件
@@ -135,6 +137,7 @@ nginx 配置会对 HTML 使用 `max-age=0, must-revalidate`，对 hash 资源和
 如果容器前面还有网关或统一域名，建议保持以下路径不被重写:
 
 - `/`
+- `/iframe.html`
 - `/compare.html`
 - `/assets/*`
 - `/vendor/*`

@@ -389,6 +389,48 @@ export function Preview() {
 
 完整步骤见 [React 集成](/guide/quickstart-react)。
 
+## 零依赖集成：官方 Demo iframe
+
+如果客户系统只需要“能预览”，不希望安装 npm 包或改构建链路，可以直接使用官方 Demo 构建产物。下载 GitHub Release 中的 `file-viewer-v2-*-official-demo-iframe.tar.gz`，解压到一个静态目录，例如 `/file-viewer/`，保持 `assets/`、`vendor/`、`wasm/` 和 `example/` 不要拆开。
+
+最简单的 URL 文件预览:
+
+```html
+<iframe
+  src="/file-viewer/iframe.html?url=/files/demo.docx"
+  style="width:100%;height:720px;border:0"
+  allow="fullscreen"
+></iframe>
+```
+
+如果文件只能由父页面鉴权接口取回，父页面拿到 `Blob` 后再传给 Demo:
+
+```html
+<input id="file" type="file">
+<iframe id="viewer" style="width:100%;height:720px;border:0"></iframe>
+
+<script>
+  const viewer = document.querySelector('#viewer')
+
+  function openFile(file) {
+    const src = new URL('/file-viewer/iframe.html', location.origin)
+    src.searchParams.set('from', location.origin)
+    src.searchParams.set('name', file.name)
+    viewer.src = src
+    viewer.addEventListener('load', () => {
+      viewer.contentWindow.postMessage(file, src.origin)
+    }, { once: true })
+  }
+
+  document.querySelector('#file').addEventListener('change', event => {
+    const file = event.target.files && event.target.files[0]
+    if (file) openFile(file)
+  })
+</script>
+```
+
+`from` 必须等于父页面 origin，Demo 只接受该来源发来的 `Blob`。推荐使用 `/iframe.html` 作为无外壳入口，支持 clean URL 的静态平台也可以写成 `/iframe`；原主 Demo `/index.html` 也保留同一套 `url`、`from`、`name` 和 `postMessage(Blob)` 协议，用于兼容已有客户集成。
+
 ## 下一步建议
 
 - 想了解 Demo 中每个示例文件的作用: 看 [Demo 说明](/guide/demo)
