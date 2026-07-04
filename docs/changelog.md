@@ -4,7 +4,7 @@
 
 ## 当前主线官方 Demo iframe 交付包
 
-- 新增 `iframe.html` 作为官方 Demo 的无外壳嵌入入口，支持 `?embed=1&url=...` 直接预览业务文件，也支持 `?from=<父页面 origin>&name=<文件名>` 后由父页面 `postMessage(Blob)` 传入二进制文件。
+- 新增 `iframe.html` 作为官方 Demo 的无外壳嵌入入口，支持 `?url=...` 直接预览业务文件，也支持 `?from=<父页面 origin>&name=<文件名>` 后由父页面 `postMessage(Blob)` 传入二进制文件；原主 Demo `index.html` 保留同一套协议，兼容既有集成。
 - 新增 `file-viewer-v2-*-official-demo-iframe.tar.gz` release artifact，包内包含官方 Demo 构建产物、`iframe-example.html`、`README.iframe.md`、`iframe-manifest.json`、示例文件和离线 Worker/WASM/vendor 资源，客户可直接私有化部署。
 - `release:standard:build`、`release:public`、`verify:demo-output`、`verify:demo-iframe-artifact` 和公开仓 `release-manifest.json` 校验全部纳入该产物，避免后续发布漏带官方 iframe Demo 包。
 

@@ -13,6 +13,7 @@
 | --- | --- |
 | Run the viewer in a project | [Quickstart](/en/guide/quickstart) |
 | Pick the right npm package | [Ecosystem packages](/en/guide/ecosystem) |
+| Embed the official demo without npm packages | [Quickstart: Zero-dependency integration](/en/guide/quickstart#zero-dependency-integration-official-demo-iframe) |
 | Choose minimal imports or composed presets | [2.1.0 modular import paths](/en/guide/ecosystem#_2-1-0-modular-import-paths) |
 | Keep host CSS from leaking into the viewer | [Style isolation and customization](/en/guide/style-isolation) |
 | Check format coverage | [Supported formats](/en/guide/formats) |
@@ -21,6 +22,7 @@
 ## Main Links
 
 - Live demo: [demo.file-viewer.app](https://demo.file-viewer.app)
+- iframe demo entry: [demo.file-viewer.app/iframe.html?url=/example/en/calibre-demo.docx](https://demo.file-viewer.app/iframe.html?url=/example/en/calibre-demo.docx)
 - Document comparison demo: [demo.file-viewer.app/compare.html](https://demo.file-viewer.app/compare.html)
 - GitHub repository: [github.com/flyfish-dev/file-viewer](https://github.com/flyfish-dev/file-viewer)
 - npm scope: [`@file-viewer`](https://www.npmjs.com/search?q=%40file-viewer)

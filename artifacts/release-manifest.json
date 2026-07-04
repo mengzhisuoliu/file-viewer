@@ -1,9 +1,9 @@
 {
   "version": "2.1.19",
   "package": "@flyfish-group/file-viewer-workspace",
-  "generatedAt": "2026-07-04T01:40:59.222Z",
+  "generatedAt": "2026-07-04T02:55:45.322Z",
   "sourceBranch": "main",
-  "sourceCommit": "99c60899",
+  "sourceCommit": "79ee85f0",
   "corePackage": {
     "packageName": "@file-viewer/core",
     "description": "Framework-neutral modular TypeScript file preview core with format registry, renderer orchestration, lifecycle APIs, search, zoom, print, and export.",
@@ -113,7 +113,7 @@
       "name": "file-viewer-v2-2.1.19-official-demo-iframe.tar.gz",
       "role": "official-demo-iframe",
       "artifactIncluded": true,
-      "description": "Official demo static build archive for iframe integration and private deployment."
+      "description": "Official zero-dependency demo iframe archive for private deployment, including iframe.html and original index.html file handoff compatibility."
     },
     {
       "name": "file-viewer-v2-2.1.19-demo.tar.gz",

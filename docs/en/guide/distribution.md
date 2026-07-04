@@ -112,11 +112,13 @@ The public GitHub repository keeps source, small release metadata, and lightweig
 
 When a customer asks for the official demo build output for iframe integration, use the GitHub Release asset `file-viewer-v2-*-official-demo-iframe.tar.gz`. It does not require installing npm packages in the host application. Extract the whole archive to one static directory and keep `assets/`, `vendor/`, `wasm/`, and `example/` together.
 
+`/iframe.html` is the recommended chrome-free entry, and clean-URL static hosts can also use `/iframe`. `/index.html` keeps the original full demo and remains compatible with the same `url`, `from`, `name`, and `postMessage(Blob)` protocol.
+
 URL-based iframe:
 
 ```html
 <iframe
-  src="/file-viewer/iframe.html?embed=1&url=/files/demo.docx"
+  src="/file-viewer/iframe.html?url=/files/demo.docx"
   style="width:100%;height:720px;border:0"
   allow="fullscreen"
 ></iframe>
@@ -127,7 +129,7 @@ Blob handoff from the parent page:
 ```html
 <iframe
   id="viewer"
-  src="/file-viewer/iframe.html?embed=1&from=https%3A%2F%2Fapp.example.com&name=contract.docx"
+  src="/file-viewer/iframe.html?from=https%3A%2F%2Fapp.example.com&name=contract.docx"
 ></iframe>
 <script>
   const file = await fetch('/api/files/contract.docx').then(response => response.blob())
@@ -135,7 +137,7 @@ Blob handoff from the parent page:
 </script>
 ```
 
-`from` must match the parent origin. The iframe accepts only a `Blob` from that origin and renders it as the provided `name`. The archive also includes `iframe-example.html`, `README.iframe.md`, and `iframe-manifest.json`; `pnpm release:demo-iframe:pack` and `pnpm verify:demo-iframe-artifact` make this artifact part of the standard release flow.
+`from` must match the parent origin. The demo accepts only a `Blob` from that origin and renders it as the provided `name`. The archive also includes `iframe-example.html`, `README.iframe.md`, and `iframe-manifest.json`; `pnpm release:demo-iframe:pack` and `pnpm verify:demo-iframe-artifact` make this artifact part of the standard release flow.
 
 ## Self-hosted Runtime Assets
 

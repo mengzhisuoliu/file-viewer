@@ -4,24 +4,70 @@ import type { FileViewerOptions } from '@file-viewer/core'
 
 type ListenCallback = (file?: File, url?: string, options?: FileViewerOptions) => void;
 
-export function listenForFile(callback: ListenCallback) {
-  const params: any = parse(location.search.substring(1));
-  const { url, from, name, options } = params;
+const firstString = (value: unknown): string | undefined => {
+  if (typeof value === 'string') {
+    return value
+  }
+  if (Array.isArray(value)) {
+    return firstString(value[0])
+  }
+  return undefined
+}
+
+const normalizeOrigin = (value?: string): string | undefined => {
+  if (!value) {
+    return undefined
+  }
+  try {
+    return new URL(value).origin
+  } catch {
+    return value
+  }
+}
+
+export function createDemoFileHandoff() {
+  const params = parse(location.search.substring(1)) as Record<string, unknown>
+  const url = firstString(params.url)
+  const from = normalizeOrigin(firstString(params.from))
+  const name = firstString(params.name)
+  const mode = firstString(params.mode)
+  const embed = firstString(params.embed)
+  const options = params.options
   const viewerOptions = parseFileViewerOptions(options) as FileViewerOptions | undefined
-  // 优先从url获取文件路径
-  if (url) {
-    return callback(undefined, url, viewerOptions);
-  }
-  // 允许使用预留的消息机制发送二进制数据，必须在url后添加?name=xxx.xxx&from=xxx
-  if (from && typeof name === 'string') {
-    callback(undefined, undefined, viewerOptions)
-    window.addEventListener('message', event => {
-      const { origin, data: blob } = event
-      if (origin === from && blob instanceof Blob) {
-        // 构造响应，自动渲染
-        const value = new File([blob], name, {})
-        callback(value, undefined, viewerOptions)
+
+  const isIframeEntry = window.location.pathname.endsWith('/iframe.html') || window.location.pathname.endsWith('/iframe')
+  const isPostMessageRequest = Boolean(from && name)
+  const isEmbedRequest = isIframeEntry || embed === '1' || mode === 'iframe' || isPostMessageRequest
+
+  return {
+    initialUrl: url,
+    isEmbedRequest,
+    isIframeEntry,
+    isPostMessageRequest,
+    listen(callback: ListenCallback) {
+      if (url) {
+        callback(undefined, url, viewerOptions)
+        return () => {}
       }
-    })
+      if (!from || !name) {
+        return () => {}
+      }
+
+      callback(undefined, undefined, viewerOptions)
+      const handleMessage = (event: MessageEvent) => {
+        const { origin, data: blob } = event
+        if (origin === from && blob instanceof Blob) {
+          // 构造响应，自动渲染
+          const value = new File([blob], name, {})
+          callback(value, undefined, viewerOptions)
+        }
+      }
+      window.addEventListener('message', handleMessage)
+      return () => window.removeEventListener('message', handleMessage)
+    }
   }
+}
+
+export function listenForFile(callback: ListenCallback) {
+  return createDemoFileHandoff().listen(callback)
 }

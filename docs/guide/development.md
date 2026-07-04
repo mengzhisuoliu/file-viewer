@@ -183,7 +183,7 @@ pnpm release:ecosystem:pack
 - `apps/viewer-demo/public/_headers` 已为哈希资源、WASM/Worker、示例文件和 HTML 配置缓存策略，部署到 Cloudflare 后会自动生效
 - `docs/public/_headers` 已为 VitePress 文档站的哈希资源、图片和 HTML 配置缓存策略，部署到 Cloudflare 后会自动生效
 - Vanilla JS / Pure Web、React、jQuery 和 Svelte 包默认在用户项目内原生挂载预览器；如需 Worker/WASM 自托管，请使用资源复制命令并配置对应 options
-- Docker 镜像发布后可直接运行 `flyfishdev/file-viewer:latest`，主预览入口是 `/`，文档比对入口是 `/compare.html`
+- Docker 镜像发布后可直接运行 `flyfishdev/file-viewer:latest`，主预览入口是 `/`，零依赖嵌入入口是 `/iframe.html`，文档比对入口是 `/compare.html`
 - 不要把已移除的旧式页面协议写成推荐接入方式
 - 发布前先用本地构建产物做一次完整 smoke test
 

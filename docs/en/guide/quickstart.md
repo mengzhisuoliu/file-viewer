@@ -372,6 +372,48 @@ npx file-viewer-copy-assets ./public/file-viewer
 
 The copy command verifies PDF, archive, DOCX, spreadsheet, Draw.io, CAD, Typst, SQLite, Worker, WASM, and vendor assets. Runtime options let you point each renderer to your own static paths.
 
+## Zero-Dependency Integration: Official Demo iframe
+
+If a customer system only needs preview capability and should not install npm packages or change its build pipeline, use the official demo build output directly. Download `file-viewer-v2-*-official-demo-iframe.tar.gz` from GitHub Releases, extract it to one static directory such as `/file-viewer/`, and keep `assets/`, `vendor/`, `wasm/`, and `example/` together.
+
+The simplest URL-based preview:
+
+```html
+<iframe
+  src="/file-viewer/iframe.html?url=/files/demo.docx"
+  style="width:100%;height:720px;border:0"
+  allow="fullscreen"
+></iframe>
+```
+
+If the parent page must fetch an authenticated file first, pass the resulting `Blob` to the demo:
+
+```html
+<input id="file" type="file">
+<iframe id="viewer" style="width:100%;height:720px;border:0"></iframe>
+
+<script>
+  const viewer = document.querySelector('#viewer')
+
+  function openFile(file) {
+    const src = new URL('/file-viewer/iframe.html', location.origin)
+    src.searchParams.set('from', location.origin)
+    src.searchParams.set('name', file.name)
+    viewer.src = src
+    viewer.addEventListener('load', () => {
+      viewer.contentWindow.postMessage(file, src.origin)
+    }, { once: true })
+  }
+
+  document.querySelector('#file').addEventListener('change', event => {
+    const file = event.target.files && event.target.files[0]
+    if (file) openFile(file)
+  })
+</script>
+```
+
+`from` must equal the parent page origin. The demo accepts only a `Blob` from that origin. Prefer `/iframe.html` for the chrome-free entry, or `/iframe` on static hosts that support clean URLs. The original `/index.html` demo entry keeps the same `url`, `from`, `name`, and `postMessage(Blob)` protocol for existing customer integrations.
+
 ## Try The Demo Locally
 
 ```bash
@@ -379,4 +421,4 @@ pnpm install
 pnpm dev
 ```
 
-The main demo opens at the Vite dev server URL. The comparison demo is available at `/compare.html`.
+The main demo opens at the Vite dev server URL. The zero-dependency iframe entry is available at `/iframe.html`, and the comparison demo is available at `/compare.html`.
