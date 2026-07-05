@@ -24,6 +24,7 @@ export declare const useViewerPresentation: ({ filename, getFile, getUrl, getSou
     currentExtend: ComputedRef<string>;
     normalizedToolbar: ComputedRef<import('@file-viewer/core').FileViewerToolbarOptions>;
     viewerTheme: ComputedRef<import('@file-viewer/core').FileViewerThemeMode>;
+    viewerDensity: ComputedRef<import('@file-viewer/core').FileViewerUiDensity>;
     formatErrorMessage: (prefix: string, error: unknown) => string;
 };
 export declare const useViewerErrorState: ({ currentExtend, error, loadingTheme, getOptions }: UseViewerErrorStateOptions) => ComputedRef<import('@file-viewer/core').FileViewerStateDescriptor>;
