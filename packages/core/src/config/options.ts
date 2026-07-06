@@ -83,7 +83,6 @@ const stripExecutionOnlyOptions = (value: Record<string, unknown>) => {
     presets: _presets,
     renderers: _renderers,
     rendererMode: _rendererMode,
-    branding: _branding,
     ...rest
   } = value;
 

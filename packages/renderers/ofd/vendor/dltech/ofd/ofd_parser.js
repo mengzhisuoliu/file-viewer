@@ -71,12 +71,18 @@ const parseXmlElement = function (element, options) {
     return result;
 }
 
+const normalizeXmlContent = function (xmlData) {
+    return String(xmlData || '')
+        .replace(/^\uFEFF/, '')
+        .replace(/^\u00EF\u00BB\u00BF/, '');
+}
+
 const parseXmlToJson = function (xmlData, options = {}) {
     const DOMParserCtor = globalThis.DOMParser;
     if (typeof DOMParserCtor !== 'function') {
         throw new Error('OFD XML parser requires DOMParser in the current runtime');
     }
-    const document = new DOMParserCtor().parseFromString(xmlData, 'application/xml');
+    const document = new DOMParserCtor().parseFromString(normalizeXmlContent(xmlData), 'application/xml');
     const parserError = document.getElementsByTagName('parsererror')[0];
     if (parserError) {
         throw new Error(parserError.textContent || 'OFD XML parse failed');

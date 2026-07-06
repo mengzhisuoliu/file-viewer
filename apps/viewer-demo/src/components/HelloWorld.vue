@@ -46,6 +46,17 @@ const DEFAULT_DEMO_URL_BY_LOCALE: Record<DemoLocale, string> = {
   'zh-CN': '/example/word.docx',
   'en-US': '/example/en/calibre-demo.docx'
 }
+const githubRepositoryUrl = 'https://github.com/flyfish-dev/file-viewer'
+const githubRepositoryApiUrl = 'https://api.github.com/repos/flyfish-dev/file-viewer'
+const githubStarCountFallback = 942
+const githubStarCacheKey = 'file-viewer-demo-github-stars'
+const githubStarCacheRefreshMs = 30 * 60 * 1000
+const githubStarCacheMaxAgeMs = 7 * 24 * 60 * 60 * 1000
+
+type GithubStarCache = {
+  count: number
+  updatedAt: number
+}
 
 const normalizeDemoLocale = (value?: string | null): DemoLocale => {
   return String(value || '').toLowerCase().startsWith('zh') ? 'zh-CN' : 'en-US'
@@ -76,6 +87,7 @@ const resolveInitialDemoDensity = (): FileViewerUiDensity => {
 const demoLocale = ref<DemoLocale>(resolveInitialDemoLocale())
 const demoDensity = ref<FileViewerUiDensity>(resolveInitialDemoDensity())
 const url = ref(demoFileHandoff.isEmbedRequest && !demoFileHandoff.initialUrl ? '' : DEFAULT_DEMO_URL_BY_LOCALE[demoLocale.value])
+const githubStarCount = ref(readGithubStarCache()?.count ?? githubStarCountFallback)
 const preview = ref('')
 const scenarioPickerOpen = ref(false)
 const samplePickerOpen = ref(false)
@@ -265,6 +277,91 @@ const demoCopyMap: Record<DemoLocale, Record<string, string>> = {
 }
 
 const demoCopy = computed(() => demoCopyMap[demoLocale.value])
+const githubStarsLabel = computed(() => formatStarCount(githubStarCount.value))
+const githubStarsAriaLabel = computed(() =>
+  demoLocale.value === 'zh-CN'
+    ? `GitHub 开源总仓库，${githubStarsLabel.value} stars`
+    : `GitHub repository, ${githubStarsLabel.value} stars`
+)
+
+function formatStarCount(count: number) {
+  if (count >= 1000000) {
+    return `${Number((count / 1000000).toFixed(1))}m`
+  }
+  if (count >= 1000) {
+    return `${Number((count / 1000).toFixed(1))}k`
+  }
+  return `${count}`
+}
+
+function readGithubStarCache(maxAgeMs = githubStarCacheMaxAgeMs): GithubStarCache | undefined {
+  try {
+    const rawCache = window.localStorage.getItem(githubStarCacheKey)
+    if (!rawCache) {
+      return undefined
+    }
+    const cache = JSON.parse(rawCache) as Partial<GithubStarCache>
+    if (
+      typeof cache.count !== 'number' ||
+      !Number.isFinite(cache.count) ||
+      typeof cache.updatedAt !== 'number' ||
+      !Number.isFinite(cache.updatedAt) ||
+      Date.now() - cache.updatedAt > maxAgeMs
+    ) {
+      return undefined
+    }
+    return {
+      count: cache.count,
+      updatedAt: cache.updatedAt
+    }
+  } catch {
+    return undefined
+  }
+}
+
+function writeGithubStarCache(count: number) {
+  try {
+    window.localStorage.setItem(githubStarCacheKey, JSON.stringify({
+      count,
+      updatedAt: Date.now()
+    }))
+  } catch {
+    // Local storage can be unavailable in restricted browser contexts.
+  }
+}
+
+async function refreshGithubStarCount() {
+  const freshCache = readGithubStarCache(githubStarCacheRefreshMs)
+  if (freshCache) {
+    githubStarCount.value = freshCache.count
+    return
+  }
+
+  const controller = new AbortController()
+  const timeoutId = window.setTimeout(() => controller.abort(), 5000)
+  try {
+    const response = await fetch(githubRepositoryApiUrl, {
+      signal: controller.signal,
+      cache: 'no-store',
+      headers: {
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    })
+    if (!response.ok) {
+      return
+    }
+    const payload = await response.json() as { stargazers_count?: unknown }
+    if (typeof payload.stargazers_count === 'number' && Number.isFinite(payload.stargazers_count)) {
+      githubStarCount.value = payload.stargazers_count
+      writeGithubStarCache(payload.stargazers_count)
+    }
+  } catch {
+    // Keep the cached or baked-in count when GitHub is unreachable or rate limited.
+  } finally {
+    window.clearTimeout(timeoutId)
+  }
+}
 
 const sampleGroupsZh: SampleGroup[] = [
   {
@@ -1268,6 +1365,7 @@ function syncDemoDocumentChrome(nextLocale = demoLocale.value) {
 
 onMounted(() => {
   syncDemoDocumentChrome()
+  void refreshGithubStarCount()
   document.addEventListener('pointerdown', handleDocumentPointerDown)
   document.addEventListener('keydown', handleDocumentKeydown)
   window.addEventListener('resize', handleWindowResize)
@@ -1463,6 +1561,21 @@ function updateSampleMenuGeometry() {
         <aside ref='controlPanelRef' class='control-panel'>
           <div class='brand-card'>
             <span class='brand-orbit' />
+            <a
+              class='brand-github-link'
+              :href='githubRepositoryUrl'
+              target='_blank'
+              rel='noreferrer'
+              :aria-label='githubStarsAriaLabel'
+            >
+              <svg class='brand-github-mark' viewBox='0 0 24 24' aria-hidden='true'>
+                <path d='M12 1.7C6.3 1.7 1.7 6.3 1.7 12c0 4.6 3 8.5 7.2 9.8.5.1.7-.2.7-.5v-1.8c-2.9.6-3.5-1.2-3.5-1.2-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.4 1.1 2.9.9.1-.7.4-1.1.7-1.3-2.3-.3-4.7-1.2-4.7-5.1 0-1.1.4-2.1 1.1-2.8-.1-.3-.5-1.4.1-2.8 0 0 .9-.3 2.9 1.1.8-.2 1.7-.3 2.6-.3.9 0 1.8.1 2.6.3 2-1.4 2.9-1.1 2.9-1.1.6 1.4.2 2.5.1 2.8.7.8 1.1 1.7 1.1 2.8 0 4-2.4 4.8-4.7 5.1.4.3.8 1 .8 2v3c0 .3.2.6.8.5 4.2-1.3 7.2-5.2 7.2-9.8C22.3 6.3 17.7 1.7 12 1.7Z' />
+              </svg>
+              <span class='brand-github-stars' aria-hidden='true'>
+                <span>★</span>
+                {{ githubStarsLabel }}
+              </span>
+            </a>
             <div class='brand-main'>
               <span class='brand-mark'>
                 <img :src='brandLogo' alt='File Viewer' />
@@ -2113,6 +2226,32 @@ function updateSampleMenuGeometry() {
   --demo-action-meter-padding: 0 5px;
 }
 
+.demo-shell[data-demo-density='compact'] .brand-github-link {
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+}
+
+.demo-shell[data-demo-density='compact'] .brand-github-link::before {
+  border-radius: 9px;
+}
+
+.demo-shell[data-demo-density='compact'] .brand-github-mark {
+  width: 17px;
+  height: 17px;
+}
+
+.demo-shell[data-demo-density='compact'] .brand-github-stars {
+  top: -7px;
+  right: -10px;
+  min-width: 32px;
+  height: 16px;
+  padding: 0 4px;
+  font-size: 9px;
+}
+
 .workspace {
   height: 100%;
   min-height: 0;
@@ -2182,6 +2321,96 @@ function updateSampleMenuGeometry() {
   inset: 28px;
   border-radius: inherit;
   border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.brand-github-link {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)),
+    rgba(9, 33, 34, 0.18);
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow:
+    0 12px 28px rgba(6, 22, 24, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.brand-github-link::before {
+  position: absolute;
+  inset: 1px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 58%);
+  content: '';
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.brand-github-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.32);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.12)),
+    rgba(9, 33, 34, 0.24);
+  box-shadow:
+    0 16px 32px rgba(6, 22, 24, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.brand-github-mark {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.brand-github-stars {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  z-index: 2;
+  display: inline-flex;
+  min-width: 36px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 5px;
+  border: 1px solid rgba(174, 239, 214, 0.72);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(241, 255, 249, 0.98), rgba(194, 242, 224, 0.94));
+  color: #0c5b46;
+  font-size: 10px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  box-shadow:
+    0 8px 18px rgba(6, 72, 54, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  pointer-events: none;
+}
+
+.brand-github-stars span {
+  transform: translateY(-0.2px);
 }
 
 .brand-main {
@@ -3369,6 +3598,25 @@ function updateSampleMenuGeometry() {
     background:
       linear-gradient(135deg, rgba(22, 52, 55, 0.96), rgba(17, 91, 65, 0.9));
     box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+  }
+
+  .brand-github-link {
+    border-color: rgba(188, 214, 220, 0.18);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)),
+      rgba(6, 18, 22, 0.36);
+    box-shadow:
+      0 12px 28px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .brand-github-stars {
+    border-color: rgba(158, 231, 218, 0.42);
+    background: linear-gradient(135deg, rgba(205, 248, 231, 0.96), rgba(95, 208, 165, 0.9));
+    color: #073d32;
+    box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.34);
   }
 
   .current-card,
