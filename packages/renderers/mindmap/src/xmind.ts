@@ -139,8 +139,8 @@ const xmindStyle = `
 .xmind-note{margin:8px 0 0;color:#64748b;font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.xmind-link{display:block;margin-top:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#0f766e;font-size:12px;font-weight:800;text-decoration:none;cursor:pointer}.xmind-image{display:block;max-width:100%;max-height:96px;margin-top:8px;border-radius:8px;object-fit:contain;background:#f8fafc}
 .xmind-stage.is-panning .xmind-link{pointer-events:none}
 .xmind-state{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;padding:24px;color:#64748b;font-weight:800;text-align:center;background:rgba(238,243,247,.88)}.xmind-state[hidden]{display:none!important}.xmind-state.error{color:#b42318}
-.file-viewer[data-viewer-theme='dark'] .xmind-viewer{background:#111827;color:#e5eef8}.file-viewer[data-viewer-theme='dark'] .xmind-toolbar,.file-viewer[data-viewer-theme='dark'] .xmind-tabs,.file-viewer[data-viewer-theme='dark'] .xmind-sidebar{background:#fff;color:#172033}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .xmind-viewer{background:#111827;color:#e5eef8}.file-viewer[data-viewer-theme='system'] .xmind-toolbar,.file-viewer[data-viewer-theme='system'] .xmind-tabs,.file-viewer[data-viewer-theme='system'] .xmind-sidebar{background:#fff;color:#172033}}
+[data-viewer-theme='dark'] .xmind-viewer{background:#111827;color:#e5eef8}[data-viewer-theme='dark'] .xmind-toolbar,[data-viewer-theme='dark'] .xmind-tabs,[data-viewer-theme='dark'] .xmind-sidebar{background:#fff;color:#172033}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .xmind-viewer{background:#111827;color:#e5eef8}[data-viewer-theme='system'] .xmind-toolbar,[data-viewer-theme='system'] .xmind-tabs,[data-viewer-theme='system'] .xmind-sidebar{background:#fff;color:#172033}}
 @media (max-width:860px){.xmind-body{grid-template-columns:1fr}.xmind-sidebar{display:none}.xmind-toolbar{align-items:flex-start;flex-direction:column}.xmind-actions{width:100%;justify-content:flex-end}}
 `;
 

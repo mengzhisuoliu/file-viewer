@@ -28,6 +28,7 @@ import type {
   FileViewerOptions,
   FileViewerPublicApi as FileViewerExpose,
   FileViewerSearchState,
+  FileViewerThemeMode,
   FileViewerUiDensity,
   FileViewerZoomState
 } from '@file-viewer/core'
@@ -66,6 +67,10 @@ const normalizeDemoDensity = (value?: string | null): FileViewerUiDensity => {
   return value === 'compact' ? 'compact' : 'comfortable'
 }
 
+const normalizeDemoTheme = (value?: string | null): FileViewerThemeMode => {
+  return value === 'light' || value === 'dark' ? value : 'system'
+}
+
 const resolveInitialDemoLocale = (): DemoLocale => {
   const queryParams = new URLSearchParams(window.location.search)
   const explicitLocale = queryParams.get('locale') || queryParams.get('lang')
@@ -84,8 +89,14 @@ const resolveInitialDemoDensity = (): FileViewerUiDensity => {
   return normalizeDemoDensity(queryParams.get('density') || queryParams.get('uiDensity'))
 }
 
+const resolveInitialDemoTheme = (): FileViewerThemeMode => {
+  const queryParams = new URLSearchParams(window.location.search)
+  return normalizeDemoTheme(queryParams.get('theme') || queryParams.get('viewerTheme'))
+}
+
 const demoLocale = ref<DemoLocale>(resolveInitialDemoLocale())
 const demoDensity = ref<FileViewerUiDensity>(resolveInitialDemoDensity())
+const demoTheme = ref<FileViewerThemeMode>(resolveInitialDemoTheme())
 const url = ref(demoFileHandoff.isEmbedRequest && !demoFileHandoff.initialUrl ? '' : DEFAULT_DEMO_URL_BY_LOCALE[demoLocale.value])
 const githubStarCount = ref(readGithubStarCache()?.count ?? githubStarCountFallback)
 const preview = ref('')
@@ -1135,6 +1146,9 @@ const viewerOptions = computed((): FileViewerOptions => {
   if (!options.locale && !options.i18n?.locale) {
     options.locale = demoLocale.value
   }
+  if (!options.theme) {
+    options.theme = demoTheme.value
+  }
   if (runtime.ui || viewerDensity.value === 'compact') {
     options.ui = {
       ...runtime.ui,
@@ -1549,6 +1563,7 @@ function updateSampleMenuGeometry() {
   <div
     class='demo-shell'
     :data-demo-density='viewerDensity'
+    :data-demo-theme='demoTheme'
     :class="{
       hidden,
       'mobile-controls-open': mobileControlsOpen,
@@ -3578,6 +3593,117 @@ function updateSampleMenuGeometry() {
 .mobile-action-dock,
 .mobile-sheet-close {
   display: none;
+}
+
+.demo-shell[data-demo-theme='dark'] {
+  color-scheme: dark;
+  background:
+    linear-gradient(135deg, #0f171d 0%, #14231f 52%, #111923 100%);
+  color: #e7f1f5;
+}
+
+.demo-shell[data-demo-theme='dark'] .control-panel,
+.demo-shell[data-demo-theme='dark'] .viewer-panel {
+  border-color: rgba(177, 202, 195, 0.14);
+  background: rgba(16, 25, 30, 0.82);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.36);
+}
+
+.demo-shell[data-demo-theme='dark'] .brand-card {
+  background:
+    linear-gradient(135deg, rgba(22, 52, 55, 0.96), rgba(17, 91, 65, 0.9));
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+}
+
+.demo-shell[data-demo-theme='dark'] .current-card,
+.demo-shell[data-demo-theme='dark'] .scenario-trigger,
+.demo-shell[data-demo-theme='dark'] .sample-trigger,
+.demo-shell[data-demo-theme='dark'] .upload-card,
+.demo-shell[data-demo-theme='dark'] .snippet-card,
+.demo-shell[data-demo-theme='dark'] .scenario-card,
+.demo-shell[data-demo-theme='dark'] .sample-group,
+.demo-shell[data-demo-theme='dark'] .sample-card {
+  background: rgba(22, 32, 39, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(167, 185, 198, 0.12);
+}
+
+.demo-shell[data-demo-theme='dark'] .current-copy strong,
+.demo-shell[data-demo-theme='dark'] .scenario-trigger-copy strong,
+.demo-shell[data-demo-theme='dark'] .scenario-card strong,
+.demo-shell[data-demo-theme='dark'] .sample-trigger-copy strong,
+.demo-shell[data-demo-theme='dark'] .sample-card-copy strong,
+.demo-shell[data-demo-theme='dark'] .sample-group-header .sample-group-title,
+.demo-shell[data-demo-theme='dark'] .upload-card strong,
+.demo-shell[data-demo-theme='dark'] .viewer-copy strong {
+  color: #eff7fb;
+}
+
+.demo-shell[data-demo-theme='dark'] .current-copy span,
+.demo-shell[data-demo-theme='dark'] .field-label,
+.demo-shell[data-demo-theme='dark'] .snippet-heading > span,
+.demo-shell[data-demo-theme='dark'] .scenario-trigger-copy em,
+.demo-shell[data-demo-theme='dark'] .scenario-card em,
+.demo-shell[data-demo-theme='dark'] .sample-trigger-copy span,
+.demo-shell[data-demo-theme='dark'] .sample-trigger-copy em,
+.demo-shell[data-demo-theme='dark'] .sample-card-copy span,
+.demo-shell[data-demo-theme='dark'] .sample-group-header em,
+.demo-shell[data-demo-theme='dark'] .viewer-path,
+.demo-shell[data-demo-theme='dark'] .viewer-type {
+  color: #9eb0bf;
+}
+
+.demo-shell[data-demo-theme='dark'] .mode-switch,
+.demo-shell[data-demo-theme='dark'] .viewer-action-group,
+.demo-shell[data-demo-theme='dark'] .viewer-fit-control {
+  border-color: rgba(167, 185, 198, 0.14);
+  background: rgba(167, 185, 198, 0.12);
+}
+
+.demo-shell[data-demo-theme='dark'] .compact-field,
+.demo-shell[data-demo-theme='dark'] .viewer-fit-control select,
+.demo-shell[data-demo-theme='dark'] .mobile-fit-control select,
+.demo-shell[data-demo-theme='dark'] .viewer-search-popover input {
+  border-color: rgba(167, 185, 198, 0.14);
+  background: rgba(9, 15, 20, 0.72);
+  color: #eff7fb;
+}
+
+.demo-shell[data-demo-theme='dark'] .mode-button,
+.demo-shell[data-demo-theme='dark'] .viewer-fit-control,
+.demo-shell[data-demo-theme='dark'] .viewer-tool-button,
+.demo-shell[data-demo-theme='dark'] .viewer-search-popover button,
+.demo-shell[data-demo-theme='dark'] .viewer-search-summary {
+  color: #d7e7ee;
+}
+
+.demo-shell[data-demo-theme='dark'] .mode-button.active,
+.demo-shell[data-demo-theme='dark'] .viewer-tool-button:hover:not(:disabled),
+.demo-shell[data-demo-theme='dark'] .viewer-tool-button.active,
+.demo-shell[data-demo-theme='dark'] .viewer-search-popover button:hover {
+  border-color: rgba(45, 212, 154, 0.26);
+  background: rgba(45, 212, 154, 0.16);
+  color: #61e5b4;
+}
+
+.demo-shell[data-demo-theme='dark'] .scenario-popover,
+.demo-shell[data-demo-theme='dark'] .sample-menu,
+.demo-shell[data-demo-theme='dark'] .viewer-search-popover,
+.demo-shell[data-demo-theme='dark'] .mobile-quick-row,
+.demo-shell[data-demo-theme='dark'] .mobile-zoom-strip,
+.demo-shell[data-demo-theme='dark'] .mobile-action-panel {
+  border-color: rgba(167, 185, 198, 0.16);
+  background: rgba(14, 22, 28, 0.96);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.demo-shell[data-demo-theme='dark'] .viewer-toolbar {
+  border-color: rgba(188, 214, 220, 0.14);
+}
+
+.demo-shell[data-demo-theme='dark'] .viewport :deep(.file-viewer) {
+  box-shadow: inset 0 0 0 1px rgba(188, 214, 220, 0.12);
 }
 
 @media (prefers-color-scheme: dark) {

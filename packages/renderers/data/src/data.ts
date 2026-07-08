@@ -38,6 +38,15 @@ const dataStyle = `
 .data-table{width:100%;border-collapse:collapse;font-size:13px}
 .data-table th,.data-table td{max-width:260px;padding:10px 12px;border-bottom:1px solid rgba(15,23,42,.08);overflow:hidden;text-align:left;text-overflow:ellipsis;white-space:nowrap}
 .data-table th{position:sticky;top:0;background:#f8fafc;color:#64748b;z-index:1}
+[data-viewer-theme='dark'] .data-viewer{background:#101820;color:#e5eef8}
+[data-viewer-theme='dark'] .data-card{border-color:rgba(148,163,184,.18);background:#111827;box-shadow:0 22px 56px rgba(0,0,0,.32)}
+[data-viewer-theme='dark'] .data-header,[data-viewer-theme='dark'] .font-preview,[data-viewer-theme='dark'] .asset-image,[data-viewer-theme='dark'] .data-table-wrap{border-color:rgba(148,163,184,.18)}
+[data-viewer-theme='dark'] .data-header h2,[data-viewer-theme='dark'] .data-summary strong,[data-viewer-theme='dark'] .data-table{color:#f8fafc}
+[data-viewer-theme='dark'] .data-summary,[data-viewer-theme='dark'] .data-table th,[data-viewer-theme='dark'] .data-table td{border-color:rgba(148,163,184,.18)}
+[data-viewer-theme='dark'] .data-summary div,[data-viewer-theme='dark'] .data-table th{background:#151f2b}
+[data-viewer-theme='dark'] .data-summary span,[data-viewer-theme='dark'] .data-table th{color:#94a3b8}
+[data-viewer-theme='dark'] .asset-image{background:#151f2b}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .data-viewer{background:#101820;color:#e5eef8}[data-viewer-theme='system'] .data-card{border-color:rgba(148,163,184,.18);background:#111827;box-shadow:0 22px 56px rgba(0,0,0,.32)}[data-viewer-theme='system'] .data-header,[data-viewer-theme='system'] .font-preview,[data-viewer-theme='system'] .asset-image,[data-viewer-theme='system'] .data-table-wrap{border-color:rgba(148,163,184,.18)}[data-viewer-theme='system'] .data-header h2,[data-viewer-theme='system'] .data-summary strong,[data-viewer-theme='system'] .data-table{color:#f8fafc}[data-viewer-theme='system'] .data-summary,[data-viewer-theme='system'] .data-table th,[data-viewer-theme='system'] .data-table td{border-color:rgba(148,163,184,.18)}[data-viewer-theme='system'] .data-summary div,[data-viewer-theme='system'] .data-table th{background:#151f2b}[data-viewer-theme='system'] .data-summary span,[data-viewer-theme='system'] .data-table th{color:#94a3b8}[data-viewer-theme='system'] .asset-image{background:#151f2b}}
 `;
 
 const fontMimeMap: Record<string, string> = {

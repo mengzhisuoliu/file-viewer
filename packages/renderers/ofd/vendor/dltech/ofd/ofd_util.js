@@ -192,8 +192,7 @@ export const calTextPoint = function (textCodes) {
         let textStr = textCode['#text'];
         if (textStr) {
             textStr += '';
-            textStr = decodeHtml(textStr);
-            textStr = textStr.replace(/&#x20;/g, ' ');
+            textStr = decodeOfdText(textStr);
             for (let i = 0; i < textStr.length; i++) {
                 if (i > 0 && deltaXList.length > 0) {
                     x += deltaXList[(i - 1)];
@@ -232,7 +231,7 @@ export const getExtensionByPath = function (path) {
 }
 
 
-let REGX_HTML_DECODE = /&\w+;|&#(\d+);/g;
+let REGX_HTML_DECODE = /&\w+;|&#(x?[0-9a-fA-F]+);/g;
 
 let HTML_DECODE = {
     "&lt;": "<",
@@ -253,8 +252,9 @@ export const decodeHtml = function (s) {
                 var c = HTML_DECODE[$0];
                 if (c == undefined) {
                     // Maybe is Entity Number
-                    if (!isNaN($1)) {
-                        c = String.fromCharCode(($1 == 160) ? 32 : $1);
+                    if ($1) {
+                        const codePoint = /^x/i.test($1) ? parseInt($1.slice(1), 16) : parseInt($1, 10);
+                        c = Number.isFinite(codePoint) ? String.fromCodePoint((codePoint == 160) ? 32 : codePoint) : $0;
                     } else {
                         c = $0;
                     }
@@ -262,6 +262,17 @@ export const decodeHtml = function (s) {
                 return c;
             });
 };
+
+export const decodeOfdText = function (s) {
+    s = decodeHtml(s);
+    if (typeof s != "string") {
+        return s;
+    }
+    return s.replace(/\\0x([0-9a-fA-F]{4,6})/g, function (_, hex) {
+        const codePoint = parseInt(hex, 16);
+        return Number.isFinite(codePoint) ? String.fromCodePoint((codePoint == 160) ? 32 : codePoint) : _;
+    });
+}
 
 let FONT_FAMILY = {
     '楷体': '楷体, KaiTi, Kai, simkai',

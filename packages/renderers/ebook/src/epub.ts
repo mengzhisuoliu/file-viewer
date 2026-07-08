@@ -84,9 +84,9 @@ const epubStyle = `
 .epub-state{position:absolute;inset:18px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,.92);color:#64748b;font-size:14px}
 .epub-state[hidden]{display:none!important}
 .epub-state.error{color:#b42318}
-.file-viewer[data-viewer-theme='dark'] .epub-viewer{background:#172033;color:#e5eef8}
-.file-viewer[data-viewer-theme='dark'] .epub-toolbar,.file-viewer[data-viewer-theme='dark'] .epub-toc,.file-viewer[data-viewer-theme='dark'] .epub-stage{background:#fff;color:#172033}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .epub-viewer{background:#172033;color:#e5eef8}.file-viewer[data-viewer-theme='system'] .epub-toolbar,.file-viewer[data-viewer-theme='system'] .epub-toc,.file-viewer[data-viewer-theme='system'] .epub-stage{background:#fff;color:#172033}}
+[data-viewer-theme='dark'] .epub-viewer{background:#172033;color:#e5eef8}
+[data-viewer-theme='dark'] .epub-toolbar,[data-viewer-theme='dark'] .epub-toc,[data-viewer-theme='dark'] .epub-stage{background:#fff;color:#172033}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .epub-viewer{background:#172033;color:#e5eef8}[data-viewer-theme='system'] .epub-toolbar,[data-viewer-theme='system'] .epub-toc,[data-viewer-theme='system'] .epub-stage{background:#fff;color:#172033}}
 @media (max-width:720px){.epub-toolbar{grid-template-columns:40px minmax(0,1fr)}.epub-actions{grid-column:1/-1;justify-content:space-between}.epub-body{position:relative;grid-template-columns:minmax(0,1fr)}.epub-toc{position:absolute;z-index:5;top:0;bottom:0;left:0;width:min(82vw,280px);box-shadow:18px 0 40px rgba(15,23,42,.16)}.epub-stage-wrap{padding:12px}}
 `;
 

@@ -163,6 +163,8 @@ import FileViewer from '@file-viewer/vue2.7-full'
 Vue.use(FileViewer)
 ```
 
+For Vue 2.6 + Vue CLI 3 / webpack 4 applications where importing `@file-viewer/preset-office` breaks the build, see the standalone [`examples/vue2.6-cli3-office`](./examples/vue2.6-cli3-office) project. It includes selective `transpileDependencies`, webpack 4 subpath aliases, PDF.js legacy `.mjs` compatibility, PPTX `import.meta.url` compatibility, a Vue CLI 3.1 HMR preview workaround, and offline worker asset copying.
+
 ### React
 
 ```bash

@@ -26,10 +26,12 @@ const ofdStyle = `
 .ofd-state[hidden]{display:none!important}
 .ofd-state.error{color:#b42318}
 .ofd-page-frame{position:relative;display:block;margin:0 auto 20px;overflow:visible}
-.ofd-page{display:block;margin-left:auto!important;margin-right:auto!important;box-shadow:0 10px 26px rgba(15,23,42,.12);transition:transform .16s ease}
-.file-viewer[data-viewer-theme='dark'] .ofd-viewer{background:#172033;color:#e5eef8}
-.file-viewer[data-viewer-theme='dark'] .ofd-state{background:rgba(15,23,42,.9);color:#cbd5e1}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .ofd-viewer{background:#172033;color:#e5eef8}.file-viewer[data-viewer-theme='system'] .ofd-state{background:rgba(15,23,42,.9);color:#cbd5e1}}
+.ofd-page{display:block;margin-left:auto!important;margin-right:auto!important;background:#fff!important;color:#111827!important;color-scheme:only light;forced-color-adjust:none;isolation:isolate;box-shadow:0 10px 26px rgba(15,23,42,.12);transition:transform .16s ease}
+.ofd-page,.ofd-page *{color-scheme:only light;forced-color-adjust:none}
+.ofd-page svg,.ofd-page canvas,.ofd-page img{filter:none!important;mix-blend-mode:normal!important}
+[data-viewer-theme='dark'] .ofd-viewer{background:#172033;color:#e5eef8}
+[data-viewer-theme='dark'] .ofd-state{background:rgba(15,23,42,.9);color:#cbd5e1}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .ofd-viewer{background:#172033;color:#e5eef8}[data-viewer-theme='system'] .ofd-state{background:rgba(15,23,42,.9);color:#cbd5e1}}
 @media print{.ofd-viewer{background:#fff!important}.ofd-stage{padding:0!important;overflow:visible!important}.ofd-page-frame{break-after:page;page-break-after:always;margin:0 auto!important}.ofd-page-frame:last-child{break-after:auto;page-break-after:auto}.ofd-page{box-shadow:none!important;transition:none!important}}
 `;
 
@@ -113,6 +115,10 @@ const appendPages = (
     const frame = documentRef.createElement('div');
     frame.className = 'ofd-page-frame';
     page.classList.add('ofd-page');
+    page.dataset.viewerThemeBoundary = 'light';
+    page.style.backgroundColor = '#fff';
+    page.style.color = '#111827';
+    page.style.colorScheme = 'only light';
     frame.appendChild(page);
     fragment.appendChild(frame);
   });

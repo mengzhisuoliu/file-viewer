@@ -54,6 +54,14 @@ const audioStyle = `
 .fv-midi-table{width:100%;border-collapse:collapse;color:#132235;font-size:14px}
 .fv-midi-table th,.fv-midi-table td{padding:12px 16px;border-top:1px solid rgba(15,23,42,.08);text-align:left}
 .fv-midi-table th{color:#64748b;background:#f8fafc;font-weight:700}
+[data-viewer-theme='dark'] .fv-audio-viewer{background:linear-gradient(135deg,rgba(45,212,191,.12),transparent 34%),linear-gradient(180deg,#111827 0%,#101820 100%);color:#e5eef8}
+[data-viewer-theme='dark'] .fv-audio-card,[data-viewer-theme='dark'] .fv-midi-card{border-color:rgba(148,163,184,.18);background:#111827;color:#e5eef8;box-shadow:0 22px 56px rgba(0,0,0,.32)}
+[data-viewer-theme='dark'] .fv-audio-copy strong,[data-viewer-theme='dark'] .fv-midi-card header strong,[data-viewer-theme='dark'] .fv-midi-stats strong,[data-viewer-theme='dark'] .fv-midi-table{color:#f8fafc}
+[data-viewer-theme='dark'] .fv-audio-copy p,[data-viewer-theme='dark'] .fv-audio-meter,[data-viewer-theme='dark'] .fv-midi-state,[data-viewer-theme='dark'] .fv-midi-stats span,[data-viewer-theme='dark'] .fv-midi-table th{color:#94a3b8}
+[data-viewer-theme='dark'] .fv-midi-viewer{background:#101820}
+[data-viewer-theme='dark'] .fv-midi-card header,[data-viewer-theme='dark'] .fv-midi-table th,[data-viewer-theme='dark'] .fv-midi-stats div{border-color:rgba(148,163,184,.18);background:#151f2b}
+[data-viewer-theme='dark'] .fv-midi-stats,[data-viewer-theme='dark'] .fv-midi-table th,[data-viewer-theme='dark'] .fv-midi-table td{border-color:rgba(148,163,184,.18)}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .fv-audio-viewer{background:linear-gradient(135deg,rgba(45,212,191,.12),transparent 34%),linear-gradient(180deg,#111827 0%,#101820 100%);color:#e5eef8}[data-viewer-theme='system'] .fv-audio-card,[data-viewer-theme='system'] .fv-midi-card{border-color:rgba(148,163,184,.18);background:#111827;color:#e5eef8;box-shadow:0 22px 56px rgba(0,0,0,.32)}[data-viewer-theme='system'] .fv-audio-copy strong,[data-viewer-theme='system'] .fv-midi-card header strong,[data-viewer-theme='system'] .fv-midi-stats strong,[data-viewer-theme='system'] .fv-midi-table{color:#f8fafc}[data-viewer-theme='system'] .fv-audio-copy p,[data-viewer-theme='system'] .fv-audio-meter,[data-viewer-theme='system'] .fv-midi-state,[data-viewer-theme='system'] .fv-midi-stats span,[data-viewer-theme='system'] .fv-midi-table th{color:#94a3b8}[data-viewer-theme='system'] .fv-midi-viewer{background:#101820}[data-viewer-theme='system'] .fv-midi-card header,[data-viewer-theme='system'] .fv-midi-table th,[data-viewer-theme='system'] .fv-midi-stats div{border-color:rgba(148,163,184,.18);background:#151f2b}[data-viewer-theme='system'] .fv-midi-stats,[data-viewer-theme='system'] .fv-midi-table th,[data-viewer-theme='system'] .fv-midi-table td{border-color:rgba(148,163,184,.18)}}
 @media (max-width:700px){.fv-midi-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 `
 

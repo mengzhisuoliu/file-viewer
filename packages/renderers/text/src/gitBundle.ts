@@ -90,9 +90,9 @@ const bundleStyle = `
 .git-bundle-file-header{padding:11px 12px;border-bottom:1px solid var(--bundle-border);font-size:12px;font-weight:800;color:var(--bundle-muted)}
 .git-bundle-code{margin:0;overflow:auto;padding:16px 18px;background:var(--bundle-code);color:var(--bundle-code-text);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono',monospace;font-size:var(--bundle-font-size);line-height:1.65;white-space:pre}
 .git-bundle-notice{margin:8px;padding:10px 12px;border:1px solid rgba(245,158,11,.35);border-radius:8px;background:rgba(245,158,11,.12);color:#92400e;font-size:12px;line-height:1.55}
-.file-viewer[data-viewer-theme='dark'] .git-bundle-viewer{--bundle-bg:#0d1117;--bundle-surface:#161b22;--bundle-border:rgba(139,148,158,.24);--bundle-text:#e6edf3;--bundle-muted:#8b949e;--bundle-code:#010409;--bundle-code-text:#e6edf3}
-.file-viewer[data-viewer-theme='dark'] .git-bundle-toolbar{background:rgba(13,17,23,.92)}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .git-bundle-viewer{--bundle-bg:#0d1117;--bundle-surface:#161b22;--bundle-border:rgba(139,148,158,.24);--bundle-text:#e6edf3;--bundle-muted:#8b949e;--bundle-code:#010409;--bundle-code-text:#e6edf3}.file-viewer[data-viewer-theme='system'] .git-bundle-toolbar{background:rgba(13,17,23,.92)}}
+[data-viewer-theme='dark'] .git-bundle-viewer{--bundle-bg:#0d1117;--bundle-surface:#161b22;--bundle-border:rgba(139,148,158,.24);--bundle-text:#e6edf3;--bundle-muted:#8b949e;--bundle-code:#010409;--bundle-code-text:#e6edf3}
+[data-viewer-theme='dark'] .git-bundle-toolbar{background:rgba(13,17,23,.92)}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .git-bundle-viewer{--bundle-bg:#0d1117;--bundle-surface:#161b22;--bundle-border:rgba(139,148,158,.24);--bundle-text:#e6edf3;--bundle-muted:#8b949e;--bundle-code:#010409;--bundle-code-text:#e6edf3}[data-viewer-theme='system'] .git-bundle-toolbar{background:rgba(13,17,23,.92)}}
 @media (max-width:980px){.git-bundle-layout{grid-template-columns:1fr}.git-bundle-panel{min-height:240px}}
 `
 

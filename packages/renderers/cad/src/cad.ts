@@ -127,9 +127,9 @@ const cadStyle = `
 .cad-inspector dt{color:#7b8ca5;font-weight:700}
 .cad-inspector dd{color:#20304a;font-weight:900}
 .cad-warning{margin:12px 0 0;border-radius:8px;padding:10px;background:rgba(245,158,11,.13);color:#92400e;font-size:12px;line-height:1.55}
-.file-viewer[data-viewer-theme='dark'] .cad-shell{background:#111827;color:#e5edf6}
-.file-viewer[data-viewer-theme='dark'] .cad-toolbar,.file-viewer[data-viewer-theme='dark'] .cad-layers,.file-viewer[data-viewer-theme='dark'] .cad-inspector{background:#fff;color:#142335}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .cad-shell{background:#111827;color:#e5edf6}.file-viewer[data-viewer-theme='system'] .cad-toolbar,.file-viewer[data-viewer-theme='system'] .cad-layers,.file-viewer[data-viewer-theme='system'] .cad-inspector{background:#fff;color:#142335}}
+[data-viewer-theme='dark'] .cad-shell{background:#111827;color:#e5edf6}
+[data-viewer-theme='dark'] .cad-toolbar,[data-viewer-theme='dark'] .cad-layers,[data-viewer-theme='dark'] .cad-inspector{background:#fff;color:#142335}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .cad-shell{background:#111827;color:#e5edf6}[data-viewer-theme='system'] .cad-toolbar,[data-viewer-theme='system'] .cad-layers,[data-viewer-theme='system'] .cad-inspector{background:#fff;color:#142335}}
 @media (max-width:860px){.cad-body,.cad-body.without-layers{grid-template-columns:minmax(0,1fr)}.cad-layers,.cad-inspector{display:none}}
 `;
 

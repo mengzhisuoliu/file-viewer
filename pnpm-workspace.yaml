@@ -4,6 +4,7 @@ packages:
   - packages/components/*
   - packages/compat/*
   - apps/*
+  - examples/*
 
 peerDependencyRules:
   allowedVersions:
