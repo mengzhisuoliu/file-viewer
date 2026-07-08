@@ -1,1 +1,1338 @@
-var d2=a1;(function(bj,bk){var d1=a1,bl=bj();while(!![]){try{var bm=-parseInt(d1(0x1b8))/0x1*(parseInt(d1(0x1c9))/0x2)+-parseInt(d1(0x17d))/0x3+parseInt(d1(0x19c))/0x4+parseInt(d1(0x1a9))/0x5*(parseInt(d1(0x1d4))/0x6)+parseInt(d1(0x192))/0x7+-parseInt(d1(0x163))/0x8*(-parseInt(d1(0x19d))/0x9)+-parseInt(d1(0x190))/0xa;if(bm===bk)break;else bl['push'](bl['shift']());}catch(bn){bl['push'](bl['shift']());}}}(a0,0x70ebf));import{Fragment as a2,computed as a3,createCommentVNode as a4,createElementBlock as a5,createElementVNode as a6,createVNode as a7,defineComponent as a8,h as a9,inject as aa,nextTick as ab,normalizeClass as ac,normalizeStyle as ad,onBeforeUnmount as af,openBlock as ag,reactive as ah,ref as ai,renderList as aj,shallowRef as ak,toDisplayString as al,toValue as am,unref as an,watch as ao}from'vue';import{DEFAULT_FILE_VIEWER_SOURCE_FILENAME as ap,DEFAULT_RENDERER_DEFINITIONS as aq,applyFileViewerZoomState as ar,collectFileViewerRendererPlugins as as,coreBrowserRendererHandlers as au,createEmptyFileViewerSearchState as av,createFileRenderHandlerLoader as aw,createFileRenderHandlerRegistry as ax,createFileRenderHandlerRendererSession as ay,createFileViewerCoreRendererRegistry as az,createFileViewerDocumentFeatureControllerActionHandlers as aA,createFileViewerErrorState as aB,createFileViewerFitController as aC,createFileViewerLifecycleFacade as aD,createFileViewerLoadingController as aE,createFileViewerLoadingControllerActionHandlers as aF,createFileViewerPreviewStateTarget as aG,createFileViewerPublicApi as aH,createFileViewerPublicOperationActionHandlers as aI,createFileViewerRenderReadinessTarget as aJ,createFileViewerRenderSurfaceActionHandlers as aK,createFileViewerRenderSurfaceStateTarget as aL,createFileViewerRendererDispatcher as aM,createFileViewerRequestScope as aN,createFileViewerSourceLoadingActionHandlers as aO,createFileViewerToolbarControllerActionHandlers as aP,createFileViewerTranslator as aQ,createFileViewerUnsupportedState as aR,createFileViewerViewStateController as aS,createFileViewerViewStateControllerActionHandlers as aT,createFileViewerZoomController as aU,createFileViewerZoomControllerActionHandlers as aV,createFileViewerZoomState as aW,createRendererRegistry as aX,createViewer as aY,formatFileViewerErrorMessage as aZ,getExtension as b0,hasFileViewerExplicitInitialViewState as b1,installFileViewerRendererPlugins as b2,listFileViewerAutoRendererPresets as b3,normalizeFilename as b4,normalizeSource as b5,readFileViewerBuffer as b6,renderFileViewerHandler as b7,reportFileViewerLifecycleHookError as b8,reportFileViewerOperationError as b9,resolveFileViewerPresentationState as ba,resolveFileViewerRendererPresetInputs as bb,resolveFileViewerSourceFilename as bc,resolveFileViewerWatermarkPresentationState as bd,runFileViewerPreviewComponentUnmount as bf,runFileViewerPreviewSourceChange as bg,translateFileViewerMessage as bh,wrapFileViewerFileRef as bi}from'@file-viewer/core';var I=''+d2(0x16e);function Be(bj,bk,bl,bm,bn,bo,bp){try{var bq=bj[bo](bp),br=bq['value'];}catch(bs){bl(bs);return;}bq['done']?bk(br):Promise['resolve'](br)['then'](bm,bn);}function L(bj){return function(){var bk=this,bl=arguments;return new Promise(function(bm,bn){var bo=bj['apply'](bk,bl);function bp(br){Be(bo,bm,bn,bp,bq,'next',br);}function bq(br){Be(bo,bm,bn,bp,bq,'throw',br);}bp(void 0x0);});};}var Ve=bj=>bj==='',He=(...bj)=>bj['filter']((bk,bl,bm)=>!!bk&&bk['trim']()!==''&&bm[d2(0x1cf)](bk)===bl)['join']('\x20')[d2(0x17a)](),Ue=bj=>bj['replace'](/([a-z0-9])([A-Z])/g,'$1-$2')['toLowerCase'](),We=bj=>bj['replace'](/^([A-Z])|[\s-_]+(\w)/g,(bk,bl,bm)=>bm?bm['toUpperCase']():bl['toLowerCase']()),Ge=bj=>{var d3=d2;let bk=We(bj);return bk['charAt'](0x0)[d3(0x1cb)]()+bk['slice'](0x1);},R={'xmlns':'http://www.w3.org/2000/svg','width':0x18,'height':0x18,'viewBox':d2(0x18f),'fill':'none','stroke':d2(0x193),'stroke-width':0x2,'stroke-linecap':'round','stroke-linejoin':'round'},z=Symbol(d2(0x1c7));function Ke(){return aa(z,{});}function qe(bj,bk){var d4=d2;if(bj==null)return{};var bl={};for(var bm in bj)if({}['hasOwnProperty'][d4(0x1c8)](bj,bm)){if(bk['includes'](bm))continue;bl[bm]=bj[bm];}return bl;}function Je(bj,bk){if(bj==null)return{};var bl,bm,bn=qe(bj,bk);if(Object['getOwnPropertySymbols']){var bo=Object['getOwnPropertySymbols'](bj);for(bm=0x0;bm<bo['length'];bm++)bl=bo[bm],bk['includes'](bl)||{}['propertyIsEnumerable']['call'](bj,bl)&&(bn[bl]=bj[bl]);}return bn;}function B(bj){'@babel/helpers - typeof';return B=typeof Symbol=='function'&&typeof Symbol['iterator']=='symbol'?function(bk){return typeof bk;}:function(bk){var d5=a1;return bk&&typeof Symbol=='function'&&bk[d5(0x171)]===Symbol&&bk!==Symbol['prototype']?'symbol':typeof bk;},B(bj);}function V(bj,bk){var d6=d2;if(B(bj)!='object'||!bj)return bj;var bl=bj[Symbol['toPrimitive']];if(bl!==void 0x0){var bm=bl['call'](bj,bk||d6(0x172));if(B(bm)!='object')return bm;throw TypeError('@@toPrimitive\x20must\x20return\x20a\x20primitive\x20value.');}return(bk===d6(0x178)?String:Number)(bj);}function H(bj){var bk=V(bj,'string');return B(bk)=='symbol'?bk:bk+'';}function a0(){var dY=['apply','statusText','loading-copy','data-viewer-density','viewState','loading-kicker','matches','div','search-change','delete','registerExportAdapter','826785TjRGec','load-start','type','toolbarOrder','ready','fit-change','preset','source','push','updateOptions','getViewState','dataset','refreshDocumentIndex','rendererId','getDocumentTextChunks','11140GgDHjb','operation-availability-change','load','registry','enumerable','filename','options','print','zoom','view-state-change','style','previousSearchResult','resetViewer','getCapabilities','byteLength','lucide-icons','call','20mGKkus','setLoadingMessage','toUpperCase','clearDocumentSearch','lucide-','lifecycle','indexOf','error-card','styleVars','search','badge','6MOBwTw','textContent','value','file','Downloaded\x20file\x20is\x20empty.','loading','resetZoom','button','217624NhltdB','circle','clearError','extend','createElement','error.remoteDownload','load-complete','link','href','__vccOpts','defineProperties','data:text/css;base64,LmZpbGUtdmlld2VyW2RhdGEtdi1iZGU1MGNjOF17LS1maWxlLXZpZXdlci10b29sYmFyLWdhcDo2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLW1pbi1oZWlnaHQ6NDVweDstLWZpbGUtdmlld2VyLXRvb2xiYXItcGFkZGluZzo2cHggMTBweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctb2Zmc2V0OjE2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLW1pbi1oZWlnaHQ6NDJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctcGFkZGluZzo2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWdyb3VwLWdhcDoycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWdyb3VwLXBhZGRpbmc6MnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1idXR0b24tbWluLXdpZHRoOjQycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWJ1dHRvbi1oZWlnaHQ6MzBweDstLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLXBhZGRpbmc6MCAxMHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1idXR0b24tcmFkaXVzOjhweDstLWZpbGUtdmlld2VyLXRvb2xiYXItaWNvbi1zaXplOjMwcHg7LS1maWxlLXZpZXdlci10b29sYmFyLW1ldGVyLW1pbi13aWR0aDo0OHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1tZXRlci1wYWRkaW5nOjAgOHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24tbWluLXdpZHRoOjQ4cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLWJ1dHRvbi1oZWlnaHQ6MzJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctaWNvbi1zaXplOjMycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLW1ldGVyLW1pbi13aWR0aDo1NHB4Oy0tbGlnaHRuaW5nY3NzLWxpZ2h0OmluaXRpYWw7LS1saWdodG5pbmdjc3MtZGFyazogO2NvbG9yLXNjaGVtZTpsaWdodDtiYWNrZ3JvdW5kOiNmZmY7ZmxleC1kaXJlY3Rpb246Y29sdW1uO3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7ZGlzcGxheTpmbGV4O3Bvc2l0aW9uOnJlbGF0aXZlfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci1kZW5zaXR5PWNvbXBhY3RdW2RhdGEtdi1iZGU1MGNjOF17LS1maWxlLXZpZXdlci10b29sYmFyLWdhcDozcHg7LS1maWxlLXZpZXdlci10b29sYmFyLW1pbi1oZWlnaHQ6MzRweDstLWZpbGUtdmlld2VyLXRvb2xiYXItcGFkZGluZzozcHggNXB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1vZmZzZXQ6MTBweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctbWluLWhlaWdodDozMnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1wYWRkaW5nOjNweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtZ2FwOjJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtcGFkZGluZzoycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWJ1dHRvbi1taW4td2lkdGg6MzRweDstLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLWhlaWdodDoyNnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1idXR0b24tcGFkZGluZzowIDZweDstLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLXJhZGl1czo2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWljb24tc2l6ZToyNnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1tZXRlci1taW4td2lkdGg6NDJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItbWV0ZXItcGFkZGluZzowIDVweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctYnV0dG9uLW1pbi13aWR0aDozOHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24taGVpZ2h0OjI4cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLWljb24tc2l6ZToyOHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1tZXRlci1taW4td2lkdGg6NDZweH0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya11bZGF0YS12LWJkZTUwY2M4XXstLWxpZ2h0bmluZ2Nzcy1saWdodDogOy0tbGlnaHRuaW5nY3NzLWRhcms6aW5pdGlhbDtjb2xvci1zY2hlbWU6ZGFyaztiYWNrZ3JvdW5kOiMwZjE3MWR9LnZpZXdlci1zdGFnZVtkYXRhLXYtYmRlNTBjYzhde2ZsZXgtZGlyZWN0aW9uOmNvbHVtbjtmbGV4OjE7bWluLWhlaWdodDowO2Rpc3BsYXk6ZmxleDtwb3NpdGlvbjpyZWxhdGl2ZTtvdmVyZmxvdzpoaWRkZW59LnZpZXdlci1hY3Rpb25zW2RhdGEtdi1iZGU1MGNjOF17anVzdGlmeS1jb250ZW50OmZsZXgtZW5kO2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1nYXApO21pbi1oZWlnaHQ6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1taW4taGVpZ2h0KTtwYWRkaW5nOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItcGFkZGluZyk7YmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LC45Mik7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgcmdiYSgyMCwzNSw1MywuMDYpO2ZsZXgtc2hyaW5rOjA7ZGlzcGxheTppbmxpbmUtZmxleH0udmlld2VyLWFjdGlvbnNbZGF0YS10b29sYmFyLXBvc2l0aW9uPXRvcC1jZW50ZXJdW2RhdGEtdi1iZGU1MGNjOF17anVzdGlmeS1jb250ZW50OmNlbnRlcn0udmlld2VyLWFjdGlvbnMtLWZsb2F0aW5nW2RhdGEtdi1iZGU1MGNjOF17ei1pbmRleDozMDtyaWdodDpjYWxjKHZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctb2Zmc2V0KSArIGVudihzYWZlLWFyZWEtaW5zZXQtcmlnaHQsMHB4KSk7Ym90dG9tOmNhbGModmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1vZmZzZXQpICsgZW52KHNhZmUtYXJlYS1pbnNldC1ib3R0b20sMHB4KSk7bWluLWhlaWdodDp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLW1pbi1oZWlnaHQpO3BhZGRpbmc6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1wYWRkaW5nKTstd2Via2l0LWJhY2tkcm9wLWZpbHRlcjpibHVyKDE2cHgpO2JhY2tkcm9wLWZpbHRlcjpibHVyKDE2cHgpO2JhY2tncm91bmQ6cmdiYSgyNTUsMjU1LDI1NSwuOTQpO2JvcmRlcjoxcHggc29saWQgcmdiYSgyMCwzNSw1MywuMSk7Ym9yZGVyLXJhZGl1czo5OTlweDtwb3NpdGlvbjphYnNvbHV0ZTtib3gtc2hhZG93OjAgMThweCA0NHB4IHJnYmEoMTUsMjMsNDIsLjE2KX0udmlld2VyLWFjdGlvbnMtZ3JvdXBbZGF0YS12LWJkZTUwY2M4XXthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtZ2FwKTtwYWRkaW5nOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtcGFkZGluZyk7YmFja2dyb3VuZDpyZ2JhKDIwLDM1LDUzLC4wMzUpO2JvcmRlcjoxcHggc29saWQgcmdiYSgyMCwzNSw1MywuMDgpO2JvcmRlci1yYWRpdXM6OTk5cHg7ZGlzcGxheTppbmxpbmUtZmxleH0udmlld2VyLWFjdGlvbnMgYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF17bWluLXdpZHRoOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLW1pbi13aWR0aCk7aGVpZ2h0OnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLWhlaWdodCk7cGFkZGluZzp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLWJ1dHRvbi1wYWRkaW5nKTtib3JkZXItcmFkaXVzOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLXJhZGl1cyk7Y29sb3I6IzQwNTQ2YTtmb250OmluaGVyaXQ7Y3Vyc29yOnBvaW50ZXI7YmFja2dyb3VuZDowIDA7Ym9yZGVyOjA7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwfS52aWV3ZXItYWN0aW9ucyAudmlld2VyLWljb24tYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF17d2lkdGg6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1pY29uLXNpemUpO21pbi13aWR0aDp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLWljb24tc2l6ZSk7anVzdGlmeS1jb250ZW50OmNlbnRlcjthbGlnbi1pdGVtczpjZW50ZXI7cGFkZGluZzowO2Rpc3BsYXk6aW5saW5lLWZsZXh9LnZpZXdlci1hY3Rpb25zIC52aWV3ZXItem9vbS1tZXRlcltkYXRhLXYtYmRlNTBjYzhde21pbi13aWR0aDp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLW1ldGVyLW1pbi13aWR0aCk7aGVpZ2h0OnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLWhlaWdodCk7cGFkZGluZzp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLW1ldGVyLXBhZGRpbmcpO2JveC1zaXppbmc6Ym9yZGVyLWJveDtjb2xvcjojMjM0NjVlO2p1c3RpZnktY29udGVudDpjZW50ZXI7YWxpZ24taXRlbXM6Y2VudGVyO2Rpc3BsYXk6aW5saW5lLWZsZXh9LnZpZXdlci1hY3Rpb25zIC52aWV3ZXItem9vbS1tZXRlci0tcmVhZG9ubHlbZGF0YS12LWJkZTUwY2M4XXt3aGl0ZS1zcGFjZTpub3dyYXA7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwO2xpbmUtaGVpZ2h0OjF9LnZpZXdlci1hY3Rpb25zLS1mbG9hdGluZyBidXR0b25bZGF0YS12LWJkZTUwY2M4XXttaW4td2lkdGg6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24tbWluLXdpZHRoKTtoZWlnaHQ6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24taGVpZ2h0KTtib3JkZXItcmFkaXVzOjk5OXB4fS52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmcgLnZpZXdlci1pY29uLWJ1dHRvbltkYXRhLXYtYmRlNTBjYzhde3dpZHRoOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctaWNvbi1zaXplKTttaW4td2lkdGg6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1pY29uLXNpemUpfS52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmcgLnZpZXdlci16b29tLW1ldGVyW2RhdGEtdi1iZGU1MGNjOF17bWluLXdpZHRoOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctbWV0ZXItbWluLXdpZHRoKTtoZWlnaHQ6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24taGVpZ2h0KX0udmlld2VyLWFjdGlvbnMgYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF06aG92ZXI6bm90KDpkaXNhYmxlZCl7Y29sb3I6IzE2Nzc0YztiYWNrZ3JvdW5kOnJnYmEoMzMsMTYzLDEwMiwuMSl9LnZpZXdlci1hY3Rpb25zIGJ1dHRvbltkYXRhLXYtYmRlNTBjYzhdOmRpc2FibGVke2NvbG9yOiNhYWI1YzA7Y3Vyc29yOm5vdC1hbGxvd2VkfS52aWV3ZXItY29udGVudC1zaGVsbFtkYXRhLXYtYmRlNTBjYzhde2ZsZXg6MTttaW4taGVpZ2h0OjA7cG9zaXRpb246cmVsYXRpdmU7b3ZlcmZsb3c6aGlkZGVufS5jb250ZW50W2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDojZjJmMmYyO3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7ZGlzcGxheTpibG9jaztvdmVyZmxvdzphdXRvfS5jb250ZW50LmhpZGRlbltkYXRhLXYtYmRlNTBjYzhde3Zpc2liaWxpdHk6aGlkZGVufS5mbHlmaXNoLXNlYXJjaC1tYXRjaHtjb2xvcjppbmhlcml0O2JhY2tncm91bmQ6cmdiYSgyNTUsMjE0LDEwMiwuNzIpO2JvcmRlci1yYWRpdXM6NHB4O3BhZGRpbmc6MCAycHg7Ym94LXNoYWRvdzowIDAgMCAxcHggcmdiYSgxODUsMTI4LDAsLjE0KX0uZmx5ZmlzaC1zZWFyY2gtbWF0Y2gtLWFjdGl2ZXtiYWNrZ3JvdW5kOnJnYmEoNDcsMTkxLDEyMiwuODIpO2JveC1zaGFkb3c6MCAwIDAgMnB4IHJnYmEoMzAsMTMyLDgzLC4yNCl9LnZpZXdlci13YXRlcm1hcmtbZGF0YS12LWJkZTUwY2M4XXt6LWluZGV4OjIwO3BvaW50ZXItZXZlbnRzOm5vbmU7YmFja2dyb3VuZC1yZXBlYXQ6cmVwZWF0O3Bvc2l0aW9uOmFic29sdXRlO3RvcDowO2JvdHRvbTowO2xlZnQ6MDtyaWdodDowfS5zdGF0ZS1wYW5lbFtkYXRhLXYtYmRlNTBjYzhde3otaW5kZXg6NDA7YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQocmdiYSgyNTUsMjU1LDI1NSwuOTIpLHJnYmEoMjQ2LDI0OCwyNDksLjk4KSk7anVzdGlmeS1jb250ZW50OmNlbnRlcjthbGlnbi1pdGVtczpjZW50ZXI7cGFkZGluZzoyNHB4O2Rpc3BsYXk6ZmxleDtwb3NpdGlvbjphYnNvbHV0ZTt0b3A6MDtib3R0b206MDtsZWZ0OjA7cmlnaHQ6MH0ubG9hZGluZy1jYXJkW2RhdGEtdi1iZGU1MGNjOF0sLmVycm9yLWNhcmRbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMjU1LDI1NSwyNTUsLjkyKTtib3JkZXI6MXB4IHNvbGlkIHJnYmEoMTksMzYsNTUsLjA2KTtib3JkZXItcmFkaXVzOjI0cHg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDoxOHB4O3dpZHRoOm1pbigxMDAlLDQ2MHB4KTtwYWRkaW5nOjIycHg7ZGlzcGxheTpmbGV4O2JveC1zaGFkb3c6MCAxOHB4IDQycHggcmdiYSgxNSwzMSw0NywuMTIpfS5sb2FkaW5nLWljb25bZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCgxMzVkZWcsIHZhcigtLXZpZXdlci1hY2NlbnQpIDAlLCB2YXIoLS12aWV3ZXItYWNjZW50KSAxMDAlKTtjb2xvcjojZmZmO2xldHRlci1zcGFjaW5nOi4wNGVtO2JvcmRlci1yYWRpdXM6MjBweDtmbGV4LXNocmluazowO2p1c3RpZnktY29udGVudDpjZW50ZXI7YWxpZ24taXRlbXM6Y2VudGVyO21pbi13aWR0aDo3MHB4O2hlaWdodDo3MHB4O3BhZGRpbmc6MCAxMnB4O2ZvbnQtc2l6ZToyMnB4O2ZvbnQtd2VpZ2h0OjgwMDtkaXNwbGF5OmlubGluZS1mbGV4O2JveC1zaGFkb3c6MCAxNHB4IDMwcHggcmdiYSgxNywyOCw0MCwuMTQpfS5sb2FkaW5nLWNvcHlbZGF0YS12LWJkZTUwY2M4XXtmbGV4OjE7bWluLXdpZHRoOjB9LmxvYWRpbmcta2lja2VyW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6dmFyKC0tdmlld2VyLWFjY2VudCk7bGV0dGVyLXNwYWNpbmc6LjA4ZW07dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtd2VpZ2h0OjcwMDtkaXNwbGF5OmJsb2NrfS5sb2FkaW5nLWNvcHkgc3Ryb25nW2RhdGEtdi1iZGU1MGNjOF0sLmVycm9yLWNhcmQgc3Ryb25nW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6IzE2MjgzYjttYXJnaW4tdG9wOjRweDtmb250LXNpemU6MjBweDtsaW5lLWhlaWdodDoxLjI7ZGlzcGxheTpibG9ja30ubG9hZGluZy1jb3B5IHBbZGF0YS12LWJkZTUwY2M4XSwuZXJyb3ItY2FyZCBwW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6IzZhN2Q5MDttYXJnaW46OHB4IDAgMDtsaW5lLWhlaWdodDoxLjZ9LmxvYWRpbmctcmluZ1tkYXRhLXYtYmRlNTBjYzhde2JvcmRlcjozcHggc29saWQgdmFyKC0tdmlld2VyLXNvZnQpO2JvcmRlci10b3AtY29sb3I6dmFyKC0tdmlld2VyLWFjY2VudCk7Ym9yZGVyLXJhZGl1czo5OTlweDtmbGV4LXNocmluazowO3dpZHRoOjM4cHg7aGVpZ2h0OjM4cHg7YW5pbWF0aW9uOi45cyBsaW5lYXIgaW5maW5pdGUgdmlld2VyLXNwaW4tYmRlNTBjYzh9LmVycm9yLWNhcmRbZGF0YS12LWJkZTUwY2M4XXt0ZXh0LWFsaWduOmNlbnRlcjtkaXNwbGF5OmJsb2NrfS5lcnJvci1jYXJkIHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNiNDIzMTh9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmdbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTQsMjIsMjgsLjk0KTtib3JkZXItY29sb3I6cmdiYSgxNjcsMTg1LDE5OCwuMTYpO2JveC1zaGFkb3c6MCAyMHB4IDUycHggcmdiYSgwLDAsMCwuMzQpfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAudmlld2VyLWFjdGlvbnNbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTQsMjIsMjgsLjk0KTtib3JkZXItYm90dG9tLWNvbG9yOnJnYmEoMTY3LDE4NSwxOTgsLjEyKX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLnZpZXdlci1hY3Rpb25zIGJ1dHRvbltkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNiOGM3ZDV9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucy1ncm91cFtkYXRhLXYtYmRlNTBjYzhde2JhY2tncm91bmQ6cmdiYSgxNjcsMTg1LDE5OCwuMDgpO2JvcmRlci1jb2xvcjpyZ2JhKDE2NywxODUsMTk4LC4xMyl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucyBidXR0b25bZGF0YS12LWJkZTUwY2M4XTpob3Zlcjpub3QoOmRpc2FibGVkKXtjb2xvcjojNWVlMGFlO2JhY2tncm91bmQ6cmdiYSg0NSwyMTIsMTU0LC4xNCl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucyBidXR0b25bZGF0YS12LWJkZTUwY2M4XTpkaXNhYmxlZHtjb2xvcjojNjY3ODg4fS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAuY29udGVudFtkYXRhLXYtYmRlNTBjYzhde2JhY2tncm91bmQ6IzE0MWMyM30uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLnN0YXRlLXBhbmVsW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQocmdiYSgxNSwyMywzMCwuOTIpLHJnYmEoMTEsMTcsMjIsLjk4KSl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC5sb2FkaW5nLWNhcmRbZGF0YS12LWJkZTUwY2M4XSwuZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLmVycm9yLWNhcmRbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTksMjksMzcsLjk0KTtib3JkZXItY29sb3I6cmdiYSgxMzksMTYxLDE3NywuMTYpO2JveC1zaGFkb3c6MCAyMnB4IDUycHggcmdiYSgwLDAsMCwuMzQpfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAubG9hZGluZy1jb3B5IHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhdLC5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAuZXJyb3ItY2FyZCBzdHJvbmdbZGF0YS12LWJkZTUwY2M4XXtjb2xvcjojZWZmN2ZifS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAubG9hZGluZy1jb3B5IHBbZGF0YS12LWJkZTUwY2M4XSwuZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLmVycm9yLWNhcmQgcFtkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiM5ZWIwYmZ9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC5lcnJvci1jYXJkIHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNmZjljOTF9QGtleWZyYW1lcyB2aWV3ZXItc3Bpbi1iZGU1MGNjOHswJXt0cmFuc2Zvcm06cm90YXRlKDApfXRve3RyYW5zZm9ybTpyb3RhdGUoMzYwZGVnKX19QG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTpkYXJrKXsuZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXVtkYXRhLXYtYmRlNTBjYzhdey0tbGlnaHRuaW5nY3NzLWxpZ2h0OiA7LS1saWdodG5pbmdjc3MtZGFyazppbml0aWFsO2NvbG9yLXNjaGVtZTpkYXJrO2JhY2tncm91bmQ6IzBmMTcxZH0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnMtLWZsb2F0aW5nW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpyZ2JhKDE0LDIyLDI4LC45NCk7Ym9yZGVyLWNvbG9yOnJnYmEoMTY3LDE4NSwxOTgsLjE2KTtib3gtc2hhZG93OjAgMjBweCA1MnB4IHJnYmEoMCwwLDAsLjM0KX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnNbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTQsMjIsMjgsLjk0KTtib3JkZXItYm90dG9tLWNvbG9yOnJnYmEoMTY3LDE4NSwxOTgsLjEyKX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnMgYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6I2I4YzdkNX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnMtZ3JvdXBbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTY3LDE4NSwxOTgsLjA4KTtib3JkZXItY29sb3I6cmdiYSgxNjcsMTg1LDE5OCwuMTMpfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1zeXN0ZW1dIC52aWV3ZXItYWN0aW9ucyBidXR0b25bZGF0YS12LWJkZTUwY2M4XTpob3Zlcjpub3QoOmRpc2FibGVkKXtjb2xvcjojNWVlMGFlO2JhY2tncm91bmQ6cmdiYSg0NSwyMTIsMTU0LC4xNCl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLnZpZXdlci1hY3Rpb25zIGJ1dHRvbltkYXRhLXYtYmRlNTBjYzhdOmRpc2FibGVke2NvbG9yOiM2Njc4ODh9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmNvbnRlbnRbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOiMxNDFjMjN9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLnN0YXRlLXBhbmVsW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQocmdiYSgxNSwyMywzMCwuOTIpLHJnYmEoMTEsMTcsMjIsLjk4KSl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmxvYWRpbmctY2FyZFtkYXRhLXYtYmRlNTBjYzhdLC5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1zeXN0ZW1dIC5lcnJvci1jYXJkW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpyZ2JhKDE5LDI5LDM3LC45NCk7Ym9yZGVyLWNvbG9yOnJnYmEoMTM5LDE2MSwxNzcsLjE2KTtib3gtc2hhZG93OjAgMjJweCA1MnB4IHJnYmEoMCwwLDAsLjM0KX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAubG9hZGluZy1jb3B5IHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhdLC5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1zeXN0ZW1dIC5lcnJvci1jYXJkIHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNlZmY3ZmJ9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmxvYWRpbmctY29weSBwW2RhdGEtdi1iZGU1MGNjOF0sLmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmVycm9yLWNhcmQgcFtkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiM5ZWIwYmZ9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmVycm9yLWNhcmQgc3Ryb25nW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6I2ZmOWM5MX19QG1lZGlhIChtYXgtd2lkdGg6NzY3cHgpey52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmdbZGF0YS12LWJkZTUwY2M4XXtyaWdodDpjYWxjKDEwcHggKyBlbnYoc2FmZS1hcmVhLWluc2V0LXJpZ2h0LDBweCkpO2JvdHRvbTpjYWxjKDEwcHggKyBlbnYoc2FmZS1hcmVhLWluc2V0LWJvdHRvbSwwcHgpKTtnYXA6NHB4O21heC13aWR0aDpjYWxjKDEwMCUgLSAyMHB4KTtwYWRkaW5nOjVweDtvdmVyZmxvdy14OmF1dG99LnZpZXdlci1hY3Rpb25zLS1mbG9hdGluZyBidXR0b25bZGF0YS12LWJkZTUwY2M4XXttaW4td2lkdGg6NDBweDtoZWlnaHQ6MzBweDtwYWRkaW5nOjAgOXB4fX0uZmlsZS1yZW5kZXJ7d2lkdGg6MTAwJTttaW4td2lkdGg6MDtoZWlnaHQ6MTAwJTttaW4taGVpZ2h0OjB9Ci8qJHZpdGUkOjEqLw==','name','head','constructor','default','object','getZoomState','16.65','title','location','string','signal','trim','register','component-unmount','1207677dsCsMp','zoom-in','zoomReset','fetchFile','autoLoad','normalizedWatermark','exportHtmlTitle','scrollToLine','Flyfish\x20File\x20Viewer\x20can\x20only\x20be\x20mounted\x20in\x20a\x20browser\x20DOM\x20environment.','color','buffer','zoomOut','viewer-icon-button','80px','toolbar.exportHtmlTitle','size','disabled','forEach','0\x200\x2024\x2024','5636430DjylmD','collectDocumentAnchors','6012321vFswex','currentColor','surface','fetch\x20is\x20not\x20available\x20in\x20the\x20current\x20environment.','replace','api','startLoading','payload','getById','keys','648920FKDPbo','117pEZxEB'];a0=function(){return dY;};return a0();}function Ye(bj,bk,bl){return(bk=H(bk))in bj?Object['defineProperty'](bj,bk,{'value':bl,'enumerable':!0x0,'configurable':!0x0,'writable':!0x0}):bj[bk]=bl,bj;}function Xe(bj,bk){var d7=d2,bl=Object[d7(0x19b)](bj);if(Object['getOwnPropertySymbols']){var bm=Object['getOwnPropertySymbols'](bj);bk&&(bm=bm['filter'](function(bn){var d8=d7;return Object['getOwnPropertyDescriptor'](bj,bn)[d8(0x1bc)];})),bl['push']['apply'](bl,bm);}return bl;}function U(bj){var d9=d2;for(var bk=0x1;bk<arguments['length'];bk++){var bl=arguments[bk]==null?{}:arguments[bk];bk%0x2?Xe(Object(bl),!0x0)['forEach'](function(bm){Ye(bj,bm,bl[bm]);}):Object['getOwnPropertyDescriptors']?Object[d9(0x16d)](bj,Object['getOwnPropertyDescriptors'](bl)):Xe(Object(bl))[d9(0x18e)](function(bm){Object['defineProperty'](bj,bm,Object['getOwnPropertyDescriptor'](bl,bm));});}return bj;}var Ze=['name','iconNode','absoluteStrokeWidth','absolute-stroke-width','strokeWidth','stroke-width',d2(0x18c),d2(0x186)],W=(bj,{slots:bk})=>{var da=d2,bl,bm,bn;let {name:bo,iconNode:bp,absoluteStrokeWidth:bq,'absolute-stroke-width':br,strokeWidth:bs,'stroke-width':bu,size:bv,color:bw}=bj,bx=Je(bj,Ze),{size:by,color:bz,strokeWidth:bA=0x2,absoluteStrokeWidth:bB=!0x1,class:bC=''}=Ke(),bD=a3(()=>{let bE=Ve(bq)||Ve(br)||bq===!0x0||br===!0x0||bB===!0x0,bF=bs||bu||bA||R['stroke-width'];if(bE){var bG;return Number(bF)*0x18/Number((bG=bv==null?by:bv)==null?R['width']:bG);}return bF;});return a9('svg',U(U(U({},R),bx),{},{'width':(bl=bv==null?by:bv)==null?R['width']:bl,'height':(bm=bv==null?by:bv)==null?R['height']:bm,'stroke':(bn=bw==null?bz:bw)==null?R['stroke']:bn,'stroke-width':bD['value'],'class':He('lucide',bC,...bo?[da(0x1cd)+Ue(Ge(bo))+'-icon','lucide-'+Ue(bo)]:['lucide-icon'])}),[...bp['map'](bE=>a9(...bE)),...bk[da(0x172)]?[bk['default']()]:[]]);},G=(bj,bk)=>(bl,{slots:bm,attrs:bn})=>a9(W,U(U(U({},bn),bl),{},{'iconNode':bk,'name':bj}),bm['default']?{'default':bm['default']}:void 0x0),Qe=G('rotate-ccw',[['path',{'d':'M3\x2012a9\x209\x200\x201\x200\x209-9\x209.75\x209.75\x200\x200\x200-6.74\x202.74L3\x208','key':'1357e3'}],['path',{'d':'M3\x203v5h5','key':'1xhq8a'}]]),$e=G(d2(0x17e),[['circle',{'cx':'11','cy':'11','r':'8','key':'4ej97u'}],['line',{'x1':'21','x2':'16.65','y1':'21','y2':d2(0x175),'key':'13gj7c'}],['line',{'x1':'11','x2':'11','y1':'8','y2':'14','key':'1vmskp'}],['line',{'x1':'8','x2':'14','y1':'11','y2':'11','key':'durymu'}]]),et=G('zoom-out',[[d2(0x164),{'cx':'11','cy':'11','r':'8','key':'4ej97u'}],['line',{'x1':'21','x2':'16.65','y1':'21','y2':d2(0x175),'key':'13gj7c'}],['line',{'x1':'8','x2':'14','y1':'11','y2':'11','key':'durymu'}]]),tt=(bj,bk)=>{var db=d2;let bl=aE(am(bj),am(bk)),bm=ah(bl['getState']()),bn=aF(bm,bl);return ao(()=>[am(bj),am(bk)],([bo,bp])=>{bn['setExtension'](bo),bn['setI18n'](bp);},{'deep':!0x0}),{'loading':a3(()=>bm['loading']),'error':a3(()=>bm['error']),'message':a3(()=>bm['message']),'theme':a3(()=>bm['theme']),'styleVars':a3(()=>bm[db(0x1d1)]),'startLoading':bn[db(0x198)],'setLoadingMessage':bn[db(0x1ca)],'stopLoading':bn['stopLoading'],'showError':bn['showError'],'clearError':bn[db(0x165)],'resetLoading':bn['resetLoading'],'syncLoadingState':bn['syncLoadingState']};},nt=({output:bj,getOptions:bk,emitSearchChange:bl,emitLocationChange:bm})=>{var dc=d2;let bn=aA({'root':()=>bj['value'],'searchTarget':{'anchors':ak([]),'state':ah(av())},'searchOptions':()=>{var bo;return(bo=bk())==null?void 0x0:bo['search'];},'waitForDomUpdate':()=>ab(),'getAiOptions':()=>{var bo;return(bo=bk())==null?void 0x0:bo['ai'];},'onSearchChange':bl,'onLocationChange':bm});return af(()=>{bn['destroyDocumentFeatures']();}),{'refreshDocumentIndex':bn[dc(0x1b5)],'clearDocumentState':bn['clearDocumentState'],'getScrollContainer':bn['getScrollContainer'],'searchDocument':bn['searchDocument'],'clearDocumentSearch':bn[dc(0x1cc)],'nextSearchResult':bn['nextSearchResult'],'previousSearchResult':bn['previousSearchResult'],'getSearchState':bn['getSearchState'],'collectDocumentAnchors':bn['collectDocumentAnchors'],'scrollToAnchor':bn['scrollToAnchor'],'scrollToLine':bn[dc(0x184)],'getDocumentTextChunks':bn['getDocumentTextChunks']};},rt=({activeExportAdapter:bj,currentBuffer:bk,currentFile:bl,currentSourceUrl:bm,displayFilename:bn,formatErrorMessage:bo,getOptions:bp,operationAvailability:bq,output:br,runBeforeOperation:bs,showError:bu,watermarkInlineStyle:bv})=>aI({'getBuffer':()=>bk['value'],'getFile':()=>bl['value'],'getUrl':()=>bm['value'],'getFilename':()=>bn['value'],'getMimeType':()=>{var bw;return(bw=bl['value'])==null?void 0x0:bw['type'];},'getRenderedSource':()=>br['value'],'getAdapter':()=>bj[d2(0x1d6)],'getWatermarkInlineStyle':()=>bv['value'],'getPrintAvailable':()=>bq['value'][d2(0x1bf)],'getI18n':bp,'beforeOperation':bs,'formatErrorMessage':bo,'onErrorMessage':bu}),it=({output:bj,getOptions:bk,refreshZoomProvider:bl,refreshViewStateProvider:bm,emitFitChange:bn})=>{var dd=d2;let bo=aC({'root':()=>bj[dd(0x1d6)],'getFit':()=>{var bp;return(bp=bk())==null?void 0x0:bp['fit'];},'onFit':bp=>{bl(),bm(),bn(bp);}});return{'startFitObserver':()=>bo['observe'](),'stopFitObserver':()=>bo['destroy'](),'resetAutoFit':()=>bo['resetAutoFit'](),'markFitUserInteraction':()=>bo['markUserInteraction'](),'applyInitialFit':()=>{var bp;return bo['applyInitialFit']({'skip':b1((bp=bk())==null?void 0x0:bp['initialViewState'])});},'fitToView':bp=>bo['fit'](bp,{'source':dd(0x197),'reason':'api'})};},at=({getOptions:bj,getFilename:bk,getBufferSize:bl,getCurrentFile:bm,getCurrentVersion:bn,getFallbackFile:bo,getFallbackUrl:bp,emitLifecycle:bq,emitOperationBefore:br,emitOperationCancel:bs,formatErrorMessage:bu,handleLifecycleError:bv,handleOperationError:bw,onOperationErrorMessage:bx})=>aD({'getOptions':bj,'getFilename':bk,'getBufferSize':bl,'getCurrentFile':bm,'getCurrentVersion':bn,'getFallbackFile':bo,'getFallbackUrl':bp,'emitLifecycle':bq,'emitOperationBefore':br,'emitOperationCancel':bs,'formatErrorMessage':bu,'handleLifecycleError':bv,'handleOperationError':bw,'onOperationErrorMessage':bx}),ot=({filename:bj,getFile:bk,getUrl:bl,getSourceFilename:bm,getOptions:bn})=>{var df=d2;let bo=a3(()=>ba({'filename':(bm==null?void 0x0:bm())||bj['value'],'file':bk(),'url':bl(),'options':bn()}));return{'displayFilename':a3(()=>bo['value']['displayFilename']),'currentExtend':a3(()=>bo['value']['extension']),'normalizedToolbar':a3(()=>bo[df(0x1d6)]['toolbar']),'viewerTheme':a3(()=>bo['value']['theme']),'viewerDensity':a3(()=>bo['value']['density']),'formatErrorMessage':(bp,bq)=>aZ(bp,bq,bn())};},st=({currentExtend:bj,error:bk,loadingTheme:bl,getOptions:bm})=>a3(()=>aB(bj['value'],bk['value'],bl['value'],bm==null?void 0x0:bm())),ct=({getFile:bj,getUrl:bk,getSourceFilename:bl,refreshPreview:bm,cancelPreview:bn,clearRenderedContent:bo,resetLoading:bp,stopZoomObserver:bq,stopFitObserver:br,stopViewStateObserver:bs})=>{ao([bj,bk,bl||(()=>void 0x0)],()=>{bg({'onRefreshPreview':bm});},{'immediate':!0x0}),af(()=>{bf({'onCancelPreview':bn,'onClearRenderedContent':bo,'onResetLoading':bp,'onStopZoomObserver':bq,'onStopFitObserver':br,'onStopViewStateObserver':bs});});},lt=['operationAvailability'],ut=bj=>{let {operationAvailability:bk}=bj;return aH(U(U({},Je(bj,lt)),{},{'getOperationAvailability':()=>bk['value']}));},dt=bj=>({'$el':bj,'unmount'(){}}),ft=[...au],K=(function(){var bj=L(function*(bk,bl,bm){var dg=a1;let bn=aR(bm),bo=document['createElement']('div');bo['style']['textAlign']='center',bo[dg(0x1c2)]['marginTop']=dg(0x18a);let bp=document['createElement']('div');if(bp[dg(0x1d5)]=bn['message'],bo['appendChild'](bp),bn['description']){let bq=document[dg(0x167)]('div');bq['textContent']=bn['description'],bo['appendChild'](bq);}return bl['replaceChildren'](bo),dt(bl);});return function(bk,bl,bm){return bj['apply'](this,arguments);};}()),q=ax({'definitions':aq,'handlers':ft}),pt=q['registry'],mt=aM({'registry':pt,'handlers':ft,'fallbackHandler':K});q['missingRendererIds'],mt['handlersByExtension'];var ht=(bj={})=>{var dh=d2;let bk=bj['autoRenderers'];return typeof bk=='boolean'?bk:(bk==null?void 0x0:bk['enabled'])===void 0x0?(bj['rendererMode']||dh(0x166))!==dh(0x196):bk['enabled'];},gt=(function(){var bj=L(function*(bk){var di=a1;let bl=(bk==null?void 0x0:bk['options'])||{},bm=bl['rendererMode']===di(0x196)?aX([]):az({'builtinRenderers':bl['builtinRenderers']})['registry'],bn=[];ht(bl)&&bn['push'](...b3());let bo=bl[di(0x1af)],bp=bl['presets'];bn[di(0x1b1)](...bb(bo),...bb(bp)),bl['renderers']&&bn['push'](bl['renderers']);let bq=as(bn);return bq['length']&&(yield b2({'registry':bm,'plugins':bq,'registerHandler':br=>{var dj=di;let bs=bm[dj(0x19a)](br[dj(0x1b6)]);bs&&bm[dj(0x17b)](U(U({},bs),{},{'load':aw({'handler':br['handler'],'rendererId':bs['id'],'getTarget':bu=>bu[dj(0x194)]['container']})}));}})),bm;});return function(bk){var dk=a1;return bj[dk(0x19e)](this,arguments);};}());function J(bj,bk,bl,bm){return Y['apply'](this,arguments);}function Y(){return Y=L(function*(bj,bk,bl,bm){var dl=a1;let bn=(yield gt(bm))['getByExtension'](bk)||pt['getByExtension'](bk);if(bn!=null&&bn['load']){var bo,bp;return yield bn['load']({'source':b5({'buffer':bj,'filename':(bm==null?void 0x0:bm['filename'])||'preview.'+bk,'type':bk,'url':bm==null?void 0x0:bm['url']}),'surface':{'container':bl,'shadowRoot':bm==null||(bo=bm['surface'])==null?void 0x0:bo['shadowRoot'],'styleIsolation':bm==null||(bp=bm['surface'])==null?void 0x0:bp['styleIsolation']},'options':(bm==null?void 0x0:bm['options'])||{},'registerExportAdapter':bm==null?void 0x0:bm[dl(0x1a8)],'renderContext':bm});}return ay(yield b7({'dispatcher':mt,'buffer':bj,'target':bl,'type':bk,'context':bm}));}),Y['apply'](this,arguments);}var _t=(function(){var bj=L(function*(bk,bl,bm,bn){var bo;let bp=yield J(bk,bl['toLowerCase'](),bm,U(U({},bn),{},{'renderNestedBuffer':(bn==null?void 0x0:bn['renderNestedBuffer'])||_t}));return{'$el':(bo=bp['rendered'])==null?void 0x0:bo['$el'],'destroy':()=>{var bq;return(bq=bp['destroy'])==null?void 0x0:bq['call'](bp);}};});return function(bk,bl,bm,bn){return bj['apply'](this,arguments);};}()),vt=({output:bj,getOptions:bk,isCurrentRequest:bl,notifyActiveUnloadStart:bm,notifyActiveUnloadComplete:bn,clearActiveDocumentContext:bo,clearDocumentState:bp,refreshDocumentIndex:bq,startZoomObserver:br,stopZoomObserver:bs,clearZoomProvider:bu,refreshZoomProvider:bv,startFitObserver:bw,stopFitObserver:bx,applyInitialFit:by,startViewStateObserver:bz,stopViewStateObserver:bA,clearViewStateProvider:bB,refreshViewStateProvider:bC})=>{var dm=d2;let bD=ak(null),bE=ai(!0x1),bF=ai(!0x1),bG=aJ({'renderedReady':{'get':()=>bE[dm(0x1d6)],'set':bJ=>{var dn=dm;bE[dn(0x1d6)]=bJ;}},'progressiveReady':{'get':()=>bF['value'],'set':bJ=>{bF['value']=bJ;}}}),bH=null,bI=aK({'getContainer':()=>bj['value'],'surfaceState':aL({'session':{'get':()=>bH,'set':bJ=>{bH=bJ;}},'exportAdapter':{'get':()=>bD['value'],'set':bJ=>{bD['value']=bJ;}}}),'readinessState':bG,'isCurrent':bl,'waitForContainer':ab,'onUnloadStart':bm,'onUnloadComplete':(bJ,bK)=>{bn(bJ==null?null:bJ,bK);},'onClearActiveDocumentContext':bo,'onClearDocumentState':bp,'onStartZoomObserver':br,'onStopZoomObserver':bs,'onClearZoomProvider':bu,'onStartFitObserver':bw,'onStopFitObserver':bx,'onApplyInitialFit':by,'onStartViewStateObserver':bz,'onStopViewStateObserver':bA,'onClearViewStateProvider':bB,'onRefreshDocumentIndex':bq,'onRefreshZoomProvider':bv,'onRefreshViewStateProvider':bC,'render':(function(){var bJ=L(function*({buffer:bK,type:bL,target:bM,filename:bN,sourceUrl:bO,streamUrl:bP,registerExportAdapter:bQ,onProgressiveRender:bR}){return yield J(bK,bL,bM,{'filename':bN,'url':bO,'streamUrl':bP,'options':bk(),'registerExportAdapter':bQ,'onProgressiveRender':bR,'renderNestedBuffer':(function(){var bS=L(function*(bT,bU,bV,bW){return yield _t(bT,bU,bV,U(U({},bW),{},{'options':(bW==null?void 0x0:bW['options'])||bk()}));});return function(bT,bU,bV,bW){return bS['apply'](this,arguments);};}())});});return function(bK){return bJ['apply'](this,arguments);};}())});return U({'activeExportAdapter':bD,'renderedReady':bE,'progressiveReady':bF},bI);},yt=({getFile:bj,getUrl:bk,getSourceFilename:bl,getOptions:bm,filename:bn,currentFile:bo,currentBuffer:bp,currentSourceUrl:bq,renderedReady:br,progressiveReady:bs,requestController:bu,clearRenderedContent:bv,mountRenderedContent:bw,destroyRenderSession:bx,setActiveRenderSession:by,buildLoadStartState:bz,buildRenderCompleteState:bA,notifyLifecycle:bB,setActiveDocumentContext:bC,markLoadStarted:bD,clearLoadStarted:bE,startLoading:bF,setLoadingMessage:bG,stopLoading:bH,showError:bI,clearError:bJ,resetLoading:bK,formatErrorMessage:bL})=>{var dp=d2;let bM=aO({'getFile':bj,'getUrl':bk,'getCurrentFilename':()=>(bl==null?void 0x0:bl())||bn['value'],'getPdfStreaming':()=>{var bN;return(bN=bm())==null||(bN=bN['pdf'])==null?void 0x0:bN['streaming'];},'getI18n':bm,'getPageHref':()=>window['location'][dp(0x16b)],'previewTarget':aG({'filename':{'get':()=>bn['value'],'set':bN=>{bn['value']=bN;}},'file':{'get':()=>bo['value'],'set':bN=>{var dq=dp;bo[dq(0x1d6)]=bN;}},'buffer':{'get':()=>bp['value'],'set':bN=>{bp['value']=bN;}},'sourceUrl':{'get':()=>bq['value'],'set':bN=>{var dr=dp;bq[dr(0x1d6)]=bN;}},'renderedReady':{'get':()=>br['value'],'set':bN=>{var ds=dp;br[ds(0x1d6)]=bN;}},'progressiveReady':{'get':()=>bs['value'],'set':bN=>{bs['value']=bN;}}}),'requestController':bu,'downloadFile':(function(){var bN=L(function*({url:bO,signal:bP}){var du=a1;let bQ=yield fetch(bO,{'signal':bP});if(!bQ['ok'])throw Error(bh(bm(),du(0x168))+':\x20HTTP\x20'+bQ['status']);return bQ['blob']();});return function(bO){return bN['apply'](this,arguments);};}()),'mountRenderedContent':bw,'destroyRenderSession':bx,'buildLoadStartState':bz,'buildRenderCompleteState':bA,'onMarkLoadStarted':bD,'onClearLoadStarted':bE,'onStartLoading':bF,'onSetLoadingMessage':bG,'onStopLoading':bH,'onShowError':bI,'onClearError':bJ,'onResetLoading':bK,'onClearRenderedContent':bv,'onSession':by,'onActiveDocumentContext':bC,'onLifecycle':bB,'formatErrorMessage':bL});return U(U({},bM),{},{'cancelPreview':(bN='component-unmount')=>{bM['cancelPreview'](bN);},'refreshPreview':(function(){var bN=L(function*(){yield bM['refreshPreview']();});return function(){return bN['apply'](this,arguments);};}()),'resetViewer':bN=>{var dv=dp;bM[dv(0x1c4)](bN);}});},bt=({activeExportAdapter:bj,currentBuffer:bk,currentExtend:bl,currentFile:bm,currentSourceUrl:bn,error:bo,getOptions:bp,getZoomState:bq,loading:br,normalizedToolbar:bs,renderedReady:bu,zoomState:bv,emitOperationAvailabilityChange:bw,emitZoomChange:bx})=>{var dw=d2;let by=aP({'getAdapter':()=>bj['value'],'getBuffer':()=>bk['value'],'getExtension':()=>bl[dw(0x1d6)],'getFile':()=>bm['value'],'getHasError':()=>!!bo['value'],'getLoading':()=>br['value'],'getOptions':bp,'getSourceUrl':()=>bn['value'],'getToolbar':()=>bs[dw(0x1d6)],'getRenderedReady':()=>bu['value'],'getZoomState':bq,'zoomSyncState':bv,'onOperationAvailabilityChange':bw,'onZoomChange':bx}),bz=a3(()=>by['resolveToolbarState']()),bA=a3(()=>bz['value']['operationAvailability']),bB=a3(()=>bz['value']['visibleToolbar']),bC=a3(()=>bz['value'][dw(0x1ac)]),bD=a3(()=>bz['value']['showToolbar']),bE=a3(()=>bz['value']['toolbarPosition']),bF=a3(()=>bz['value']['toolbarDisabled']);return ao(bA,bG=>{by['syncOperationAvailability'](bG);},{'immediate':!0x0}),ao(()=>by['createZoomSyncSnapshot'](),()=>{by['syncZoomChange']();},{'immediate':!0x0}),{'operationAvailability':bA,'visibleToolbar':bB,'toolbarOrder':bC,'showToolbar':bD,'toolbarPosition':bE,'toolbarDisabled':bF,'zoomButtonDisabled':bG=>by['isZoomButtonDisabled'](bG)};},xt=({output:bj,emitViewStateChange:bk})=>aT(aS({'root':()=>bj['value'],'onChange':bk})),St=bj=>{var dx=d2;let bk=a3(()=>bd(bj()));return{'normalizedWatermark':a3(()=>bk[dx(0x1d6)][dx(0x182)]),'watermarkStyle':a3(()=>bk['value']['watermarkStyle']),'watermarkInlineStyle':a3(()=>bk[dx(0x1d6)]['watermarkInlineStyle'])};},Ct=({output:bj,enabled:bk,runBeforeOperation:bl})=>{let bm=ah(aW()),bn=aV(bm,aU({'root':()=>bj['value'],'enabled':bk,'beforeZoom':bo=>bl(bo),'onChange':bo=>{ar(bm,bo);}}));return U({'zoomState':bm},bn);},wt=['data-viewer-theme',d2(0x1a1)],Tt={'class':'viewer-stage'},Et=['data-toolbar-position'],Dt=['aria-label'],Ot=['disabled','title','aria-label'],kt=['disabled',d2(0x176)],At=['title','aria-label'],jt=['disabled','title','aria-label'],Mt=['disabled','title','aria-label'],Nt=['disabled','title'],Pt=[d2(0x18d),'title'],Ft=[d2(0x18d),'title'],It={'class':'viewer-content-shell'},Lt={'key':0x1,'class':'state-panel\x20loading-panel'},Rt={'class':'loading-card'},zt={'class':'loading-icon'},Bt={'class':d2(0x1a0)},Vt={'class':d2(0x1a3)},Ht={'key':0x2,'class':'state-panel\x20error-panel'},Ut={'class':d2(0x1d0)},X=((bj,bk)=>{var dy=d2;let bl=bj[dy(0x16c)]||bj;for(let [bm,bn]of bk)bl[bm]=bn;return bl;})(a8({'__name':'FileViewer','props':{'file':{},'url':{},'name':{},'filename':{},'type':{},'size':{},'options':{}},'emits':['load-start','load-complete','unload-start','unload-complete','operation-before','operation-cancel','operation-availability-change',d2(0x1a6),'location-change','zoom-change','view-state-change','fit-change'],'setup'(bj,{expose:bk,emit:bl}){var dA=d2;let bm=bj,bn=bl,bo=ai(''),bp=ai(null),bq=ai(null),br=ai(null),bs=ai(null),bu=a3(()=>{var dz=a1;let cX=aQ(bm['options']);return{'zoomGroup':cX('toolbar.zoomGroup'),'zoomOut':cX('toolbar.zoomOut'),'zoomIn':cX('toolbar.zoomIn'),'zoomReset':cX('toolbar.zoomReset'),'download':cX('toolbar.download'),'downloadTitle':cX('toolbar.downloadTitle'),'print':cX('toolbar.print'),'printTitle':cX('toolbar.printTitle'),'exportHtml':cX('toolbar.exportHtml'),'exportHtmlTitle':cX(dz(0x18b))};}),{refreshDocumentIndex:bv,clearDocumentState:bw,getScrollContainer:bx,searchDocument:by,clearDocumentSearch:bz,nextSearchResult:bA,previousSearchResult:bB,getSearchState:bC,collectDocumentAnchors:bD,scrollToAnchor:bE,scrollToLine:bF,getDocumentTextChunks:bG}=nt({'output':bp,'getOptions':()=>bm['options'],'emitSearchChange':cX=>bn('search-change',cX),'emitLocationChange':cX=>bn('location-change',cX)}),{displayFilename:bH,currentExtend:bI,normalizedToolbar:bJ,viewerTheme:bK,viewerDensity:bL,formatErrorMessage:bM}=ot({'filename':bo,'getFile':()=>bm['file'],'getUrl':()=>bm['url'],'getSourceFilename':()=>bm[dA(0x1bd)]||bm[dA(0x16f)],'getOptions':()=>bm['options']}),{watermarkStyle:bN,watermarkInlineStyle:bO}=St(()=>{var cX;return(cX=bm['options'])==null?void 0x0:cX['watermark'];}),{loading:bP,error:bQ,message:bR,theme:bS,styleVars:bT,startLoading:bU,setLoadingMessage:bV,stopLoading:bW,showError:bX,clearError:bY,resetLoading:bZ}=tt(bI,()=>bm[dA(0x1be)]),c0=st({'currentExtend':bI,'error':bQ,'loadingTheme':bS,'getOptions':()=>bm['options']}),{requestController:c1,getCurrentVersion:c2,isCurrentRequest:c3}=aN(),{markLoadStarted:c4,clearLoadStarted:c5,notifyLifecycle:c6,notifyActiveUnloadStart:c7,notifyActiveUnloadComplete:c8,setActiveDocumentContext:c9,clearActiveDocumentContext:ca,buildLoadStartState:cb,buildRenderCompleteState:cc,runBeforeOperation:cd}=at({'getOptions':()=>bm[dA(0x1be)],'getFilename':()=>bo['value'],'getBufferSize':()=>{var dB=dA,cX;return(cX=br[dB(0x1d6)])==null?void 0x0:cX['byteLength'];},'getCurrentFile':()=>bq[dA(0x1d6)],'getCurrentVersion':c2,'getFallbackFile':()=>bm['file'],'getFallbackUrl':()=>bm['url'],'emitLifecycle':bn,'emitOperationBefore':cX=>bn('operation-before',cX),'emitOperationCancel':cX=>bn('operation-cancel',cX),'formatErrorMessage':bM,'handleLifecycleError':(cX,cY)=>{b8({'error':cX,'context':cY});},'handleOperationError':(cX,cY)=>{b9({'error':cX,'context':cY});},'onOperationErrorMessage':bX}),{zoomState:cf,refreshZoomProvider:cg,startZoomObserver:ch,stopZoomObserver:ci,clearZoomProvider:cj,zoomIn:ck,zoomOut:cl,resetZoom:cm,getZoomState:cn}=Ct({'output':bp,'enabled':()=>!0x0,'runBeforeOperation':cd}),{refreshViewStateProvider:co,startViewStateObserver:cp,stopViewStateObserver:cq,clearViewStateProvider:cr,getViewState:cs,applyViewState:cu}=xt({'output':bp,'emitViewStateChange':cX=>{var dC=dA;(cX['source']==='user'||cX['source']==='api')&&cX['action']!=='fit'&&cx(),bn(dC(0x1c1),cX);}}),{startFitObserver:cv,stopFitObserver:cw,markFitUserInteraction:cx,applyInitialFit:cy,fitToView:cz}=it({'output':bp,'getOptions':()=>bm['options'],'refreshZoomProvider':cg,'refreshViewStateProvider':co,'emitFitChange':cX=>bn(dA(0x1ae),cX)}),{activeExportAdapter:cA,renderedReady:cB,progressiveReady:cC,clearRenderedContent:cD,destroyRenderSession:cE,mountRenderedContent:cF,setActiveRenderSession:cG}=vt({'output':bp,'getOptions':()=>bm['options'],'isCurrentRequest':c3,'notifyActiveUnloadStart':c7,'notifyActiveUnloadComplete':c8,'clearActiveDocumentContext':ca,'clearDocumentState':bw,'refreshDocumentIndex':bv,'startZoomObserver':ch,'stopZoomObserver':ci,'clearZoomProvider':cj,'refreshZoomProvider':cg,'startFitObserver':cv,'stopFitObserver':cw,'applyInitialFit':cy,'startViewStateObserver':cp,'stopViewStateObserver':cq,'clearViewStateProvider':cr,'refreshViewStateProvider':co}),{operationAvailability:cH,visibleToolbar:cI,toolbarOrder:cJ,showToolbar:cK,toolbarPosition:cL,toolbarDisabled:cM,zoomButtonDisabled:cN}=bt({'activeExportAdapter':cA,'currentBuffer':br,'currentExtend':bI,'currentFile':bq,'currentSourceUrl':bs,'error':bQ,'getOptions':()=>bm['options'],'getZoomState':cn,'loading':bP,'normalizedToolbar':bJ,'renderedReady':cB,'zoomState':cf,'emitOperationAvailabilityChange':cX=>bn('operation-availability-change',cX),'emitZoomChange':cX=>bn('zoom-change',cX)}),{cancelPreview:cO,refreshPreview:cP}=yt({'getFile':()=>bm['file'],'getUrl':()=>bm['url'],'getSourceFilename':()=>bm['filename']||bm['name'],'getOptions':()=>bm['options'],'filename':bo,'currentFile':bq,'currentBuffer':br,'currentSourceUrl':bs,'renderedReady':cB,'progressiveReady':cC,'requestController':c1,'clearRenderedContent':cD,'mountRenderedContent':cF,'destroyRenderSession':cE,'setActiveRenderSession':cG,'buildLoadStartState':cb,'buildRenderCompleteState':cc,'notifyLifecycle':c6,'setActiveDocumentContext':c9,'markLoadStarted':c4,'clearLoadStarted':c5,'startLoading':bU,'setLoadingMessage':bV,'stopLoading':bW,'showError':bX,'clearError':bY,'resetLoading':bZ,'formatErrorMessage':bM}),{downloadOriginalFile:cQ,exportRenderedHtml:cR,printRenderedHtml:cS}=rt({'activeExportAdapter':cA,'currentBuffer':br,'currentFile':bq,'currentSourceUrl':bs,'displayFilename':bH,'formatErrorMessage':bM,'getOptions':()=>bm['options'],'operationAvailability':cH,'output':bp,'runBeforeOperation':cd,'showError':bX,'watermarkInlineStyle':bO}),cT=(function(){var cX=L(function*(){return cx(),ck();});return function(){return cX['apply'](this,arguments);};}()),cU=(function(){var cX=L(function*(){return cx(),cl();});return function(){var dD=a1;return cX[dD(0x19e)](this,arguments);};}()),cV=(function(){var cX=L(function*(){return cx(),cm();});return function(){return cX['apply'](this,arguments);};}()),cW=()=>{var dE=dA;cO(dE(0x17c)),bZ(),ci(),cw(),cq();};return bk(ut({'destroy':()=>{cW();},'downloadOriginalFile':cQ,'printRenderedHtml':cS,'exportRenderedHtml':cR,'zoomIn':cT,'zoomOut':cU,'resetZoom':cV,'fitToView':cz,'getZoomState':cn,'getViewState':cs,'applyViewState':(function(){var cX=L(function*(cY,cZ){return cx(),cu(cY,cZ);});return function(cY,cZ){return cX['apply'](this,arguments);};}()),'operationAvailability':cH,'getScrollContainer':bx,'searchDocument':by,'clearDocumentSearch':bz,'nextSearchResult':bA,'previousSearchResult':bB,'getSearchState':bC,'collectDocumentAnchors':bD,'scrollToAnchor':bE,'scrollToLine':bF,'getDocumentTextChunks':bG})),ct({'getFile':()=>bm['file'],'getUrl':()=>bm['url'],'getSourceFilename':()=>bm['filename']||bm['name'],'refreshPreview':cP,'cancelPreview':cO,'clearRenderedContent':cD,'resetLoading':bZ,'stopZoomObserver':ci,'stopFitObserver':cw,'stopViewStateObserver':cq}),(cX,cY)=>(ag(),a5('div',{'class':'file-viewer','data-viewer-theme':an(bK),'data-viewer-density':an(bL),'style':ad(an(bT))},[a6('div',Tt,[an(cK)?(ag(),a5('div',{'key':0x0,'class':ac(['viewer-actions',{'viewer-actions--floating':an(cL)==='bottom-right'}]),'data-toolbar-position':an(cL)},[(ag(!0x0),a5(a2,null,aj(an(cJ),cZ=>(ag(),a5(a2,{'key':cZ},[cZ==='zoom'&&an(cI)['zoom']?(ag(),a5('div',{'key':0x0,'class':'viewer-actions-group\x20viewer-zoom-actions','aria-label':bu['value']['zoomGroup']},[an(cH)['zoomOut']?(ag(),a5('button',{'key':0x0,'type':'button','class':dA(0x189),'disabled':an(cN)('canZoomOut'),'title':bu[dA(0x1d6)]['zoomOut'],'aria-label':bu['value'][dA(0x188)],'onClick':cU},[a7(an(et),{'size':0xf,'stroke-width':2.4})],0x8,Ot)):a4('',!0x0),an(cH)['zoomReset']?(ag(),a5('button',{'key':0x1,'type':'button','class':'viewer-zoom-meter','disabled':an(cN)('canReset'),'title':bu['value']['zoomReset'],'onClick':cV},al(an(cf)['label']),0x9,kt)):(ag(),a5('span',{'key':0x2,'class':'viewer-zoom-meter\x20viewer-zoom-meter--readonly','title':an(cf)['label'],'aria-label':an(cf)['label']},al(an(cf)['label']),0x9,At)),an(cH)['zoomIn']?(ag(),a5('button',{'key':0x3,'type':'button','class':'viewer-icon-button','disabled':an(cN)('canZoomIn'),'title':bu['value']['zoomIn'],'aria-label':bu['value']['zoomIn'],'onClick':cT},[a7(an($e),{'size':0xf,'stroke-width':2.4})],0x8,jt)):a4('',!0x0),an(cH)['zoomReset']?(ag(),a5('button',{'key':0x4,'type':'button','class':'viewer-icon-button','disabled':an(cN)('canReset'),'title':bu['value'][dA(0x17f)],'aria-label':bu['value']['zoomReset'],'onClick':cV},[a7(an(Qe),{'size':0xe,'stroke-width':2.4})],0x8,Mt)):a4('',!0x0)],0x8,Dt)):cZ==='download'&&an(cI)['download']?(ag(),a5('button',{'key':0x1,'type':'button','disabled':an(cM),'title':bu['value']['downloadTitle'],'onClick':cY[0x0]||(cY[0x0]=(...d0)=>an(cQ)&&an(cQ)(...d0))},al(bu['value']['download']),0x9,Nt)):cZ==='print'&&an(cI)['print']?(ag(),a5(dA(0x162),{'key':0x2,'type':'button','disabled':an(cM),'title':bu[dA(0x1d6)]['printTitle'],'onClick':cY[0x1]||(cY[0x1]=(...d0)=>an(cS)&&an(cS)(...d0))},al(bu['value']['print']),0x9,Pt)):cZ==='exportHtml'&&an(cI)['exportHtml']?(ag(),a5('button',{'key':0x3,'type':'button','disabled':an(cM),'title':bu[dA(0x1d6)][dA(0x183)],'onClick':cY[0x2]||(cY[0x2]=(...d0)=>an(cR)&&an(cR)(...d0))},al(bu['value']['exportHtml']),0x9,Ft)):a4('',!0x0)],0x40))),0x80))],0xa,Et)):a4('',!0x0),a6('div',It,[a6('div',{'ref_key':'output','ref':bp,'class':ac(['content',{'hidden':an(bP)&&!an(cC)||!!an(bQ)}]),'data-viewer-scroll-root':'true'},null,0x2),an(bN)?(ag(),a5('div',{'key':0x0,'class':'viewer-watermark','style':ad(an(bN))},null,0x4)):a4('',!0x0),an(bP)&&!an(cC)?(ag(),a5('div',Lt,[a6('div',Rt,[a6('div',zt,al(an(bS)[dA(0x1d3)]),0x1),a6('div',Bt,[a6('span',Vt,al(an(bS)['label']),0x1),a6('strong',null,al(an(bR)),0x1),a6('p',null,al(an(bS)['hint']),0x1)]),cY[0x3]||(cY[0x3]=a6('span',{'class':'loading-ring'},null,-0x1))])])):an(bQ)?(ag(),a5('div',Ht,[a6(dA(0x1a5),Ut,[a6('strong',null,al(an(c0)['title']),0x1),a6('p',null,al(an(c0)['message']),0x1)])])):a4('',!0x0)])])],0xc,wt));}}),[['__scopeId','data-v-bde50cc8']]),Wt=()=>typeof window<'u'&&typeof document<'u',Z=(bj={})=>!!(bj['url']||bj[d2(0x1d7)]||bj[d2(0x187)]),Q=(bj={})=>({'url':bj['url'],'file':bj['file'],'buffer':bj['buffer'],'filename':bj['filename']||bj['name'],'name':bj['name'],'type':bj[d2(0x1ab)],'size':bj['size']}),Gt=()=>typeof fetch=='function',Kt=(function(){var bj=L(function*({url:bk,signal:bl}){var dF=a1;if(!Gt())throw Error(dF(0x195));let bm=yield fetch(bk,{'signal':bl});if(!bm['ok'])throw Error('Failed\x20to\x20fetch\x20file:\x20'+bm['status']+'\x20'+bm[dF(0x19f)]);return bm['blob']();});return function(bk){var dG=a1;return bj[dG(0x19e)](this,arguments);};}()),qt=bj=>b4(bj['filename']||bj['name']||bc({'file':bj['file'],'url':bj['url'],'fallback':ap}),bj[d2(0x1ab)]?'preview.'+bj['type']:ap),Jt=(function(){var bj=L(function*(bk,bl={}){var dH=a1;let bm=qt(bk),bn=bk['type']||b0(bm);if(bk['buffer']){var bo;return{'buffer':bk['buffer'],'filename':bm,'type':bn,'size':(bo=bk['size'])==null?bk['buffer'][dH(0x1c6)]:bo,'url':bk['url']};}if(bk[dH(0x1d7)]){var bp;let br=bi(bk['file'],bm);return{'file':br,'buffer':yield b6(br),'filename':br['name']||bm,'type':bn||b0(br['name']),'size':(bp=bk['size'])==null?br['size']:bp,'url':bk['url']};}if(bk['url']){var bq;let bs=yield(bl['fetchFile']||Kt)({'url':bk['url'],'signal':bl['signal'],'source':bk});if(!bs)throw Error(dH(0x1d8));let bu=bi(bs,bm);return{'file':bu,'buffer':yield b6(bu),'filename':bu[dH(0x16f)]||bm,'type':bn||b0(bu['name']),'size':(bq=bk['size'])==null?bu['size']:bq,'url':bk['url']};}return{'filename':bm,'type':bn};});return function(bk){return bj['apply'](this,arguments);};}()),$=(function(){var bj=L(function*(bk,bl,bm){return bk?bl(bk):bm;});return function(bk,bl,bm){var dI=a1;return bj[dI(0x19e)](this,arguments);};}()),Yt=bj=>!!(bj&&typeof bj==d2(0x173)&&bj['name']==='AbortError'),Xt=(bj,bk={},bl={})=>{var dJ=d2;if(!Wt())throw Error(dJ(0x185));let bm=!0x1,bn=bk,bo=Z(bn)?Q(bn):null,bp=null,bq=new Set(),br={'loading':!0x1,'ready':!0x1,'error':null,'lastEvent':null,'lifecycle':null,'availability':null,'search':null,'zoom':null,'location':null,'viewState':null},bs=()=>U(U({},br),{},{'search':br['search']?U(U({},br['search']),{},{'matches':[...br['search'][dJ(0x1a4)]]}):null,'zoom':br['zoom']?U({},br['zoom']):null,'location':br['location']?U({},br['location']):null,'viewState':br['viewState']?U(U({},br['viewState']),{},{'zoom':br['viewState'][dJ(0x1c0)]?U({},br[dJ(0x1a2)]['zoom']):void 0x0,'scroll':br['viewState']['scroll']?U({},br['viewState']['scroll']):void 0x0,'navigation':br['viewState']['navigation']?U({},br['viewState']['navigation']):void 0x0,'extra':br['viewState']['extra']?U({},br['viewState']['extra']):void 0x0}):null}),bu=by=>{var bz;let bA=bs();(bz=bn['onStateChange'])==null||bz['call'](bn,bA,by),bq['forEach'](bB=>bB(bA,by));},bv=aY(bj,{'registry':bl[dJ(0x1bb)],'options':bn['options'],'onEvent':by=>{var dK=dJ,bz;br['lastEvent']=by,by['type']===dK(0x1aa)?(br['loading']=!0x0,br['ready']=!0x1,br['error']=null,br[dK(0x1ce)]=by['payload']):by['type']===dK(0x169)?(br[dK(0x160)]=!0x1,br['ready']=!0x0,br['lifecycle']=by['payload']):by[dK(0x1ab)]==='unload-start'?(br['loading']=!0x0,br['ready']=!0x1,br['lifecycle']=by['payload']):by['type']==='unload-complete'?(br[dK(0x160)]=!0x1,br['ready']=!0x1,br['lifecycle']=by['payload']):by['type']===dK(0x1b9)?br['availability']=by['payload']:by['type']==='search-change'?br[dK(0x1d2)]=by['payload']:by['type']==='location-change'?br[dK(0x177)]=by['payload']:by['type']==='zoom-change'?br[dK(0x1c0)]=by[dK(0x199)]:by['type']==='view-state-change'&&(br[dK(0x1a2)]=by['payload']['state']),(bz=bn['onEvent'])==null||bz['call'](bn,by),bu(by);}}),bw=()=>{bp==null||bp['abort'](),bp=null;},bx=(function(){var by=L(function*(bz){var dL=a1;bw(),bo=bz,bp=typeof AbortController<'u'?new AbortController():null;let bA=bp;try{br['loading']=!0x0,br['error']=null,bu();let bC=yield Jt(bz,{'fetchFile':bl[dL(0x180)],'signal':bA==null?void 0x0:bA[dL(0x179)]});return bm||bA!=null&&bA[dL(0x179)]['aborted']||bp!==bA?null:yield bv['load'](bC);}catch(bD){var bB;if(Yt(bD)&&bA!=null&&bA['signal']['aborted'])return null;throw br[dL(0x160)]=!0x1,br[dL(0x1ad)]=!0x1,br['error']=bD,bu(),(bB=bl['onError'])==null||bB['call'](bl,bD,bz),bD;}finally{bp===bA&&(bp=null);}});return function(bz){return by['apply'](this,arguments);};}());return bo&&bx(bo),{'container':bj,'load'(by){return L(function*(){bm||(bn=by,bv['updateOptions'](bn['options']||{}),Z(bn)&&(yield bx(Q(bn))));})();},'update'(){return L(function*(by={}){var dM=a1,bz;bm||(bn=U(U(U({},bn),by),{},{'options':(bz=by['options'])==null?bn['options']:bz}),bv[dM(0x1b2)](bn['options']||{}),Z(bn)?yield bx(Q(bn)):(bo=null,yield bv[dM(0x1ba)]({'filename':ap})));})['apply'](this,arguments);},'reload'(){return L(function*(){bm||bo&&(yield bx(bo));})();},'destroy'(){bm||(bm=!0x0,bw(),bv['destroy']('component-unmount'),bj['innerHTML']='');},'getApi'(){return bv;},'downloadOriginalFile'(){return $(bv,by=>by['download'](),void 0x0);},'printRenderedHtml'(){return $(bv,by=>by['print'](),void 0x0);},'exportRenderedHtml'(){return $(bv,by=>by['exportHtml']({'download':!0x0})['then'](()=>void 0x0),void 0x0);},'zoomIn'(){return $(bv,by=>by['zoomIn'](),null);},'zoomOut'(){return $(bv,by=>by['zoomOut'](),null);},'resetZoom'(){var dN=dJ;return $(bv,by=>by[dN(0x161)](),null);},'fitToView'(by){return $(bv,bz=>bz['fitToView'](by),null);},'getViewState'(){var dO=dJ;return bv[dO(0x1b3)]();},'applyViewState'(by,bz){return $(bv,bA=>bA['applyViewState'](by,bz),null);},'searchDocument'(by){return $(bv,bz=>bz['search'](by),null);},'clearDocumentSearch'(){return $(bv,by=>by['clearSearch'](),null);},'nextSearchResult'(){return $(bv,by=>by['nextSearchResult'](),null);},'previousSearchResult'(){var dP=dJ;return $(bv,by=>by[dP(0x1c3)](),null);},'collectDocumentAnchors'(){var dQ=dJ;return $(bv,by=>by[dQ(0x191)](),[]);},'scrollToAnchor'(by){return $(bv,bz=>bz['scrollToDocumentAnchor'](by),!0x1);},'scrollToLine'(by){return $(bv,bz=>bz['scrollToLine'](by),!0x1);},'getDocumentTextChunks'(){var dR=dJ;return bv[dR(0x1b7)]();},'getOperationAvailability'(){var dS=dJ;return bv[dS(0x1c5)]();},'getZoomState'(){var dT=dJ;return bv[dT(0x174)]();},'getSearchState'(){return bv['getSearchState']();},'getState'(){return bs();},'subscribe'(by){return bq['add'](by),by(bs()),()=>{var dU=a1;bq[dU(0x1a7)](by);};}};},Zt=()=>{var dV=d2;if(typeof document>'u'||document['querySelector']('link[data-file-viewer-style=\x22true\x22]'))return;let bj=document['createElement'](dV(0x16a));bj['rel']='stylesheet',bj['href']=I,bj[dV(0x1b4)]['fileViewerStyle']='true',document['head']['appendChild'](bj);},Qt=(bj,bk={})=>{var dW=d2,bl;Zt();let bm=bk[dW(0x1b0)]||bk;return Xt(bj,U(U({},bk[dW(0x181)]===!0x1?{}:{'url':bm['url'],'file':bm['file'],'buffer':bm['buffer'],'name':bm[dW(0x16f)]||bk['name'],'filename':bm['filename']||bk['filename'],'type':bm['type']||bk['type'],'size':(bl=bm['size'])==null?bk['size']:bl}),{},{'options':bk['options'],'onEvent':bk['onEvent']}),{'registry':pt,'fetchFile':bk['fetchFile'],'onError':bk['onError']});},$t=Qt,en=[['file-viewer',X]],tn=class{constructor(){Ye(this,'installed',!0x1);}['install'](bj,bk={}){this['installed']||(en['forEach'](([bl,bm])=>bj['component'](bk['componentName']||bl,bm)),this['installed']=!0x0);}};function a1(a,b){a=a-0x160;var c=a0();var d=c[a];return d;}function nn(){var dX=d2;if(typeof document>'u'||document['querySelector']('link[data-file-viewer-style=\x22true\x22]'))return;let bj=document['createElement']('link');bj['rel']='stylesheet',bj['href']=I,bj[dX(0x1b4)]['fileViewerStyle']='true',document[dX(0x170)]['appendChild'](bj);}nn();var rn=new tn();export{X as FileViewer,Qt as createFlyfishFileViewer,rn as default,$t as mountFlyfishFileViewer};
+import { Fragment as e, computed as t, createCommentVNode as n, createElementBlock as r, createElementVNode as i, createVNode as a, defineComponent as o, h as s, inject as c, nextTick as l, normalizeClass as u, normalizeStyle as d, onBeforeUnmount as f, openBlock as p, reactive as m, ref as h, renderList as g, shallowRef as _, toDisplayString as v, toValue as y, unref as b, watch as x } from "vue";
+import { DEFAULT_FILE_VIEWER_SOURCE_FILENAME as S, DEFAULT_RENDERER_DEFINITIONS as C, applyFileViewerZoomState as w, collectFileViewerRendererPlugins as T, coreBrowserRendererHandlers as E, createEmptyFileViewerSearchState as D, createFileRenderHandlerLoader as O, createFileRenderHandlerRegistry as ee, createFileRenderHandlerRendererSession as te, createFileViewerCoreRendererRegistry as ne, createFileViewerDocumentFeatureControllerActionHandlers as re, createFileViewerErrorState as ie, createFileViewerFitController as ae, createFileViewerLifecycleFacade as oe, createFileViewerLoadingController as se, createFileViewerLoadingControllerActionHandlers as k, createFileViewerPreviewStateTarget as ce, createFileViewerPublicApi as le, createFileViewerPublicOperationActionHandlers as ue, createFileViewerRenderReadinessTarget as A, createFileViewerRenderSurfaceActionHandlers as de, createFileViewerRenderSurfaceStateTarget as fe, createFileViewerRendererDispatcher as j, createFileViewerRequestScope as pe, createFileViewerSourceLoadingActionHandlers as M, createFileViewerToolbarControllerActionHandlers as me, createFileViewerTranslator as he, createFileViewerUnsupportedState as N, createFileViewerViewStateController as ge, createFileViewerViewStateControllerActionHandlers as _e, createFileViewerZoomController as ve, createFileViewerZoomControllerActionHandlers as ye, createFileViewerZoomState as be, createRendererRegistry as xe, createViewer as Se, formatFileViewerErrorMessage as Ce, getExtension as P, hasFileViewerExplicitInitialViewState as we, installFileViewerRendererPlugins as Te, listFileViewerAutoRendererPresets as Ee, normalizeFileViewerSourceUrl as De, normalizeFilename as Oe, normalizeSource as ke, readFileViewerBuffer as Ae, renderFileViewerHandler as je, reportFileViewerLifecycleHookError as Me, reportFileViewerOperationError as Ne, resolveFileViewerPresentationState as Pe, resolveFileViewerRendererPresetInputs as Fe, resolveFileViewerSourceFilename as Ie, resolveFileViewerWatermarkPresentationState as Le, runFileViewerPreviewComponentUnmount as F, runFileViewerPreviewSourceChange as Re, translateFileViewerMessage as ze, wrapFileViewerFileRef as I } from "@file-viewer/core";
+//#region src/package/style.css?url
+var Be = "" + "data:text/css;base64,LmZpbGUtdmlld2VyW2RhdGEtdi1iZGU1MGNjOF17LS1maWxlLXZpZXdlci10b29sYmFyLWdhcDo2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLW1pbi1oZWlnaHQ6NDVweDstLWZpbGUtdmlld2VyLXRvb2xiYXItcGFkZGluZzo2cHggMTBweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctb2Zmc2V0OjE2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLW1pbi1oZWlnaHQ6NDJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctcGFkZGluZzo2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWdyb3VwLWdhcDoycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWdyb3VwLXBhZGRpbmc6MnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1idXR0b24tbWluLXdpZHRoOjQycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWJ1dHRvbi1oZWlnaHQ6MzBweDstLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLXBhZGRpbmc6MCAxMHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1idXR0b24tcmFkaXVzOjhweDstLWZpbGUtdmlld2VyLXRvb2xiYXItaWNvbi1zaXplOjMwcHg7LS1maWxlLXZpZXdlci10b29sYmFyLW1ldGVyLW1pbi13aWR0aDo0OHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1tZXRlci1wYWRkaW5nOjAgOHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24tbWluLXdpZHRoOjQ4cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLWJ1dHRvbi1oZWlnaHQ6MzJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctaWNvbi1zaXplOjMycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLW1ldGVyLW1pbi13aWR0aDo1NHB4Oy0tbGlnaHRuaW5nY3NzLWxpZ2h0OmluaXRpYWw7LS1saWdodG5pbmdjc3MtZGFyazogO2NvbG9yLXNjaGVtZTpsaWdodDtiYWNrZ3JvdW5kOiNmZmY7ZmxleC1kaXJlY3Rpb246Y29sdW1uO3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7ZGlzcGxheTpmbGV4O3Bvc2l0aW9uOnJlbGF0aXZlfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci1kZW5zaXR5PWNvbXBhY3RdW2RhdGEtdi1iZGU1MGNjOF17LS1maWxlLXZpZXdlci10b29sYmFyLWdhcDozcHg7LS1maWxlLXZpZXdlci10b29sYmFyLW1pbi1oZWlnaHQ6MzRweDstLWZpbGUtdmlld2VyLXRvb2xiYXItcGFkZGluZzozcHggNXB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1vZmZzZXQ6MTBweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctbWluLWhlaWdodDozMnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1wYWRkaW5nOjNweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtZ2FwOjJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtcGFkZGluZzoycHg7LS1maWxlLXZpZXdlci10b29sYmFyLWJ1dHRvbi1taW4td2lkdGg6MzRweDstLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLWhlaWdodDoyNnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1idXR0b24tcGFkZGluZzowIDZweDstLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLXJhZGl1czo2cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWljb24tc2l6ZToyNnB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1tZXRlci1taW4td2lkdGg6NDJweDstLWZpbGUtdmlld2VyLXRvb2xiYXItbWV0ZXItcGFkZGluZzowIDVweDstLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctYnV0dG9uLW1pbi13aWR0aDozOHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24taGVpZ2h0OjI4cHg7LS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLWljb24tc2l6ZToyOHB4Oy0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1tZXRlci1taW4td2lkdGg6NDZweH0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya11bZGF0YS12LWJkZTUwY2M4XXstLWxpZ2h0bmluZ2Nzcy1saWdodDogOy0tbGlnaHRuaW5nY3NzLWRhcms6aW5pdGlhbDtjb2xvci1zY2hlbWU6ZGFyaztiYWNrZ3JvdW5kOiMwZjE3MWR9LnZpZXdlci1zdGFnZVtkYXRhLXYtYmRlNTBjYzhde2ZsZXgtZGlyZWN0aW9uOmNvbHVtbjtmbGV4OjE7bWluLWhlaWdodDowO2Rpc3BsYXk6ZmxleDtwb3NpdGlvbjpyZWxhdGl2ZTtvdmVyZmxvdzpoaWRkZW59LnZpZXdlci1hY3Rpb25zW2RhdGEtdi1iZGU1MGNjOF17anVzdGlmeS1jb250ZW50OmZsZXgtZW5kO2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1nYXApO21pbi1oZWlnaHQ6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1taW4taGVpZ2h0KTtwYWRkaW5nOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItcGFkZGluZyk7YmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LC45Mik7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgcmdiYSgyMCwzNSw1MywuMDYpO2ZsZXgtc2hyaW5rOjA7ZGlzcGxheTppbmxpbmUtZmxleH0udmlld2VyLWFjdGlvbnNbZGF0YS10b29sYmFyLXBvc2l0aW9uPXRvcC1jZW50ZXJdW2RhdGEtdi1iZGU1MGNjOF17anVzdGlmeS1jb250ZW50OmNlbnRlcn0udmlld2VyLWFjdGlvbnMtLWZsb2F0aW5nW2RhdGEtdi1iZGU1MGNjOF17ei1pbmRleDozMDtyaWdodDpjYWxjKHZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctb2Zmc2V0KSArIGVudihzYWZlLWFyZWEtaW5zZXQtcmlnaHQsMHB4KSk7Ym90dG9tOmNhbGModmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1vZmZzZXQpICsgZW52KHNhZmUtYXJlYS1pbnNldC1ib3R0b20sMHB4KSk7bWluLWhlaWdodDp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLWZsb2F0aW5nLW1pbi1oZWlnaHQpO3BhZGRpbmc6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1wYWRkaW5nKTstd2Via2l0LWJhY2tkcm9wLWZpbHRlcjpibHVyKDE2cHgpO2JhY2tkcm9wLWZpbHRlcjpibHVyKDE2cHgpO2JhY2tncm91bmQ6cmdiYSgyNTUsMjU1LDI1NSwuOTQpO2JvcmRlcjoxcHggc29saWQgcmdiYSgyMCwzNSw1MywuMSk7Ym9yZGVyLXJhZGl1czo5OTlweDtwb3NpdGlvbjphYnNvbHV0ZTtib3gtc2hhZG93OjAgMThweCA0NHB4IHJnYmEoMTUsMjMsNDIsLjE2KX0udmlld2VyLWFjdGlvbnMtZ3JvdXBbZGF0YS12LWJkZTUwY2M4XXthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtZ2FwKTtwYWRkaW5nOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZ3JvdXAtcGFkZGluZyk7YmFja2dyb3VuZDpyZ2JhKDIwLDM1LDUzLC4wMzUpO2JvcmRlcjoxcHggc29saWQgcmdiYSgyMCwzNSw1MywuMDgpO2JvcmRlci1yYWRpdXM6OTk5cHg7ZGlzcGxheTppbmxpbmUtZmxleH0udmlld2VyLWFjdGlvbnMgYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF17bWluLXdpZHRoOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLW1pbi13aWR0aCk7aGVpZ2h0OnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLWhlaWdodCk7cGFkZGluZzp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLWJ1dHRvbi1wYWRkaW5nKTtib3JkZXItcmFkaXVzOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLXJhZGl1cyk7Y29sb3I6IzQwNTQ2YTtmb250OmluaGVyaXQ7Y3Vyc29yOnBvaW50ZXI7YmFja2dyb3VuZDowIDA7Ym9yZGVyOjA7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwfS52aWV3ZXItYWN0aW9ucyAudmlld2VyLWljb24tYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF17d2lkdGg6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1pY29uLXNpemUpO21pbi13aWR0aDp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLWljb24tc2l6ZSk7anVzdGlmeS1jb250ZW50OmNlbnRlcjthbGlnbi1pdGVtczpjZW50ZXI7cGFkZGluZzowO2Rpc3BsYXk6aW5saW5lLWZsZXh9LnZpZXdlci1hY3Rpb25zIC52aWV3ZXItem9vbS1tZXRlcltkYXRhLXYtYmRlNTBjYzhde21pbi13aWR0aDp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLW1ldGVyLW1pbi13aWR0aCk7aGVpZ2h0OnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItYnV0dG9uLWhlaWdodCk7cGFkZGluZzp2YXIoLS1maWxlLXZpZXdlci10b29sYmFyLW1ldGVyLXBhZGRpbmcpO2JveC1zaXppbmc6Ym9yZGVyLWJveDtjb2xvcjojMjM0NjVlO2p1c3RpZnktY29udGVudDpjZW50ZXI7YWxpZ24taXRlbXM6Y2VudGVyO2Rpc3BsYXk6aW5saW5lLWZsZXh9LnZpZXdlci1hY3Rpb25zIC52aWV3ZXItem9vbS1tZXRlci0tcmVhZG9ubHlbZGF0YS12LWJkZTUwY2M4XXt3aGl0ZS1zcGFjZTpub3dyYXA7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwO2xpbmUtaGVpZ2h0OjF9LnZpZXdlci1hY3Rpb25zLS1mbG9hdGluZyBidXR0b25bZGF0YS12LWJkZTUwY2M4XXttaW4td2lkdGg6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24tbWluLXdpZHRoKTtoZWlnaHQ6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24taGVpZ2h0KTtib3JkZXItcmFkaXVzOjk5OXB4fS52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmcgLnZpZXdlci1pY29uLWJ1dHRvbltkYXRhLXYtYmRlNTBjYzhde3dpZHRoOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctaWNvbi1zaXplKTttaW4td2lkdGg6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1pY29uLXNpemUpfS52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmcgLnZpZXdlci16b29tLW1ldGVyW2RhdGEtdi1iZGU1MGNjOF17bWluLXdpZHRoOnZhcigtLWZpbGUtdmlld2VyLXRvb2xiYXItZmxvYXRpbmctbWV0ZXItbWluLXdpZHRoKTtoZWlnaHQ6dmFyKC0tZmlsZS12aWV3ZXItdG9vbGJhci1mbG9hdGluZy1idXR0b24taGVpZ2h0KX0udmlld2VyLWFjdGlvbnMgYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF06aG92ZXI6bm90KDpkaXNhYmxlZCl7Y29sb3I6IzE2Nzc0YztiYWNrZ3JvdW5kOnJnYmEoMzMsMTYzLDEwMiwuMSl9LnZpZXdlci1hY3Rpb25zIGJ1dHRvbltkYXRhLXYtYmRlNTBjYzhdOmRpc2FibGVke2NvbG9yOiNhYWI1YzA7Y3Vyc29yOm5vdC1hbGxvd2VkfS52aWV3ZXItY29udGVudC1zaGVsbFtkYXRhLXYtYmRlNTBjYzhde2ZsZXg6MTttaW4taGVpZ2h0OjA7cG9zaXRpb246cmVsYXRpdmU7b3ZlcmZsb3c6aGlkZGVufS5jb250ZW50W2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDojZjJmMmYyO3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7ZGlzcGxheTpibG9jaztvdmVyZmxvdzphdXRvfS5jb250ZW50LmhpZGRlbltkYXRhLXYtYmRlNTBjYzhde3Zpc2liaWxpdHk6aGlkZGVufS5mbHlmaXNoLXNlYXJjaC1tYXRjaHtjb2xvcjppbmhlcml0O2JhY2tncm91bmQ6cmdiYSgyNTUsMjE0LDEwMiwuNzIpO2JvcmRlci1yYWRpdXM6NHB4O3BhZGRpbmc6MCAycHg7Ym94LXNoYWRvdzowIDAgMCAxcHggcmdiYSgxODUsMTI4LDAsLjE0KX0uZmx5ZmlzaC1zZWFyY2gtbWF0Y2gtLWFjdGl2ZXtiYWNrZ3JvdW5kOnJnYmEoNDcsMTkxLDEyMiwuODIpO2JveC1zaGFkb3c6MCAwIDAgMnB4IHJnYmEoMzAsMTMyLDgzLC4yNCl9LnZpZXdlci13YXRlcm1hcmtbZGF0YS12LWJkZTUwY2M4XXt6LWluZGV4OjIwO3BvaW50ZXItZXZlbnRzOm5vbmU7YmFja2dyb3VuZC1yZXBlYXQ6cmVwZWF0O3Bvc2l0aW9uOmFic29sdXRlO3RvcDowO2JvdHRvbTowO2xlZnQ6MDtyaWdodDowfS5zdGF0ZS1wYW5lbFtkYXRhLXYtYmRlNTBjYzhde3otaW5kZXg6NDA7YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQocmdiYSgyNTUsMjU1LDI1NSwuOTIpLHJnYmEoMjQ2LDI0OCwyNDksLjk4KSk7anVzdGlmeS1jb250ZW50OmNlbnRlcjthbGlnbi1pdGVtczpjZW50ZXI7cGFkZGluZzoyNHB4O2Rpc3BsYXk6ZmxleDtwb3NpdGlvbjphYnNvbHV0ZTt0b3A6MDtib3R0b206MDtsZWZ0OjA7cmlnaHQ6MH0ubG9hZGluZy1jYXJkW2RhdGEtdi1iZGU1MGNjOF0sLmVycm9yLWNhcmRbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMjU1LDI1NSwyNTUsLjkyKTtib3JkZXI6MXB4IHNvbGlkIHJnYmEoMTksMzYsNTUsLjA2KTtib3JkZXItcmFkaXVzOjI0cHg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDoxOHB4O3dpZHRoOm1pbigxMDAlLDQ2MHB4KTtwYWRkaW5nOjIycHg7ZGlzcGxheTpmbGV4O2JveC1zaGFkb3c6MCAxOHB4IDQycHggcmdiYSgxNSwzMSw0NywuMTIpfS5sb2FkaW5nLWljb25bZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCgxMzVkZWcsIHZhcigtLXZpZXdlci1hY2NlbnQpIDAlLCB2YXIoLS12aWV3ZXItYWNjZW50KSAxMDAlKTtjb2xvcjojZmZmO2xldHRlci1zcGFjaW5nOi4wNGVtO2JvcmRlci1yYWRpdXM6MjBweDtmbGV4LXNocmluazowO2p1c3RpZnktY29udGVudDpjZW50ZXI7YWxpZ24taXRlbXM6Y2VudGVyO21pbi13aWR0aDo3MHB4O2hlaWdodDo3MHB4O3BhZGRpbmc6MCAxMnB4O2ZvbnQtc2l6ZToyMnB4O2ZvbnQtd2VpZ2h0OjgwMDtkaXNwbGF5OmlubGluZS1mbGV4O2JveC1zaGFkb3c6MCAxNHB4IDMwcHggcmdiYSgxNywyOCw0MCwuMTQpfS5sb2FkaW5nLWNvcHlbZGF0YS12LWJkZTUwY2M4XXtmbGV4OjE7bWluLXdpZHRoOjB9LmxvYWRpbmcta2lja2VyW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6dmFyKC0tdmlld2VyLWFjY2VudCk7bGV0dGVyLXNwYWNpbmc6LjA4ZW07dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtd2VpZ2h0OjcwMDtkaXNwbGF5OmJsb2NrfS5sb2FkaW5nLWNvcHkgc3Ryb25nW2RhdGEtdi1iZGU1MGNjOF0sLmVycm9yLWNhcmQgc3Ryb25nW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6IzE2MjgzYjttYXJnaW4tdG9wOjRweDtmb250LXNpemU6MjBweDtsaW5lLWhlaWdodDoxLjI7ZGlzcGxheTpibG9ja30ubG9hZGluZy1jb3B5IHBbZGF0YS12LWJkZTUwY2M4XSwuZXJyb3ItY2FyZCBwW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6IzZhN2Q5MDttYXJnaW46OHB4IDAgMDtsaW5lLWhlaWdodDoxLjZ9LmxvYWRpbmctcmluZ1tkYXRhLXYtYmRlNTBjYzhde2JvcmRlcjozcHggc29saWQgdmFyKC0tdmlld2VyLXNvZnQpO2JvcmRlci10b3AtY29sb3I6dmFyKC0tdmlld2VyLWFjY2VudCk7Ym9yZGVyLXJhZGl1czo5OTlweDtmbGV4LXNocmluazowO3dpZHRoOjM4cHg7aGVpZ2h0OjM4cHg7YW5pbWF0aW9uOi45cyBsaW5lYXIgaW5maW5pdGUgdmlld2VyLXNwaW4tYmRlNTBjYzh9LmVycm9yLWNhcmRbZGF0YS12LWJkZTUwY2M4XXt0ZXh0LWFsaWduOmNlbnRlcjtkaXNwbGF5OmJsb2NrfS5lcnJvci1jYXJkIHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNiNDIzMTh9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmdbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTQsMjIsMjgsLjk0KTtib3JkZXItY29sb3I6cmdiYSgxNjcsMTg1LDE5OCwuMTYpO2JveC1zaGFkb3c6MCAyMHB4IDUycHggcmdiYSgwLDAsMCwuMzQpfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAudmlld2VyLWFjdGlvbnNbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTQsMjIsMjgsLjk0KTtib3JkZXItYm90dG9tLWNvbG9yOnJnYmEoMTY3LDE4NSwxOTgsLjEyKX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLnZpZXdlci1hY3Rpb25zIGJ1dHRvbltkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNiOGM3ZDV9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucy1ncm91cFtkYXRhLXYtYmRlNTBjYzhde2JhY2tncm91bmQ6cmdiYSgxNjcsMTg1LDE5OCwuMDgpO2JvcmRlci1jb2xvcjpyZ2JhKDE2NywxODUsMTk4LC4xMyl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucyBidXR0b25bZGF0YS12LWJkZTUwY2M4XTpob3Zlcjpub3QoOmRpc2FibGVkKXtjb2xvcjojNWVlMGFlO2JhY2tncm91bmQ6cmdiYSg0NSwyMTIsMTU0LC4xNCl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC52aWV3ZXItYWN0aW9ucyBidXR0b25bZGF0YS12LWJkZTUwY2M4XTpkaXNhYmxlZHtjb2xvcjojNjY3ODg4fS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAuY29udGVudFtkYXRhLXYtYmRlNTBjYzhde2JhY2tncm91bmQ6IzE0MWMyM30uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLnN0YXRlLXBhbmVsW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQocmdiYSgxNSwyMywzMCwuOTIpLHJnYmEoMTEsMTcsMjIsLjk4KSl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC5sb2FkaW5nLWNhcmRbZGF0YS12LWJkZTUwY2M4XSwuZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLmVycm9yLWNhcmRbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTksMjksMzcsLjk0KTtib3JkZXItY29sb3I6cmdiYSgxMzksMTYxLDE3NywuMTYpO2JveC1zaGFkb3c6MCAyMnB4IDUycHggcmdiYSgwLDAsMCwuMzQpfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAubG9hZGluZy1jb3B5IHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhdLC5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAuZXJyb3ItY2FyZCBzdHJvbmdbZGF0YS12LWJkZTUwY2M4XXtjb2xvcjojZWZmN2ZifS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1kYXJrXSAubG9hZGluZy1jb3B5IHBbZGF0YS12LWJkZTUwY2M4XSwuZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9ZGFya10gLmVycm9yLWNhcmQgcFtkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiM5ZWIwYmZ9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPWRhcmtdIC5lcnJvci1jYXJkIHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNmZjljOTF9QGtleWZyYW1lcyB2aWV3ZXItc3Bpbi1iZGU1MGNjOHswJXt0cmFuc2Zvcm06cm90YXRlKDApfXRve3RyYW5zZm9ybTpyb3RhdGUoMzYwZGVnKX19QG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTpkYXJrKXsuZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXVtkYXRhLXYtYmRlNTBjYzhdey0tbGlnaHRuaW5nY3NzLWxpZ2h0OiA7LS1saWdodG5pbmdjc3MtZGFyazppbml0aWFsO2NvbG9yLXNjaGVtZTpkYXJrO2JhY2tncm91bmQ6IzBmMTcxZH0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnMtLWZsb2F0aW5nW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpyZ2JhKDE0LDIyLDI4LC45NCk7Ym9yZGVyLWNvbG9yOnJnYmEoMTY3LDE4NSwxOTgsLjE2KTtib3gtc2hhZG93OjAgMjBweCA1MnB4IHJnYmEoMCwwLDAsLjM0KX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnNbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTQsMjIsMjgsLjk0KTtib3JkZXItYm90dG9tLWNvbG9yOnJnYmEoMTY3LDE4NSwxOTgsLjEyKX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnMgYnV0dG9uW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6I2I4YzdkNX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAudmlld2VyLWFjdGlvbnMtZ3JvdXBbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOnJnYmEoMTY3LDE4NSwxOTgsLjA4KTtib3JkZXItY29sb3I6cmdiYSgxNjcsMTg1LDE5OCwuMTMpfS5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1zeXN0ZW1dIC52aWV3ZXItYWN0aW9ucyBidXR0b25bZGF0YS12LWJkZTUwY2M4XTpob3Zlcjpub3QoOmRpc2FibGVkKXtjb2xvcjojNWVlMGFlO2JhY2tncm91bmQ6cmdiYSg0NSwyMTIsMTU0LC4xNCl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLnZpZXdlci1hY3Rpb25zIGJ1dHRvbltkYXRhLXYtYmRlNTBjYzhdOmRpc2FibGVke2NvbG9yOiM2Njc4ODh9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmNvbnRlbnRbZGF0YS12LWJkZTUwY2M4XXtiYWNrZ3JvdW5kOiMxNDFjMjN9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLnN0YXRlLXBhbmVsW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQocmdiYSgxNSwyMywzMCwuOTIpLHJnYmEoMTEsMTcsMjIsLjk4KSl9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmxvYWRpbmctY2FyZFtkYXRhLXYtYmRlNTBjYzhdLC5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1zeXN0ZW1dIC5lcnJvci1jYXJkW2RhdGEtdi1iZGU1MGNjOF17YmFja2dyb3VuZDpyZ2JhKDE5LDI5LDM3LC45NCk7Ym9yZGVyLWNvbG9yOnJnYmEoMTM5LDE2MSwxNzcsLjE2KTtib3gtc2hhZG93OjAgMjJweCA1MnB4IHJnYmEoMCwwLDAsLjM0KX0uZmlsZS12aWV3ZXJbZGF0YS12aWV3ZXItdGhlbWU9c3lzdGVtXSAubG9hZGluZy1jb3B5IHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhdLC5maWxlLXZpZXdlcltkYXRhLXZpZXdlci10aGVtZT1zeXN0ZW1dIC5lcnJvci1jYXJkIHN0cm9uZ1tkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiNlZmY3ZmJ9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmxvYWRpbmctY29weSBwW2RhdGEtdi1iZGU1MGNjOF0sLmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmVycm9yLWNhcmQgcFtkYXRhLXYtYmRlNTBjYzhde2NvbG9yOiM5ZWIwYmZ9LmZpbGUtdmlld2VyW2RhdGEtdmlld2VyLXRoZW1lPXN5c3RlbV0gLmVycm9yLWNhcmQgc3Ryb25nW2RhdGEtdi1iZGU1MGNjOF17Y29sb3I6I2ZmOWM5MX19QG1lZGlhIChtYXgtd2lkdGg6NzY3cHgpey52aWV3ZXItYWN0aW9ucy0tZmxvYXRpbmdbZGF0YS12LWJkZTUwY2M4XXtyaWdodDpjYWxjKDEwcHggKyBlbnYoc2FmZS1hcmVhLWluc2V0LXJpZ2h0LDBweCkpO2JvdHRvbTpjYWxjKDEwcHggKyBlbnYoc2FmZS1hcmVhLWluc2V0LWJvdHRvbSwwcHgpKTtnYXA6NHB4O21heC13aWR0aDpjYWxjKDEwMCUgLSAyMHB4KTtwYWRkaW5nOjVweDtvdmVyZmxvdy14OmF1dG99LnZpZXdlci1hY3Rpb25zLS1mbG9hdGluZyBidXR0b25bZGF0YS12LWJkZTUwY2M4XXttaW4td2lkdGg6NDBweDtoZWlnaHQ6MzBweDtwYWRkaW5nOjAgOXB4fX0uZmlsZS1yZW5kZXJ7d2lkdGg6MTAwJTttaW4td2lkdGg6MDtoZWlnaHQ6MTAwJTttaW4taGVpZ2h0OjB9Ci8qJHZpdGUkOjEqLw==";
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/asyncToGenerator.js
+function Ve(e, t, n, r, i, a, o) {
+	try {
+		var s = e[a](o), c = s.value;
+	} catch (e) {
+		n(e);
+		return;
+	}
+	s.done ? t(c) : Promise.resolve(c).then(r, i);
+}
+function L(e) {
+	return function() {
+		var t = this, n = arguments;
+		return new Promise(function(r, i) {
+			var a = e.apply(t, n);
+			function o(e) {
+				Ve(a, r, i, o, s, "next", e);
+			}
+			function s(e) {
+				Ve(a, r, i, o, s, "throw", e);
+			}
+			o(void 0);
+		});
+	};
+}
+//#endregion
+//#region ../../../node_modules/.pnpm/@lucide+vue@1.17.0_vue@3.5.35_typescript@6.0.3_/node_modules/@lucide/vue/dist/esm/shared/src/utils/isEmptyString.mjs
+var He = (e) => e === "", Ue = (...e) => e.filter((e, t, n) => !!e && e.trim() !== "" && n.indexOf(e) === t).join(" ").trim(), R = (e) => e.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase(), We = (e) => e.replace(/^([A-Z])|[\s-_]+(\w)/g, (e, t, n) => n ? n.toUpperCase() : t.toLowerCase()), Ge = (e) => {
+	let t = We(e);
+	return t.charAt(0).toUpperCase() + t.slice(1);
+}, z = {
+	xmlns: "http://www.w3.org/2000/svg",
+	width: 24,
+	height: 24,
+	viewBox: "0 0 24 24",
+	fill: "none",
+	stroke: "currentColor",
+	"stroke-width": 2,
+	"stroke-linecap": "round",
+	"stroke-linejoin": "round"
+}, Ke = Symbol("lucide-icons");
+function qe() {
+	return c(Ke, {});
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/objectWithoutPropertiesLoose.js
+function Je(e, t) {
+	if (e == null) return {};
+	var n = {};
+	for (var r in e) if ({}.hasOwnProperty.call(e, r)) {
+		if (t.includes(r)) continue;
+		n[r] = e[r];
+	}
+	return n;
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/objectWithoutProperties.js
+function Ye(e, t) {
+	if (e == null) return {};
+	var n, r, i = Je(e, t);
+	if (Object.getOwnPropertySymbols) {
+		var a = Object.getOwnPropertySymbols(e);
+		for (r = 0; r < a.length; r++) n = a[r], t.includes(n) || {}.propertyIsEnumerable.call(e, n) && (i[n] = e[n]);
+	}
+	return i;
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/typeof.js
+function B(e) {
+	"@babel/helpers - typeof";
+	return B = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return typeof e;
+	} : function(e) {
+		return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
+	}, B(e);
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/toPrimitive.js
+function V(e, t) {
+	if (B(e) != "object" || !e) return e;
+	var n = e[Symbol.toPrimitive];
+	if (n !== void 0) {
+		var r = n.call(e, t || "default");
+		if (B(r) != "object") return r;
+		throw TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return (t === "string" ? String : Number)(e);
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/toPropertyKey.js
+function Xe(e) {
+	var t = V(e, "string");
+	return B(t) == "symbol" ? t : t + "";
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/defineProperty.js
+function Ze(e, t, n) {
+	return (t = Xe(t)) in e ? Object.defineProperty(e, t, {
+		value: n,
+		enumerable: !0,
+		configurable: !0,
+		writable: !0
+	}) : e[t] = n, e;
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.133.0/helpers/esm/objectSpread2.js
+function H(e, t) {
+	var n = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var r = Object.getOwnPropertySymbols(e);
+		t && (r = r.filter(function(t) {
+			return Object.getOwnPropertyDescriptor(e, t).enumerable;
+		})), n.push.apply(n, r);
+	}
+	return n;
+}
+function U(e) {
+	for (var t = 1; t < arguments.length; t++) {
+		var n = arguments[t] == null ? {} : arguments[t];
+		t % 2 ? H(Object(n), !0).forEach(function(t) {
+			Ze(e, t, n[t]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : H(Object(n)).forEach(function(t) {
+			Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
+		});
+	}
+	return e;
+}
+//#endregion
+//#region ../../../node_modules/.pnpm/@lucide+vue@1.17.0_vue@3.5.35_typescript@6.0.3_/node_modules/@lucide/vue/dist/esm/Icon.mjs
+var W = [
+	"name",
+	"iconNode",
+	"absoluteStrokeWidth",
+	"absolute-stroke-width",
+	"strokeWidth",
+	"stroke-width",
+	"size",
+	"color"
+], Qe = (e, { slots: n }) => {
+	var r, i, a;
+	let { name: o, iconNode: c, absoluteStrokeWidth: l, "absolute-stroke-width": u, strokeWidth: d, "stroke-width": f, size: p, color: m } = e, h = Ye(e, W), { size: g, color: _, strokeWidth: v = 2, absoluteStrokeWidth: y = !1, class: b = "" } = qe(), x = t(() => {
+		let e = He(l) || He(u) || l === !0 || u === !0 || y === !0, t = d || f || v || z["stroke-width"];
+		if (e) {
+			var n;
+			return Number(t) * 24 / Number((n = p == null ? g : p) == null ? z.width : n);
+		}
+		return t;
+	});
+	return s("svg", U(U(U({}, z), h), {}, {
+		width: (r = p == null ? g : p) == null ? z.width : r,
+		height: (i = p == null ? g : p) == null ? z.height : i,
+		stroke: (a = m == null ? _ : m) == null ? z.stroke : a,
+		"stroke-width": x.value,
+		class: Ue("lucide", b, ...o ? [`lucide-${R(Ge(o))}-icon`, `lucide-${R(o)}`] : ["lucide-icon"])
+	}), [...c.map((e) => s(...e)), ...n.default ? [n.default()] : []]);
+}, G = (e, t) => (n, { slots: r, attrs: i }) => s(Qe, U(U(U({}, i), n), {}, {
+	iconNode: t,
+	name: e
+}), r.default ? { default: r.default } : void 0), $e = G("rotate-ccw", [["path", {
+	d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",
+	key: "1357e3"
+}], ["path", {
+	d: "M3 3v5h5",
+	key: "1xhq8a"
+}]]), et = G("zoom-in", [
+	["circle", {
+		cx: "11",
+		cy: "11",
+		r: "8",
+		key: "4ej97u"
+	}],
+	["line", {
+		x1: "21",
+		x2: "16.65",
+		y1: "21",
+		y2: "16.65",
+		key: "13gj7c"
+	}],
+	["line", {
+		x1: "11",
+		x2: "11",
+		y1: "8",
+		y2: "14",
+		key: "1vmskp"
+	}],
+	["line", {
+		x1: "8",
+		x2: "14",
+		y1: "11",
+		y2: "11",
+		key: "durymu"
+	}]
+]), tt = G("zoom-out", [
+	["circle", {
+		cx: "11",
+		cy: "11",
+		r: "8",
+		key: "4ej97u"
+	}],
+	["line", {
+		x1: "21",
+		x2: "16.65",
+		y1: "21",
+		y2: "16.65",
+		key: "13gj7c"
+	}],
+	["line", {
+		x1: "8",
+		x2: "14",
+		y1: "11",
+		y2: "11",
+		key: "durymu"
+	}]
+]), nt = (e, n) => {
+	let r = se(y(e), y(n)), i = m(r.getState()), a = k(i, r);
+	return x(() => [y(e), y(n)], ([e, t]) => {
+		a.setExtension(e), a.setI18n(t);
+	}, { deep: !0 }), {
+		loading: t(() => i.loading),
+		error: t(() => i.error),
+		message: t(() => i.message),
+		theme: t(() => i.theme),
+		styleVars: t(() => i.styleVars),
+		startLoading: a.startLoading,
+		setLoadingMessage: a.setLoadingMessage,
+		stopLoading: a.stopLoading,
+		showError: a.showError,
+		clearError: a.clearError,
+		resetLoading: a.resetLoading,
+		syncLoadingState: a.syncLoadingState
+	};
+}, rt = ({ output: e, getOptions: t, emitSearchChange: n, emitLocationChange: r }) => {
+	let i = re({
+		root: () => e.value,
+		searchTarget: {
+			anchors: _([]),
+			state: m(D())
+		},
+		searchOptions: () => {
+			var e;
+			return (e = t()) == null ? void 0 : e.search;
+		},
+		waitForDomUpdate: () => l(),
+		getAiOptions: () => {
+			var e;
+			return (e = t()) == null ? void 0 : e.ai;
+		},
+		onSearchChange: n,
+		onLocationChange: r
+	});
+	return f(() => {
+		i.destroyDocumentFeatures();
+	}), {
+		refreshDocumentIndex: i.refreshDocumentIndex,
+		clearDocumentState: i.clearDocumentState,
+		getScrollContainer: i.getScrollContainer,
+		searchDocument: i.searchDocument,
+		clearDocumentSearch: i.clearDocumentSearch,
+		nextSearchResult: i.nextSearchResult,
+		previousSearchResult: i.previousSearchResult,
+		getSearchState: i.getSearchState,
+		collectDocumentAnchors: i.collectDocumentAnchors,
+		scrollToAnchor: i.scrollToAnchor,
+		scrollToLine: i.scrollToLine,
+		getDocumentTextChunks: i.getDocumentTextChunks
+	};
+}, it = ({ activeExportAdapter: e, currentBuffer: t, currentFile: n, currentSourceUrl: r, displayFilename: i, formatErrorMessage: a, getOptions: o, operationAvailability: s, output: c, runBeforeOperation: l, showError: u, watermarkInlineStyle: d }) => ue({
+	getBuffer: () => t.value,
+	getFile: () => n.value,
+	getUrl: () => r.value,
+	getFilename: () => i.value,
+	getMimeType: () => {
+		var e;
+		return (e = n.value) == null ? void 0 : e.type;
+	},
+	getRenderedSource: () => c.value,
+	getAdapter: () => e.value,
+	getWatermarkInlineStyle: () => d.value,
+	getPrintAvailable: () => s.value.print,
+	getI18n: o,
+	beforeOperation: l,
+	formatErrorMessage: a,
+	onErrorMessage: u
+}), at = ({ output: e, getOptions: t, refreshZoomProvider: n, refreshViewStateProvider: r, emitFitChange: i }) => {
+	let a = ae({
+		root: () => e.value,
+		getFit: () => {
+			var e;
+			return (e = t()) == null ? void 0 : e.fit;
+		},
+		onFit: (e) => {
+			n(), r(), i(e);
+		}
+	});
+	return {
+		startFitObserver: () => a.observe(),
+		stopFitObserver: () => a.destroy(),
+		resetAutoFit: () => a.resetAutoFit(),
+		markFitUserInteraction: () => a.markUserInteraction(),
+		applyInitialFit: () => {
+			var e;
+			return a.applyInitialFit({ skip: we((e = t()) == null ? void 0 : e.initialViewState) });
+		},
+		fitToView: (e) => a.fit(e, {
+			source: "api",
+			reason: "api"
+		})
+	};
+}, ot = ({ getOptions: e, getFilename: t, getBufferSize: n, getCurrentFile: r, getCurrentVersion: i, getFallbackFile: a, getFallbackUrl: o, emitLifecycle: s, emitOperationBefore: c, emitOperationCancel: l, formatErrorMessage: u, handleLifecycleError: d, handleOperationError: f, onOperationErrorMessage: p }) => oe({
+	getOptions: e,
+	getFilename: t,
+	getBufferSize: n,
+	getCurrentFile: r,
+	getCurrentVersion: i,
+	getFallbackFile: a,
+	getFallbackUrl: o,
+	emitLifecycle: s,
+	emitOperationBefore: c,
+	emitOperationCancel: l,
+	formatErrorMessage: u,
+	handleLifecycleError: d,
+	handleOperationError: f,
+	onOperationErrorMessage: p
+}), st = ({ filename: e, getFile: n, getUrl: r, getSourceFilename: i, getOptions: a }) => {
+	let o = t(() => Pe({
+		filename: (i == null ? void 0 : i()) || e.value,
+		file: n(),
+		url: r(),
+		options: a()
+	}));
+	return {
+		displayFilename: t(() => o.value.displayFilename),
+		currentExtend: t(() => o.value.extension),
+		normalizedToolbar: t(() => o.value.toolbar),
+		viewerTheme: t(() => o.value.theme),
+		viewerDensity: t(() => o.value.density),
+		formatErrorMessage: (e, t) => Ce(e, t, a())
+	};
+}, ct = ({ currentExtend: e, error: n, loadingTheme: r, getOptions: i }) => t(() => ie(e.value, n.value, r.value, i == null ? void 0 : i())), lt = ({ getFile: e, getUrl: t, getSourceFilename: n, refreshPreview: r, cancelPreview: i, clearRenderedContent: a, resetLoading: o, stopZoomObserver: s, stopFitObserver: c, stopViewStateObserver: l }) => {
+	x([
+		e,
+		t,
+		n || (() => void 0)
+	], () => {
+		Re({ onRefreshPreview: r });
+	}, { immediate: !0 }), f(() => {
+		F({
+			onCancelPreview: i,
+			onClearRenderedContent: a,
+			onResetLoading: o,
+			onStopZoomObserver: s,
+			onStopFitObserver: c,
+			onStopViewStateObserver: l
+		});
+	});
+}, ut = ["operationAvailability"], dt = (e) => {
+	let { operationAvailability: t } = e;
+	return le(U(U({}, Ye(e, ut)), {}, { getOperationAvailability: () => t.value }));
+}, ft = (e) => ({
+	$el: e,
+	unmount() {}
+}), K = [...E], q = function() {
+	var e = L(function* (e, t, n) {
+		let r = N(n), i = document.createElement("div");
+		i.style.textAlign = "center", i.style.marginTop = "80px";
+		let a = document.createElement("div");
+		if (a.textContent = r.message, i.appendChild(a), r.description) {
+			let e = document.createElement("div");
+			e.textContent = r.description, i.appendChild(e);
+		}
+		return t.replaceChildren(i), ft(t);
+	});
+	return function(t, n, r) {
+		return e.apply(this, arguments);
+	};
+}(), pt = ee({
+	definitions: C,
+	handlers: K
+}), mt = pt.registry, ht = j({
+	registry: mt,
+	handlers: K,
+	fallbackHandler: q
+});
+pt.missingRendererIds, ht.handlersByExtension;
+//#endregion
+//#region src/package/components/FileViewer/rendererBridge.ts
+var gt = (e = {}) => {
+	let t = e.autoRenderers;
+	return typeof t == "boolean" ? t : (t == null ? void 0 : t.enabled) === void 0 ? (e.rendererMode || "extend") !== "replace" : t.enabled;
+}, J = function() {
+	var e = L(function* (e) {
+		let t = (e == null ? void 0 : e.options) || {}, n = t.rendererMode === "replace" ? xe([]) : ne({ builtinRenderers: t.builtinRenderers }).registry, r = [];
+		gt(t) && r.push(...Ee());
+		let i = t.preset, a = t.presets;
+		r.push(...Fe(i), ...Fe(a)), t.renderers && r.push(t.renderers);
+		let o = T(r);
+		return o.length && (yield Te({
+			registry: n,
+			plugins: o,
+			registerHandler: (e) => {
+				let t = n.getById(e.rendererId);
+				t && n.register(U(U({}, t), {}, { load: O({
+					handler: e.handler,
+					rendererId: t.id,
+					getTarget: (e) => e.surface.container
+				}) }));
+			}
+		})), n;
+	});
+	return function(t) {
+		return e.apply(this, arguments);
+	};
+}();
+function _t(e, t, n, r) {
+	return vt.apply(this, arguments);
+}
+function vt() {
+	return vt = L(function* (e, t, n, r) {
+		let i = (yield J(r)).getByExtension(t) || mt.getByExtension(t);
+		if (i != null && i.load) {
+			var a, o;
+			return yield i.load({
+				source: ke({
+					buffer: e,
+					filename: (r == null ? void 0 : r.filename) || `preview.${t}`,
+					type: t,
+					url: r == null ? void 0 : r.url
+				}),
+				surface: {
+					container: n,
+					shadowRoot: r == null || (a = r.surface) == null ? void 0 : a.shadowRoot,
+					styleIsolation: r == null || (o = r.surface) == null ? void 0 : o.styleIsolation
+				},
+				options: (r == null ? void 0 : r.options) || {},
+				registerExportAdapter: r == null ? void 0 : r.registerExportAdapter,
+				renderContext: r
+			});
+		}
+		return te(yield je({
+			dispatcher: ht,
+			buffer: e,
+			target: n,
+			type: t,
+			context: r
+		}));
+	}), vt.apply(this, arguments);
+}
+//#endregion
+//#region src/package/vendors/nestedRender.ts
+var Y = function() {
+	var e = L(function* (e, t, n, r) {
+		var i;
+		let a = yield _t(e, t.toLowerCase(), n, U(U({}, r), {}, { renderNestedBuffer: (r == null ? void 0 : r.renderNestedBuffer) || Y }));
+		return {
+			$el: (i = a.rendered) == null ? void 0 : i.$el,
+			destroy: () => {
+				var e;
+				return (e = a.destroy) == null ? void 0 : e.call(a);
+			}
+		};
+	});
+	return function(t, n, r, i) {
+		return e.apply(this, arguments);
+	};
+}(), yt = ({ output: e, getOptions: t, isCurrentRequest: n, notifyActiveUnloadStart: r, notifyActiveUnloadComplete: i, clearActiveDocumentContext: a, clearDocumentState: o, refreshDocumentIndex: s, startZoomObserver: c, stopZoomObserver: u, clearZoomProvider: d, refreshZoomProvider: f, startFitObserver: p, stopFitObserver: m, applyInitialFit: g, startViewStateObserver: v, stopViewStateObserver: y, clearViewStateProvider: b, refreshViewStateProvider: x }) => {
+	let S = _(null), C = h(!1), w = h(!1), T = A({
+		renderedReady: {
+			get: () => C.value,
+			set: (e) => {
+				C.value = e;
+			}
+		},
+		progressiveReady: {
+			get: () => w.value,
+			set: (e) => {
+				w.value = e;
+			}
+		}
+	}), E = null, D = de({
+		getContainer: () => e.value,
+		surfaceState: fe({
+			session: {
+				get: () => E,
+				set: (e) => {
+					E = e;
+				}
+			},
+			exportAdapter: {
+				get: () => S.value,
+				set: (e) => {
+					S.value = e;
+				}
+			}
+		}),
+		readinessState: T,
+		isCurrent: n,
+		waitForContainer: l,
+		onUnloadStart: r,
+		onUnloadComplete: (e, t) => {
+			i(e == null ? null : e, t);
+		},
+		onClearActiveDocumentContext: a,
+		onClearDocumentState: o,
+		onStartZoomObserver: c,
+		onStopZoomObserver: u,
+		onClearZoomProvider: d,
+		onStartFitObserver: p,
+		onStopFitObserver: m,
+		onApplyInitialFit: g,
+		onStartViewStateObserver: v,
+		onStopViewStateObserver: y,
+		onClearViewStateProvider: b,
+		onRefreshDocumentIndex: s,
+		onRefreshZoomProvider: f,
+		onRefreshViewStateProvider: x,
+		render: function() {
+			var e = L(function* ({ buffer: e, type: n, target: r, filename: i, sourceUrl: a, streamUrl: o, registerExportAdapter: s, onProgressiveRender: c }) {
+				return yield _t(e, n, r, {
+					filename: i,
+					url: a,
+					streamUrl: o,
+					options: t(),
+					registerExportAdapter: s,
+					onProgressiveRender: c,
+					renderNestedBuffer: function() {
+						var e = L(function* (e, n, r, i) {
+							return yield Y(e, n, r, U(U({}, i), {}, { options: (i == null ? void 0 : i.options) || t() }));
+						});
+						return function(t, n, r, i) {
+							return e.apply(this, arguments);
+						};
+					}()
+				});
+			});
+			return function(t) {
+				return e.apply(this, arguments);
+			};
+		}()
+	});
+	return U({
+		activeExportAdapter: S,
+		renderedReady: C,
+		progressiveReady: w
+	}, D);
+}, bt = ({ getFile: e, getUrl: t, getSourceFilename: n, getOptions: r, filename: i, currentFile: a, currentBuffer: o, currentSourceUrl: s, renderedReady: c, progressiveReady: l, requestController: u, clearRenderedContent: d, mountRenderedContent: f, destroyRenderSession: p, setActiveRenderSession: m, buildLoadStartState: h, buildRenderCompleteState: g, notifyLifecycle: _, setActiveDocumentContext: v, markLoadStarted: y, clearLoadStarted: b, startLoading: x, setLoadingMessage: S, stopLoading: C, showError: w, clearError: T, resetLoading: E, formatErrorMessage: D }) => {
+	let O = M({
+		getFile: e,
+		getUrl: t,
+		getCurrentFilename: () => (n == null ? void 0 : n()) || i.value,
+		getPdfStreaming: () => {
+			var e;
+			return (e = r()) == null || (e = e.pdf) == null ? void 0 : e.streaming;
+		},
+		getI18n: r,
+		getPageHref: () => window.location.href,
+		previewTarget: ce({
+			filename: {
+				get: () => i.value,
+				set: (e) => {
+					i.value = e;
+				}
+			},
+			file: {
+				get: () => a.value,
+				set: (e) => {
+					a.value = e;
+				}
+			},
+			buffer: {
+				get: () => o.value,
+				set: (e) => {
+					o.value = e;
+				}
+			},
+			sourceUrl: {
+				get: () => s.value,
+				set: (e) => {
+					s.value = e;
+				}
+			},
+			renderedReady: {
+				get: () => c.value,
+				set: (e) => {
+					c.value = e;
+				}
+			},
+			progressiveReady: {
+				get: () => l.value,
+				set: (e) => {
+					l.value = e;
+				}
+			}
+		}),
+		requestController: u,
+		downloadFile: function() {
+			var e = L(function* ({ url: e, signal: t }) {
+				let n = De(e) || e, i = yield fetch(n, { signal: t });
+				if (!i.ok) throw Error(`${ze(r(), "error.remoteDownload")}: HTTP ${i.status}`);
+				return i.blob();
+			});
+			return function(t) {
+				return e.apply(this, arguments);
+			};
+		}(),
+		mountRenderedContent: f,
+		destroyRenderSession: p,
+		buildLoadStartState: h,
+		buildRenderCompleteState: g,
+		onMarkLoadStarted: y,
+		onClearLoadStarted: b,
+		onStartLoading: x,
+		onSetLoadingMessage: S,
+		onStopLoading: C,
+		onShowError: w,
+		onClearError: T,
+		onResetLoading: E,
+		onClearRenderedContent: d,
+		onSession: m,
+		onActiveDocumentContext: v,
+		onLifecycle: _,
+		formatErrorMessage: D
+	});
+	return U(U({}, O), {}, {
+		cancelPreview: (e = "component-unmount") => {
+			O.cancelPreview(e);
+		},
+		refreshPreview: function() {
+			var e = L(function* () {
+				yield O.refreshPreview();
+			});
+			return function() {
+				return e.apply(this, arguments);
+			};
+		}(),
+		resetViewer: (e) => {
+			O.resetViewer(e);
+		}
+	});
+}, xt = ({ activeExportAdapter: e, currentBuffer: n, currentExtend: r, currentFile: i, currentSourceUrl: a, error: o, getOptions: s, getZoomState: c, loading: l, normalizedToolbar: u, renderedReady: d, zoomState: f, emitOperationAvailabilityChange: p, emitZoomChange: m }) => {
+	let h = me({
+		getAdapter: () => e.value,
+		getBuffer: () => n.value,
+		getExtension: () => r.value,
+		getFile: () => i.value,
+		getHasError: () => !!o.value,
+		getLoading: () => l.value,
+		getOptions: s,
+		getSourceUrl: () => a.value,
+		getToolbar: () => u.value,
+		getRenderedReady: () => d.value,
+		getZoomState: c,
+		zoomSyncState: f,
+		onOperationAvailabilityChange: p,
+		onZoomChange: m
+	}), g = t(() => h.resolveToolbarState()), _ = t(() => g.value.operationAvailability), v = t(() => g.value.visibleToolbar), y = t(() => g.value.toolbarOrder), b = t(() => g.value.showToolbar), S = t(() => g.value.toolbarPosition), C = t(() => g.value.toolbarDisabled);
+	return x(_, (e) => {
+		h.syncOperationAvailability(e);
+	}, { immediate: !0 }), x(() => h.createZoomSyncSnapshot(), () => {
+		h.syncZoomChange();
+	}, { immediate: !0 }), {
+		operationAvailability: _,
+		visibleToolbar: v,
+		toolbarOrder: y,
+		showToolbar: b,
+		toolbarPosition: S,
+		toolbarDisabled: C,
+		zoomButtonDisabled: (e) => h.isZoomButtonDisabled(e)
+	};
+}, St = ({ output: e, emitViewStateChange: t }) => _e(ge({
+	root: () => e.value,
+	onChange: t
+})), Ct = (e) => {
+	let n = t(() => Le(e()));
+	return {
+		normalizedWatermark: t(() => n.value.normalizedWatermark),
+		watermarkStyle: t(() => n.value.watermarkStyle),
+		watermarkInlineStyle: t(() => n.value.watermarkInlineStyle)
+	};
+}, wt = ({ output: e, enabled: t, runBeforeOperation: n }) => {
+	let r = m(be()), i = ye(r, ve({
+		root: () => e.value,
+		enabled: t,
+		beforeZoom: (e) => n(e),
+		onChange: (e) => {
+			w(r, e);
+		}
+	}));
+	return U({ zoomState: r }, i);
+}, Tt = ["data-viewer-theme", "data-viewer-density"], Et = { class: "viewer-stage" }, Dt = ["data-toolbar-position"], Ot = ["aria-label"], kt = [
+	"disabled",
+	"title",
+	"aria-label"
+], At = ["disabled", "title"], jt = ["title", "aria-label"], Mt = [
+	"disabled",
+	"title",
+	"aria-label"
+], Nt = [
+	"disabled",
+	"title",
+	"aria-label"
+], Pt = ["disabled", "title"], Ft = ["disabled", "title"], It = ["disabled", "title"], Lt = { class: "viewer-content-shell" }, Rt = {
+	key: 1,
+	class: "state-panel loading-panel"
+}, zt = { class: "loading-card" }, Bt = { class: "loading-icon" }, Vt = { class: "loading-copy" }, Ht = { class: "loading-kicker" }, Ut = {
+	key: 2,
+	class: "state-panel error-panel"
+}, Wt = { class: "error-card" }, X = /* @__PURE__ */ ((e, t) => {
+	let n = e.__vccOpts || e;
+	for (let [e, r] of t) n[e] = r;
+	return n;
+})(/* @__PURE__ */ o({
+	__name: "FileViewer",
+	props: {
+		file: {},
+		url: {},
+		name: {},
+		filename: {},
+		type: {},
+		size: {},
+		options: {}
+	},
+	emits: [
+		"load-start",
+		"load-complete",
+		"unload-start",
+		"unload-complete",
+		"operation-before",
+		"operation-cancel",
+		"operation-availability-change",
+		"search-change",
+		"location-change",
+		"zoom-change",
+		"view-state-change",
+		"fit-change"
+	],
+	setup(o, { expose: s, emit: c }) {
+		let l = o, f = c, m = h(""), _ = h(null), y = h(null), x = h(null), S = h(null), C = t(() => {
+			let e = he(l.options);
+			return {
+				zoomGroup: e("toolbar.zoomGroup"),
+				zoomOut: e("toolbar.zoomOut"),
+				zoomIn: e("toolbar.zoomIn"),
+				zoomReset: e("toolbar.zoomReset"),
+				download: e("toolbar.download"),
+				downloadTitle: e("toolbar.downloadTitle"),
+				print: e("toolbar.print"),
+				printTitle: e("toolbar.printTitle"),
+				exportHtml: e("toolbar.exportHtml"),
+				exportHtmlTitle: e("toolbar.exportHtmlTitle")
+			};
+		}), { refreshDocumentIndex: w, clearDocumentState: T, getScrollContainer: E, searchDocument: D, clearDocumentSearch: O, nextSearchResult: ee, previousSearchResult: te, getSearchState: ne, collectDocumentAnchors: re, scrollToAnchor: ie, scrollToLine: ae, getDocumentTextChunks: oe } = rt({
+			output: _,
+			getOptions: () => l.options,
+			emitSearchChange: (e) => f("search-change", e),
+			emitLocationChange: (e) => f("location-change", e)
+		}), { displayFilename: se, currentExtend: k, normalizedToolbar: ce, viewerTheme: le, viewerDensity: ue, formatErrorMessage: A } = st({
+			filename: m,
+			getFile: () => l.file,
+			getUrl: () => l.url,
+			getSourceFilename: () => l.filename || l.name,
+			getOptions: () => l.options
+		}), { watermarkStyle: de, watermarkInlineStyle: fe } = Ct(() => {
+			var e;
+			return (e = l.options) == null ? void 0 : e.watermark;
+		}), { loading: j, error: M, message: me, theme: N, styleVars: ge, startLoading: _e, setLoadingMessage: ve, stopLoading: ye, showError: be, clearError: xe, resetLoading: Se } = nt(k, () => l.options), Ce = ct({
+			currentExtend: k,
+			error: M,
+			loadingTheme: N,
+			getOptions: () => l.options
+		}), { requestController: P, getCurrentVersion: we, isCurrentRequest: Te } = pe(), { markLoadStarted: Ee, clearLoadStarted: De, notifyLifecycle: Oe, notifyActiveUnloadStart: ke, notifyActiveUnloadComplete: Ae, setActiveDocumentContext: je, clearActiveDocumentContext: Pe, buildLoadStartState: Fe, buildRenderCompleteState: Ie, runBeforeOperation: Le } = ot({
+			getOptions: () => l.options,
+			getFilename: () => m.value,
+			getBufferSize: () => {
+				var e;
+				return (e = x.value) == null ? void 0 : e.byteLength;
+			},
+			getCurrentFile: () => y.value,
+			getCurrentVersion: we,
+			getFallbackFile: () => l.file,
+			getFallbackUrl: () => l.url,
+			emitLifecycle: f,
+			emitOperationBefore: (e) => f("operation-before", e),
+			emitOperationCancel: (e) => f("operation-cancel", e),
+			formatErrorMessage: A,
+			handleLifecycleError: (e, t) => {
+				Me({
+					error: e,
+					context: t
+				});
+			},
+			handleOperationError: (e, t) => {
+				Ne({
+					error: e,
+					context: t
+				});
+			},
+			onOperationErrorMessage: be
+		}), { zoomState: F, refreshZoomProvider: Re, startZoomObserver: ze, stopZoomObserver: I, clearZoomProvider: Be, zoomIn: Ve, zoomOut: He, resetZoom: Ue, getZoomState: R } = wt({
+			output: _,
+			enabled: () => !0,
+			runBeforeOperation: Le
+		}), { refreshViewStateProvider: We, startViewStateObserver: Ge, stopViewStateObserver: z, clearViewStateProvider: Ke, getViewState: qe, applyViewState: Je } = St({
+			output: _,
+			emitViewStateChange: (e) => {
+				(e.source === "user" || e.source === "api") && e.action !== "fit" && V(), f("view-state-change", e);
+			}
+		}), { startFitObserver: Ye, stopFitObserver: B, markFitUserInteraction: V, applyInitialFit: Xe, fitToView: Ze } = at({
+			output: _,
+			getOptions: () => l.options,
+			refreshZoomProvider: Re,
+			refreshViewStateProvider: We,
+			emitFitChange: (e) => f("fit-change", e)
+		}), { activeExportAdapter: H, renderedReady: U, progressiveReady: W, clearRenderedContent: Qe, destroyRenderSession: G, mountRenderedContent: ut, setActiveRenderSession: ft } = yt({
+			output: _,
+			getOptions: () => l.options,
+			isCurrentRequest: Te,
+			notifyActiveUnloadStart: ke,
+			notifyActiveUnloadComplete: Ae,
+			clearActiveDocumentContext: Pe,
+			clearDocumentState: T,
+			refreshDocumentIndex: w,
+			startZoomObserver: ze,
+			stopZoomObserver: I,
+			clearZoomProvider: Be,
+			refreshZoomProvider: Re,
+			startFitObserver: Ye,
+			stopFitObserver: B,
+			applyInitialFit: Xe,
+			startViewStateObserver: Ge,
+			stopViewStateObserver: z,
+			clearViewStateProvider: Ke,
+			refreshViewStateProvider: We
+		}), { operationAvailability: K, visibleToolbar: q, toolbarOrder: pt, showToolbar: mt, toolbarPosition: ht, toolbarDisabled: gt, zoomButtonDisabled: J } = xt({
+			activeExportAdapter: H,
+			currentBuffer: x,
+			currentExtend: k,
+			currentFile: y,
+			currentSourceUrl: S,
+			error: M,
+			getOptions: () => l.options,
+			getZoomState: R,
+			loading: j,
+			normalizedToolbar: ce,
+			renderedReady: U,
+			zoomState: F,
+			emitOperationAvailabilityChange: (e) => f("operation-availability-change", e),
+			emitZoomChange: (e) => f("zoom-change", e)
+		}), { cancelPreview: _t, refreshPreview: vt } = bt({
+			getFile: () => l.file,
+			getUrl: () => l.url,
+			getSourceFilename: () => l.filename || l.name,
+			getOptions: () => l.options,
+			filename: m,
+			currentFile: y,
+			currentBuffer: x,
+			currentSourceUrl: S,
+			renderedReady: U,
+			progressiveReady: W,
+			requestController: P,
+			clearRenderedContent: Qe,
+			mountRenderedContent: ut,
+			destroyRenderSession: G,
+			setActiveRenderSession: ft,
+			buildLoadStartState: Fe,
+			buildRenderCompleteState: Ie,
+			notifyLifecycle: Oe,
+			setActiveDocumentContext: je,
+			markLoadStarted: Ee,
+			clearLoadStarted: De,
+			startLoading: _e,
+			setLoadingMessage: ve,
+			stopLoading: ye,
+			showError: be,
+			clearError: xe,
+			resetLoading: Se,
+			formatErrorMessage: A
+		}), { downloadOriginalFile: Y, exportRenderedHtml: X, printRenderedHtml: Gt } = it({
+			activeExportAdapter: H,
+			currentBuffer: x,
+			currentFile: y,
+			currentSourceUrl: S,
+			displayFilename: se,
+			formatErrorMessage: A,
+			getOptions: () => l.options,
+			operationAvailability: K,
+			output: _,
+			runBeforeOperation: Le,
+			showError: be,
+			watermarkInlineStyle: fe
+		}), Z = function() {
+			var e = L(function* () {
+				return V(), Ve();
+			});
+			return function() {
+				return e.apply(this, arguments);
+			};
+		}(), Q = function() {
+			var e = L(function* () {
+				return V(), He();
+			});
+			return function() {
+				return e.apply(this, arguments);
+			};
+		}(), Kt = function() {
+			var e = L(function* () {
+				return V(), Ue();
+			});
+			return function() {
+				return e.apply(this, arguments);
+			};
+		}(), qt = () => {
+			_t("component-unmount"), Se(), I(), B(), z();
+		};
+		return s(dt({
+			destroy: () => {
+				qt();
+			},
+			downloadOriginalFile: Y,
+			printRenderedHtml: Gt,
+			exportRenderedHtml: X,
+			zoomIn: Z,
+			zoomOut: Q,
+			resetZoom: Kt,
+			fitToView: Ze,
+			getZoomState: R,
+			getViewState: qe,
+			applyViewState: function() {
+				var e = L(function* (e, t) {
+					return V(), Je(e, t);
+				});
+				return function(t, n) {
+					return e.apply(this, arguments);
+				};
+			}(),
+			operationAvailability: K,
+			getScrollContainer: E,
+			searchDocument: D,
+			clearDocumentSearch: O,
+			nextSearchResult: ee,
+			previousSearchResult: te,
+			getSearchState: ne,
+			collectDocumentAnchors: re,
+			scrollToAnchor: ie,
+			scrollToLine: ae,
+			getDocumentTextChunks: oe
+		})), lt({
+			getFile: () => l.file,
+			getUrl: () => l.url,
+			getSourceFilename: () => l.filename || l.name,
+			refreshPreview: vt,
+			cancelPreview: _t,
+			clearRenderedContent: Qe,
+			resetLoading: Se,
+			stopZoomObserver: I,
+			stopFitObserver: B,
+			stopViewStateObserver: z
+		}), (t, o) => (p(), r("div", {
+			class: "file-viewer",
+			"data-viewer-theme": b(le),
+			"data-viewer-density": b(ue),
+			style: d(b(ge))
+		}, [i("div", Et, [b(mt) ? (p(), r("div", {
+			key: 0,
+			class: u(["viewer-actions", { "viewer-actions--floating": b(ht) === "bottom-right" }]),
+			"data-toolbar-position": b(ht)
+		}, [(p(!0), r(e, null, g(b(pt), (t) => (p(), r(e, { key: t }, [t === "zoom" && b(q).zoom ? (p(), r("div", {
+			key: 0,
+			class: "viewer-actions-group viewer-zoom-actions",
+			"aria-label": C.value.zoomGroup
+		}, [
+			b(K).zoomOut ? (p(), r("button", {
+				key: 0,
+				type: "button",
+				class: "viewer-icon-button",
+				disabled: b(J)("canZoomOut"),
+				title: C.value.zoomOut,
+				"aria-label": C.value.zoomOut,
+				onClick: Q
+			}, [a(b(tt), {
+				size: 15,
+				"stroke-width": 2.4
+			})], 8, kt)) : n("", !0),
+			b(K).zoomReset ? (p(), r("button", {
+				key: 1,
+				type: "button",
+				class: "viewer-zoom-meter",
+				disabled: b(J)("canReset"),
+				title: C.value.zoomReset,
+				onClick: Kt
+			}, v(b(F).label), 9, At)) : (p(), r("span", {
+				key: 2,
+				class: "viewer-zoom-meter viewer-zoom-meter--readonly",
+				title: b(F).label,
+				"aria-label": b(F).label
+			}, v(b(F).label), 9, jt)),
+			b(K).zoomIn ? (p(), r("button", {
+				key: 3,
+				type: "button",
+				class: "viewer-icon-button",
+				disabled: b(J)("canZoomIn"),
+				title: C.value.zoomIn,
+				"aria-label": C.value.zoomIn,
+				onClick: Z
+			}, [a(b(et), {
+				size: 15,
+				"stroke-width": 2.4
+			})], 8, Mt)) : n("", !0),
+			b(K).zoomReset ? (p(), r("button", {
+				key: 4,
+				type: "button",
+				class: "viewer-icon-button",
+				disabled: b(J)("canReset"),
+				title: C.value.zoomReset,
+				"aria-label": C.value.zoomReset,
+				onClick: Kt
+			}, [a(b($e), {
+				size: 14,
+				"stroke-width": 2.4
+			})], 8, Nt)) : n("", !0)
+		], 8, Ot)) : t === "download" && b(q).download ? (p(), r("button", {
+			key: 1,
+			type: "button",
+			disabled: b(gt),
+			title: C.value.downloadTitle,
+			onClick: o[0] || (o[0] = (...e) => b(Y) && b(Y)(...e))
+		}, v(C.value.download), 9, Pt)) : t === "print" && b(q).print ? (p(), r("button", {
+			key: 2,
+			type: "button",
+			disabled: b(gt),
+			title: C.value.printTitle,
+			onClick: o[1] || (o[1] = (...e) => b(Gt) && b(Gt)(...e))
+		}, v(C.value.print), 9, Ft)) : t === "exportHtml" && b(q).exportHtml ? (p(), r("button", {
+			key: 3,
+			type: "button",
+			disabled: b(gt),
+			title: C.value.exportHtmlTitle,
+			onClick: o[2] || (o[2] = (...e) => b(X) && b(X)(...e))
+		}, v(C.value.exportHtml), 9, It)) : n("", !0)], 64))), 128))], 10, Dt)) : n("", !0), i("div", Lt, [
+			i("div", {
+				ref_key: "output",
+				ref: _,
+				class: u(["content", { hidden: b(j) && !b(W) || !!b(M) }]),
+				"data-viewer-scroll-root": "true"
+			}, null, 2),
+			b(de) ? (p(), r("div", {
+				key: 0,
+				class: "viewer-watermark",
+				style: d(b(de))
+			}, null, 4)) : n("", !0),
+			b(j) && !b(W) ? (p(), r("div", Rt, [i("div", zt, [
+				i("div", Bt, v(b(N).badge), 1),
+				i("div", Vt, [
+					i("span", Ht, v(b(N).label), 1),
+					i("strong", null, v(b(me)), 1),
+					i("p", null, v(b(N).hint), 1)
+				]),
+				o[3] || (o[3] = i("span", { class: "loading-ring" }, null, -1))
+			])])) : b(M) ? (p(), r("div", Ut, [i("div", Wt, [i("strong", null, v(b(Ce).title), 1), i("p", null, v(b(Ce).message), 1)])])) : n("", !0)
+		])])], 12, Tt));
+	}
+}), [["__scopeId", "data-v-bde50cc8"]]), Gt = () => typeof window < "u" && typeof document < "u", Z = (e = {}) => !!(e.url || e.file || e.buffer), Q = (e = {}) => ({
+	url: e.url,
+	file: e.file,
+	buffer: e.buffer,
+	filename: e.filename || e.name,
+	name: e.name,
+	type: e.type,
+	size: e.size
+}), Kt = () => typeof fetch == "function", qt = function() {
+	var e = L(function* ({ url: e, signal: t }) {
+		if (!Kt()) throw Error("fetch is not available in the current environment.");
+		let n = De(e) || e, r = yield fetch(n, { signal: t });
+		if (!r.ok) throw Error(`Failed to fetch file: ${r.status} ${r.statusText}`);
+		return r.blob();
+	});
+	return function(t) {
+		return e.apply(this, arguments);
+	};
+}(), Jt = (e) => Oe(e.filename || e.name || Ie({
+	file: e.file,
+	url: e.url,
+	fallback: S
+}), e.type ? `preview.${e.type}` : S), Yt = function() {
+	var e = L(function* (e, t = {}) {
+		let n = Jt(e), r = e.type || P(n);
+		if (e.buffer) {
+			var i;
+			return {
+				buffer: e.buffer,
+				filename: n,
+				type: r,
+				size: (i = e.size) == null ? e.buffer.byteLength : i,
+				url: e.url
+			};
+		}
+		if (e.file) {
+			var a;
+			let t = I(e.file, n);
+			return {
+				file: t,
+				buffer: yield Ae(t),
+				filename: t.name || n,
+				type: r || P(t.name),
+				size: (a = e.size) == null ? t.size : a,
+				url: e.url
+			};
+		}
+		if (e.url) {
+			var o;
+			let i = yield (t.fetchFile || qt)({
+				url: e.url,
+				signal: t.signal,
+				source: e
+			});
+			if (!i) throw Error("Downloaded file is empty.");
+			let a = I(i, n);
+			return {
+				file: a,
+				buffer: yield Ae(a),
+				filename: a.name || n,
+				type: r || P(a.name),
+				size: (o = e.size) == null ? a.size : o,
+				url: e.url
+			};
+		}
+		return {
+			filename: n,
+			type: r
+		};
+	});
+	return function(t) {
+		return e.apply(this, arguments);
+	};
+}(), $ = function() {
+	var e = L(function* (e, t, n) {
+		return e ? t(e) : n;
+	});
+	return function(t, n, r) {
+		return e.apply(this, arguments);
+	};
+}(), Xt = (e) => !!(e && typeof e == "object" && e.name === "AbortError"), Zt = (e, t = {}, n = {}) => {
+	if (!Gt()) throw Error("Flyfish File Viewer can only be mounted in a browser DOM environment.");
+	let r = !1, i = t, a = Z(i) ? Q(i) : null, o = null, s = /* @__PURE__ */ new Set(), c = {
+		loading: !1,
+		ready: !1,
+		error: null,
+		lastEvent: null,
+		lifecycle: null,
+		availability: null,
+		search: null,
+		zoom: null,
+		location: null,
+		viewState: null
+	}, l = () => U(U({}, c), {}, {
+		search: c.search ? U(U({}, c.search), {}, { matches: [...c.search.matches] }) : null,
+		zoom: c.zoom ? U({}, c.zoom) : null,
+		location: c.location ? U({}, c.location) : null,
+		viewState: c.viewState ? U(U({}, c.viewState), {}, {
+			zoom: c.viewState.zoom ? U({}, c.viewState.zoom) : void 0,
+			scroll: c.viewState.scroll ? U({}, c.viewState.scroll) : void 0,
+			navigation: c.viewState.navigation ? U({}, c.viewState.navigation) : void 0,
+			extra: c.viewState.extra ? U({}, c.viewState.extra) : void 0
+		}) : null
+	}), u = (e) => {
+		var t;
+		let n = l();
+		(t = i.onStateChange) == null || t.call(i, n, e), s.forEach((t) => t(n, e));
+	}, d = Se(e, {
+		registry: n.registry,
+		options: i.options,
+		onEvent: (e) => {
+			var t;
+			c.lastEvent = e, e.type === "load-start" ? (c.loading = !0, c.ready = !1, c.error = null, c.lifecycle = e.payload) : e.type === "load-complete" ? (c.loading = !1, c.ready = !0, c.lifecycle = e.payload) : e.type === "unload-start" ? (c.loading = !0, c.ready = !1, c.lifecycle = e.payload) : e.type === "unload-complete" ? (c.loading = !1, c.ready = !1, c.lifecycle = e.payload) : e.type === "operation-availability-change" ? c.availability = e.payload : e.type === "search-change" ? c.search = e.payload : e.type === "location-change" ? c.location = e.payload : e.type === "zoom-change" ? c.zoom = e.payload : e.type === "view-state-change" && (c.viewState = e.payload.state), (t = i.onEvent) == null || t.call(i, e), u(e);
+		}
+	}), f = () => {
+		o == null || o.abort(), o = null;
+	}, p = function() {
+		var e = L(function* (e) {
+			f(), a = e, o = typeof AbortController < "u" ? new AbortController() : null;
+			let t = o;
+			try {
+				c.loading = !0, c.error = null, u();
+				let i = yield Yt(e, {
+					fetchFile: n.fetchFile,
+					signal: t == null ? void 0 : t.signal
+				});
+				return r || t != null && t.signal.aborted || o !== t ? null : yield d.load(i);
+			} catch (r) {
+				var i;
+				if (Xt(r) && t != null && t.signal.aborted) return null;
+				throw c.loading = !1, c.ready = !1, c.error = r, u(), (i = n.onError) == null || i.call(n, r, e), r;
+			} finally {
+				o === t && (o = null);
+			}
+		});
+		return function(t) {
+			return e.apply(this, arguments);
+		};
+	}();
+	return a && p(a), {
+		container: e,
+		load(e) {
+			return L(function* () {
+				r || (i = e, d.updateOptions(i.options || {}), Z(i) && (yield p(Q(i))));
+			})();
+		},
+		update() {
+			return L(function* (e = {}) {
+				var t;
+				r || (i = U(U(U({}, i), e), {}, { options: (t = e.options) == null ? i.options : t }), d.updateOptions(i.options || {}), Z(i) ? yield p(Q(i)) : (a = null, yield d.load({ filename: S })));
+			}).apply(this, arguments);
+		},
+		reload() {
+			return L(function* () {
+				r || a && (yield p(a));
+			})();
+		},
+		destroy() {
+			r || (r = !0, f(), d.destroy("component-unmount"), e.innerHTML = "");
+		},
+		getApi() {
+			return d;
+		},
+		downloadOriginalFile() {
+			return $(d, (e) => e.download(), void 0);
+		},
+		printRenderedHtml() {
+			return $(d, (e) => e.print(), void 0);
+		},
+		exportRenderedHtml() {
+			return $(d, (e) => e.exportHtml({ download: !0 }).then(() => void 0), void 0);
+		},
+		zoomIn() {
+			return $(d, (e) => e.zoomIn(), null);
+		},
+		zoomOut() {
+			return $(d, (e) => e.zoomOut(), null);
+		},
+		resetZoom() {
+			return $(d, (e) => e.resetZoom(), null);
+		},
+		fitToView(e) {
+			return $(d, (t) => t.fitToView(e), null);
+		},
+		getViewState() {
+			return d.getViewState();
+		},
+		applyViewState(e, t) {
+			return $(d, (n) => n.applyViewState(e, t), null);
+		},
+		searchDocument(e) {
+			return $(d, (t) => t.search(e), null);
+		},
+		clearDocumentSearch() {
+			return $(d, (e) => e.clearSearch(), null);
+		},
+		nextSearchResult() {
+			return $(d, (e) => e.nextSearchResult(), null);
+		},
+		previousSearchResult() {
+			return $(d, (e) => e.previousSearchResult(), null);
+		},
+		collectDocumentAnchors() {
+			return $(d, (e) => e.collectDocumentAnchors(), []);
+		},
+		scrollToAnchor(e) {
+			return $(d, (t) => t.scrollToDocumentAnchor(e), !1);
+		},
+		scrollToLine(e) {
+			return $(d, (t) => t.scrollToLine(e), !1);
+		},
+		getDocumentTextChunks() {
+			return d.getDocumentTextChunks();
+		},
+		getOperationAvailability() {
+			return d.getCapabilities();
+		},
+		getZoomState() {
+			return d.getZoomState();
+		},
+		getSearchState() {
+			return d.getSearchState();
+		},
+		getState() {
+			return l();
+		},
+		subscribe(e) {
+			return s.add(e), e(l()), () => {
+				s.delete(e);
+			};
+		}
+	};
+}, Qt = () => {
+	if (typeof document > "u" || document.querySelector("link[data-file-viewer-style=\"true\"]")) return;
+	let e = document.createElement("link");
+	e.rel = "stylesheet", e.href = Be, e.dataset.fileViewerStyle = "true", document.head.appendChild(e);
+}, $t = (e, t = {}) => {
+	var n;
+	Qt();
+	let r = t.source || t;
+	return Zt(e, U(U({}, t.autoLoad === !1 ? {} : {
+		url: r.url,
+		file: r.file,
+		buffer: r.buffer,
+		name: r.name || t.name,
+		filename: r.filename || t.filename,
+		type: r.type || t.type,
+		size: (n = r.size) == null ? t.size : n
+	}), {}, {
+		options: t.options,
+		onEvent: t.onEvent
+	}), {
+		registry: mt,
+		fetchFile: t.fetchFile,
+		onError: t.onError
+	});
+}, en = $t, tn = [["file-viewer", X]], nn = class {
+	constructor() {
+		Ze(this, "installed", !1);
+	}
+	install(e, t = {}) {
+		this.installed || (tn.forEach(([n, r]) => e.component(t.componentName || n, r)), this.installed = !0);
+	}
+};
+function rn() {
+	if (typeof document > "u" || document.querySelector("link[data-file-viewer-style=\"true\"]")) return;
+	let e = document.createElement("link");
+	e.rel = "stylesheet", e.href = Be, e.dataset.fileViewerStyle = "true", document.head.appendChild(e);
+}
+rn();
+var an = new nn();
+//#endregion
+export { X as FileViewer, $t as createFlyfishFileViewer, an as default, en as mountFlyfishFileViewer };
