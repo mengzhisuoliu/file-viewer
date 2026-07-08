@@ -39,6 +39,14 @@ const modelStyle = `
 .model-state[hidden]{display:none!important}
 .model-state.error{color:#b42318}
 .model-state strong{color:#b42318;font-size:18px}
+[data-viewer-theme='dark'] .model-viewer{background:#101820;color:#e5eef8}
+[data-viewer-theme='dark'] .model-toolbar{border-color:rgba(148,163,184,.18);background:#111827}
+[data-viewer-theme='dark'] .model-actions button{background:#1f2937;color:#cbd5e1}
+[data-viewer-theme='dark'] .model-actions button.active,[data-viewer-theme='dark'] .model-actions button:hover{background:rgba(45,212,191,.14);color:#5eead4}
+[data-viewer-theme='dark'] .model-meta{color:#94a3b8}
+[data-viewer-theme='dark'] .model-meta strong{color:#5eead4}
+[data-viewer-theme='dark'] .model-state{background:rgba(15,23,42,.88);color:#cbd5e1}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .model-viewer{background:#101820;color:#e5eef8}[data-viewer-theme='system'] .model-toolbar{border-color:rgba(148,163,184,.18);background:#111827}[data-viewer-theme='system'] .model-actions button{background:#1f2937;color:#cbd5e1}[data-viewer-theme='system'] .model-actions button.active,[data-viewer-theme='system'] .model-actions button:hover{background:rgba(45,212,191,.14);color:#5eead4}[data-viewer-theme='system'] .model-meta{color:#94a3b8}[data-viewer-theme='system'] .model-meta strong{color:#5eead4}[data-viewer-theme='system'] .model-state{background:rgba(15,23,42,.88);color:#cbd5e1}}
 @media (max-width:720px){.model-toolbar{min-height:64px;align-items:flex-start;flex-direction:column;gap:8px;padding:8px 10px}.model-meta{width:100%;justify-content:flex-start}}
 `;
 

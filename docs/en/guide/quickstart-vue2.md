@@ -115,6 +115,88 @@ Vue.use(FileViewer)
 
 Use `formats`, `renderers`, `scan:true`, `inject:false`, or `chunkStrategy:'renderer'` only for explicit registry control. Normal projects should keep `fileViewerRenderers({ copyAssets:true })` and let the plugin auto-activate installed presets.
 
+## Vue 2.6 + Vue CLI 3 / webpack 4
+
+If importing `@file-viewer/preset-office` breaks the build but commenting it out lets the app compile, the Vue 2.6 component is usually not the failing part. The office preset pulls PDF, Word, Excel, PPTX, and OFD renderer dependencies into the bundle; Vue CLI 3 / webpack 4 does not transpile `node_modules` by default and does not understand every package `exports` subpath or `import.meta.url` worker pattern.
+
+The repository includes a standalone runnable demo based on this legacy stack:
+
+```bash
+cd examples/vue2.6-cli3-office
+npm install
+npm run serve
+```
+
+On Node 17+, webpack 4 may need:
+
+```bash
+NODE_OPTIONS=--openssl-legacy-provider npm run build
+```
+
+Prefer copying the demo `vue.config.js` first, then trim it after the customer build is stable. The required ideas are: transpile selected modern dependencies, alias the core subpath entries for webpack 4, and copy worker/WASM/font assets into `public/file-viewer/`.
+
+```js
+// vue.config.js
+const path = require('path')
+
+const resolvePackageRoot = packageName => path.dirname(require.resolve(`${packageName}/package.json`))
+const resolvePackageFile = (packageName, relativePath) => path.join(resolvePackageRoot(packageName), relativePath)
+
+module.exports = {
+  transpileDependencies: [
+    /@file-viewer/,
+    /pdfjs-dist/,
+    /e-virt-table/,
+    /styled-exceljs/
+  ],
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@file-viewer/core/assets$': resolvePackageFile('@file-viewer/core', 'dist/assets.js'),
+        '@file-viewer/core/browser$': resolvePackageFile('@file-viewer/core', 'dist/browser.js'),
+        '@file-viewer/core/headless$': resolvePackageFile('@file-viewer/core', 'dist/headless.js')
+      },
+      extensions: ['.mjs', '.js', '.vue', '.json']
+    }
+  }
+}
+```
+
+The demo also includes two webpack 4 compatibility patches: `build/rename-pdfjs-webpack-require.cjs` renames the bundled PDF.js legacy `.mjs` webpack helper so it does not shadow the host webpack 4 `__webpack_require__`, and `build/babel-transform-import-meta-url.cjs` lets webpack 4 parse the PPTX worker module. The `serve` env files set `NODE_ENV=production` to avoid Vue CLI 3.1 injecting its HMR client into this legacy preview path.
+
+Then pass the preset and self-hosted asset URLs explicitly:
+
+```js
+import officePreset from '@file-viewer/preset-office'
+
+const assetBaseUrl = './file-viewer/'
+
+export const viewerOptions = {
+  preset: officePreset,
+  rendererMode: 'replace',
+  theme: 'light',
+  styleIsolation: 'shadow',
+  pdf: {
+    workerUrl: `${assetBaseUrl}vendor/pdf/pdf.worker.mjs`,
+    cMapUrl: `${assetBaseUrl}vendor/pdf/cmaps/`,
+    wasmUrl: `${assetBaseUrl}vendor/pdf/wasm/`,
+    standardFontDataUrl: `${assetBaseUrl}vendor/pdf/standard_fonts/`
+  },
+  docx: {
+    workerUrl: `${assetBaseUrl}vendor/docx/docx.worker.js`,
+    workerJsZipUrl: `${assetBaseUrl}vendor/docx/jszip.min.js`
+  },
+  presentation: {
+    workerUrl: `${assetBaseUrl}vendor/pptx/pptx.worker.js`
+  },
+  spreadsheet: {
+    workerUrl: `${assetBaseUrl}vendor/xlsx/sheet.worker.js`
+  }
+}
+```
+
+Vue CLI 3 / webpack 4 can keep working for modern browsers. If a project still requires IE11-level output or an old `uglifyjs-webpack-plugin` pass over the full office dependency graph, prefer upgrading the minifier/build chain or isolating the viewer through `@file-viewer/vue2.6-full` or the Web Component IIFE package.
+
 ## Historical Package
 
 `@flyfish-group/file-viewer` remains the compatibility line for Vue 2.7. New projects should prefer `@file-viewer/vue2.7` or `@file-viewer/vue2.6`.

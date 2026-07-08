@@ -305,9 +305,9 @@ const edaStyle = `
 .eda-state span{width:32px;height:32px;border-radius:999px;border:3px solid rgba(11,116,128,.16);border-top-color:#0b7480;animation:eda-spin .9s linear infinite}
 .eda-error{position:absolute;right:18px;bottom:18px;width:min(440px,calc(100% - 36px));padding:14px;background:#fff7e8;color:#8a4b00;z-index:3}
 @keyframes eda-spin{to{transform:rotate(360deg)}}
-.file-viewer[data-viewer-theme='dark'] .eda-viewer{background:#172033;color:#e5eef8}
-.file-viewer[data-viewer-theme='dark'] .eda-header,.file-viewer[data-viewer-theme='dark'] .eda-summary,.file-viewer[data-viewer-theme='dark'] .eda-panel,.file-viewer[data-viewer-theme='dark'] .eda-sidebar{background:#fff;color:#172033}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .eda-viewer{background:#172033;color:#e5eef8}.file-viewer[data-viewer-theme='system'] .eda-header,.file-viewer[data-viewer-theme='system'] .eda-summary,.file-viewer[data-viewer-theme='system'] .eda-panel,.file-viewer[data-viewer-theme='system'] .eda-sidebar{background:#fff;color:#172033}}
+[data-viewer-theme='dark'] .eda-viewer{background:#172033;color:#e5eef8}
+[data-viewer-theme='dark'] .eda-header,[data-viewer-theme='dark'] .eda-summary,[data-viewer-theme='dark'] .eda-panel,[data-viewer-theme='dark'] .eda-sidebar{background:#fff;color:#172033}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .eda-viewer{background:#172033;color:#e5eef8}[data-viewer-theme='system'] .eda-header,[data-viewer-theme='system'] .eda-summary,[data-viewer-theme='system'] .eda-panel,[data-viewer-theme='system'] .eda-sidebar{background:#fff;color:#172033}}
 @media (max-width:980px){.eda-header,.eda-body,.eda-topology,.eda-bottom{grid-template-columns:1fr}.eda-header{align-items:flex-start;flex-direction:column;padding-right:22px}.eda-body{display:flex;flex-direction:column}.eda-sidebar{max-height:42vh;border-right:0;border-bottom:1px solid rgba(23,32,51,.08)}}
 @media (max-width:640px){.eda-header dl,.eda-mini-grid,.eda-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.eda-tree button{grid-template-columns:minmax(22px,auto) minmax(0,1fr)}.eda-tree em,.eda-tree small{display:none}}
 `;

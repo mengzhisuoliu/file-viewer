@@ -387,7 +387,7 @@ export const renderTextObject = function (fontResObj, textObject, defaultFillCol
             let text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             text.setAttribute('x', textCodePoint.x);
             text.setAttribute('y', textCodePoint.y);
-            text.innerHTML = textCodePoint.text;
+            text.textContent = textCodePoint.text;
             if (ctm) {
                 const ctms = parseCtm(ctm);
                 text.setAttribute('transform', `matrix(${ctms[0]} ${ctms[1]} ${ctms[2]} ${ctms[3]} ${converterDpi(ctms[4])} ${converterDpi(ctms[5])})`)
@@ -396,10 +396,10 @@ export const renderTextObject = function (fontResObj, textObject, defaultFillCol
                 text.setAttribute('transform', `matrix(${hScale}, 0, 0, 1, ${(1-hScale)*textCodePoint.x}, 0)`)
                 // text.setAttribute('transform-origin', `${textCodePoint.x}`);
             }
-            text.setAttribute('fill', defaultStrokeColor);
-            text.setAttribute('fill', defaultFillColor);
+            const textFillColor = defaultFillColor || defaultStrokeColor || 'rgb(0, 0, 0)';
+            text.setAttribute('fill', textFillColor);
             text.setAttribute('fill-opacity', defaultFillOpacity);
-            text.setAttribute('style', `font-weight: ${weight};font-size:${size}px;font-family: ${getFontFamily(fontResObj[font])};`)
+            text.setAttribute('style', `font-weight: ${weight};font-size:${size}px;font-family: ${getFontFamily(fontResObj[font])};color:${textFillColor};`)
             svg.appendChild(text);
         }
 

@@ -75,6 +75,91 @@ Vue.use(FileViewer)
 
 如果是 Vue 2.6 项目，把组件包替换为 `@file-viewer/vue2.6` 或 `@file-viewer/vue2.6-full` 即可。需要更强自定义时，再配置 `formats`、`renderers`、`scan:true`、`inject:false` 或 `chunkStrategy:'renderer'`；常规项目保持 `fileViewerRenderers({ copyAssets:true })` 即可。
 
+## Vue 2.6 + Vue CLI 3 / webpack 4
+
+如果旧项目里“只要导入 `@file-viewer/preset-office` 就报错，注释掉就不报错”，通常不是 Vue2.6 组件失效，而是 `preset-office` 会把 PDF、Word、Excel、PPTX、OFD 等 renderer 依赖链一起纳入构建；Vue CLI 3 的 webpack 4 默认不转译 `node_modules`，也不理解部分 package `exports` 子路径和 `import.meta.url` worker 写法。
+
+仓库提供了一个独立可运行示例，技术栈按客户常见后台项目抽取：`vue@2.6`、`@vue/cli-service@3.1`、webpack 4、Element UI、Ant Design Vue 1.x、`babel-polyfill` 和 `@file-viewer/preset-office`。
+
+```bash
+cd examples/vue2.6-cli3-office
+npm install
+npm run serve
+```
+
+Node 17+ 跑 webpack 4 时，如果遇到 OpenSSL/MD4 报错，可以临时加：
+
+```bash
+NODE_OPTIONS=--openssl-legacy-provider npm run build
+```
+
+客户项目里优先整份参考示例的 `vue.config.js`，至少需要搬这几类配置：
+
+```js
+// vue.config.js
+const path = require('path')
+
+const resolveApp = value => path.resolve(__dirname, value)
+const resolvePackageRoot = packageName => path.dirname(require.resolve(`${packageName}/package.json`))
+const resolvePackageFile = (packageName, relativePath) => path.join(resolvePackageRoot(packageName), relativePath)
+
+module.exports = {
+  transpileDependencies: [
+    /@file-viewer/,
+    /pdfjs-dist/,
+    /e-virt-table/,
+    /styled-exceljs/
+  ],
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@file-viewer/core/assets$': resolvePackageFile('@file-viewer/core', 'dist/assets.js'),
+        '@file-viewer/core/browser$': resolvePackageFile('@file-viewer/core', 'dist/browser.js'),
+        '@file-viewer/core/headless$': resolvePackageFile('@file-viewer/core', 'dist/headless.js')
+      },
+      extensions: ['.mjs', '.js', '.vue', '.json']
+    }
+  }
+}
+```
+
+示例还包含两个 webpack 4 兼容补丁：`build/rename-pdfjs-webpack-require.cjs` 会处理 PDF.js legacy `.mjs` 自带 webpack 包装代码，避免和宿主 webpack 4 注入的 `__webpack_require__` 同名冲突；`build/babel-transform-import-meta-url.cjs` 负责让 webpack 4 解析 PPTX worker 模块。`scripts/copy-file-viewer-assets.cjs` 会把 PDF/DOCX/PPTX/Excel 的 worker、CMap、WASM 和字体复制到 `public/file-viewer/`。
+
+`npm run serve` 对应的 `.env.normalServe` 使用 `NODE_ENV=production`，是为了避开 Vue CLI 3.1 dev server 对 HMR 客户端的强注入；真实项目可以先用这个模式确认 `preset-office` 构建链可用，再决定是否保留热更新。
+
+业务代码里继续通过 `options.preset` 注入能力，同时把离线资产路径显式传进去：
+
+```js
+import officePreset from '@file-viewer/preset-office'
+
+const assetBaseUrl = './file-viewer/'
+
+export const viewerOptions = {
+  preset: officePreset,
+  rendererMode: 'replace',
+  theme: 'light',
+  styleIsolation: 'shadow',
+  pdf: {
+    workerUrl: `${assetBaseUrl}vendor/pdf/pdf.worker.mjs`,
+    cMapUrl: `${assetBaseUrl}vendor/pdf/cmaps/`,
+    wasmUrl: `${assetBaseUrl}vendor/pdf/wasm/`,
+    standardFontDataUrl: `${assetBaseUrl}vendor/pdf/standard_fonts/`
+  },
+  docx: {
+    workerUrl: `${assetBaseUrl}vendor/docx/docx.worker.js`,
+    workerJsZipUrl: `${assetBaseUrl}vendor/docx/jszip.min.js`
+  },
+  presentation: {
+    workerUrl: `${assetBaseUrl}vendor/pptx/pptx.worker.js`
+  },
+  spreadsheet: {
+    workerUrl: `${assetBaseUrl}vendor/xlsx/sheet.worker.js`
+  }
+}
+```
+
+Vue CLI 3 / webpack 4 可以继续使用这条接入路径，但建议面向现代浏览器构建；如果项目仍强依赖 IE11 或旧版 `uglifyjs-webpack-plugin` 压缩全量 Office 依赖链，优先考虑升级压缩器、升级构建链，或改用 `@file-viewer/vue2.6-full` / Web Component IIFE 形态做边界隔离。
+
 ## 注册插件
 
 ```ts

@@ -86,6 +86,26 @@ const WORD_PAGE_CSS = `
 .msdoc-page .msdoc-page-break{
   display:none;
 }
+[data-viewer-theme='dark'] .msdoc-stage{
+  background:#111827;
+}
+[data-viewer-theme='dark'] .msdoc-page > .msdoc-root{
+  color-scheme:only light;
+  forced-color-adjust:none;
+  background:#fff;
+  color:#111;
+}
+@media (prefers-color-scheme:dark){
+  [data-viewer-theme='system'] .msdoc-stage{
+    background:#111827;
+  }
+  [data-viewer-theme='system'] .msdoc-page > .msdoc-root{
+    color-scheme:only light;
+    forced-color-adjust:none;
+    background:#fff;
+    color:#111;
+  }
+}
 @media (max-width: 860px){
   .msdoc-stage{
     padding:16px 12px 24px;
@@ -108,6 +128,14 @@ const MSDOC_ZOOM_CSS = `
   height:100%;
   overflow:auto;
   background:#ececec;
+}
+[data-viewer-theme='dark'] .msdoc-zoom-viewer{
+  background:#111827;
+}
+@media (prefers-color-scheme:dark){
+  [data-viewer-theme='system'] .msdoc-zoom-viewer{
+    background:#111827;
+  }
 }
 .msdoc-zoom-viewer .msdoc-stage{
   min-width:max-content;

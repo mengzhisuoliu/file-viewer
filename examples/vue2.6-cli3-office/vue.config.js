@@ -1,0 +1,89 @@
+const path = require('path')
+
+const resolveApp = value => path.resolve(__dirname, value)
+const resolvePackageRoot = packageName => path.dirname(require.resolve(`${packageName}/package.json`))
+const resolvePackageFile = (packageName, relativePath) => path.join(resolvePackageRoot(packageName), relativePath)
+
+const fileViewerModernDependencyRoots = [
+  '@file-viewer',
+  'pdfjs-dist',
+  'e-virt-table',
+  'styled-exceljs'
+].map(packageName => resolveApp(`node_modules/${packageName}`))
+
+module.exports = {
+  publicPath: process.env.VUE_APP_PUBLIC_PATH || './',
+  productionSourceMap: false,
+  devServer: {
+    hot: false,
+    hotOnly: false
+  },
+  transpileDependencies: [
+    /@file-viewer/,
+    /pdfjs-dist/,
+    /e-virt-table/,
+    /styled-exceljs/
+  ],
+  configureWebpack: {
+    performance: {
+      hints: false
+    },
+    resolve: {
+      alias: {
+        '@file-viewer/core/assets$': resolvePackageFile('@file-viewer/core', 'dist/assets.js'),
+        '@file-viewer/core/browser$': resolvePackageFile('@file-viewer/core', 'dist/browser.js'),
+        '@file-viewer/core/headless$': resolvePackageFile('@file-viewer/core', 'dist/headless.js')
+      },
+      extensions: ['.mjs', '.js', '.vue', '.json']
+    }
+  },
+  chainWebpack(config) {
+    config.plugins.delete('hmr')
+
+    config.module
+      .rule('pdfjs-webpack4-require-name')
+      .test(/pdfjs-dist[\\/]legacy[\\/](build[\\/]pdf|web[\\/]pdf_viewer)\.mjs$/)
+      .enforce('pre')
+      .use('rename-pdfjs-webpack-require')
+      .loader(resolveApp('build/rename-pdfjs-webpack-require.cjs'))
+
+    config.module
+      .rule('node-modules-mjs')
+      .test(/\.mjs$/)
+      .include
+      .add(resolveApp('node_modules'))
+      .end()
+      .type('javascript/auto')
+
+    const modernDepsRule = config.module
+      .rule('file-viewer-modern-deps')
+      .test(/\.(mjs|js)$/)
+
+    fileViewerModernDependencyRoots.forEach(depRoot => {
+      modernDepsRule.include.add(depRoot)
+    })
+
+    modernDepsRule
+      .use('babel-loader')
+      .loader('babel-loader')
+      .options({
+        babelrc: false,
+        configFile: false,
+        compact: false,
+        presets: [
+          ['@babel/preset-env', {
+            modules: false,
+            targets: {
+              browsers: ['Chrome >= 80', 'Firefox >= 78', 'Safari >= 13', 'Edge >= 80']
+            }
+          }]
+        ],
+        plugins: [
+          '@babel/plugin-proposal-optional-chaining',
+          '@babel/plugin-proposal-nullish-coalescing-operator',
+          '@babel/plugin-proposal-class-properties',
+          resolveApp('build/babel-transform-import-meta-url.cjs')
+        ]
+      })
+  }
+}

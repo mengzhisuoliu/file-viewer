@@ -132,12 +132,12 @@ const spreadsheetStyle = `
 .excel-wrapper .sheet-tab.active{border-color:rgba(33,163,102,.28);background:rgba(33,163,102,.12);color:#137347}
 .excel-wrapper .summary{flex:0 0 auto;max-width:42%;overflow:hidden;color:#64748b;font-size:12px;font-weight:700;white-space:nowrap;text-overflow:ellipsis}
 .excel-wrapper .hidden{display:none!important}
-.file-viewer[data-viewer-theme='dark'] .excel-wrapper{background:#0f172a;color:#e5e7eb}
-.file-viewer[data-viewer-theme='dark'] .excel-wrapper .table-wrapper{background:#111827}
-.file-viewer[data-viewer-theme='dark'] .excel-wrapper .toolbar{background:#111827;border-color:rgba(148,163,184,.22)}
-.file-viewer[data-viewer-theme='dark'] .excel-wrapper .sheet-tab{color:#cbd5e1}
-.file-viewer[data-viewer-theme='dark'] .excel-wrapper .sheet-tab:hover{background:#1f2937}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .excel-wrapper{background:#0f172a;color:#e5e7eb}.file-viewer[data-viewer-theme='system'] .excel-wrapper .table-wrapper{background:#111827}.file-viewer[data-viewer-theme='system'] .excel-wrapper .toolbar{background:#111827;border-color:rgba(148,163,184,.22)}.file-viewer[data-viewer-theme='system'] .excel-wrapper .sheet-tab{color:#cbd5e1}.file-viewer[data-viewer-theme='system'] .excel-wrapper .sheet-tab:hover{background:#1f2937}}
+[data-viewer-theme='dark'] .excel-wrapper{background:#0f172a;color:#e5e7eb}
+[data-viewer-theme='dark'] .excel-wrapper .table-wrapper{background:#111827}
+[data-viewer-theme='dark'] .excel-wrapper .toolbar{background:#111827;border-color:rgba(148,163,184,.22)}
+[data-viewer-theme='dark'] .excel-wrapper .sheet-tab{color:#cbd5e1}
+[data-viewer-theme='dark'] .excel-wrapper .sheet-tab:hover{background:#1f2937}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .excel-wrapper{background:#0f172a;color:#e5e7eb}[data-viewer-theme='system'] .excel-wrapper .table-wrapper{background:#111827}[data-viewer-theme='system'] .excel-wrapper .toolbar{background:#111827;border-color:rgba(148,163,184,.22)}[data-viewer-theme='system'] .excel-wrapper .sheet-tab{color:#cbd5e1}[data-viewer-theme='system'] .excel-wrapper .sheet-tab:hover{background:#1f2937}}
 @keyframes sheet-loading-spin{to{transform:rotate(360deg)}}
 @keyframes sheet-loading-pulse{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1)}}
 @media (max-width:720px){.excel-wrapper .toolbar{align-items:stretch;flex-direction:column}.excel-wrapper .btn-group{flex:0 0 auto}.excel-wrapper .summary{max-width:none;white-space:normal}.excel-wrapper .sheet-loading{left:12px;right:12px;bottom:58px;justify-content:center}.excel-wrapper .loading-card{margin:18px;flex-direction:column;text-align:center}}

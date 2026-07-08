@@ -55,8 +55,8 @@ const drawingStyle = `
 .drawing-diagram-pan{display:inline-flex;min-width:240px;min-height:180px;align-items:center;justify-content:center;padding:32px;cursor:grab;touch-action:none}
 .drawing-diagram-pan:active{cursor:grabbing}
 .drawing-diagram-pan .drawing-diagram-svg{margin:0;box-shadow:none}
-.file-viewer[data-viewer-theme='dark'] .drawing-diagram-shell{background:linear-gradient(135deg,#111827,#0f172a)}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .drawing-diagram-shell{background:linear-gradient(135deg,#111827,#0f172a)}}
+[data-viewer-theme='dark'] .drawing-diagram-shell{background:linear-gradient(135deg,#111827,#0f172a)}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .drawing-diagram-shell{background:linear-gradient(135deg,#111827,#0f172a)}}
 .drawing-state{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;padding:24px;color:#64748b;font-size:14px;font-weight:700;text-align:center}
 .drawing-state[hidden]{display:none!important}
 .drawing-state.error{color:#b42318}

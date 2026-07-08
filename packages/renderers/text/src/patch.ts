@@ -30,10 +30,10 @@ const patchStyle = `
 .patch-body .d2h-file-list{margin:0;padding:8px 12px;list-style:none}
 .patch-body .d2h-file-list-line{display:flex;gap:8px;padding:4px 0;color:var(--patch-text);font-size:.95em}
 .patch-fallback{margin:0;padding:18px 20px;overflow:auto;border-radius:8px;background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono',monospace;font-size:var(--patch-font-size);line-height:1.7;white-space:pre}
-.file-viewer[data-viewer-theme='dark'] .patch-viewer{--patch-bg:#0d1117;--patch-surface:#161b22;--patch-border:rgba(139,148,158,.24);--patch-text:#e6edf3;--patch-muted:#8b949e;--patch-add:rgba(46,160,67,.26);--patch-del:rgba(248,81,73,.24);--patch-info:rgba(56,139,253,.18)}
-.file-viewer[data-viewer-theme='dark'] .patch-toolbar{background:rgba(13,17,23,.92)}
-.file-viewer[data-viewer-theme='dark'] .patch-body .d2h-file-header{background:#161b22}
-@media (prefers-color-scheme:dark){.file-viewer[data-viewer-theme='system'] .patch-viewer{--patch-bg:#0d1117;--patch-surface:#161b22;--patch-border:rgba(139,148,158,.24);--patch-text:#e6edf3;--patch-muted:#8b949e;--patch-add:rgba(46,160,67,.26);--patch-del:rgba(248,81,73,.24);--patch-info:rgba(56,139,253,.18)}.file-viewer[data-viewer-theme='system'] .patch-toolbar{background:rgba(13,17,23,.92)}.file-viewer[data-viewer-theme='system'] .patch-body .d2h-file-header{background:#161b22}}
+[data-viewer-theme='dark'] .patch-viewer{--patch-bg:#0d1117;--patch-surface:#161b22;--patch-border:rgba(139,148,158,.24);--patch-text:#e6edf3;--patch-muted:#8b949e;--patch-add:rgba(46,160,67,.26);--patch-del:rgba(248,81,73,.24);--patch-info:rgba(56,139,253,.18)}
+[data-viewer-theme='dark'] .patch-toolbar{background:rgba(13,17,23,.92)}
+[data-viewer-theme='dark'] .patch-body .d2h-file-header{background:#161b22}
+@media (prefers-color-scheme:dark){[data-viewer-theme='system'] .patch-viewer{--patch-bg:#0d1117;--patch-surface:#161b22;--patch-border:rgba(139,148,158,.24);--patch-text:#e6edf3;--patch-muted:#8b949e;--patch-add:rgba(46,160,67,.26);--patch-del:rgba(248,81,73,.24);--patch-info:rgba(56,139,253,.18)}[data-viewer-theme='system'] .patch-toolbar{background:rgba(13,17,23,.92)}[data-viewer-theme='system'] .patch-body .d2h-file-header{background:#161b22}}
 `
 
 const createElement = <TagName extends keyof HTMLElementTagNameMap>(

@@ -163,6 +163,8 @@ import FileViewer from '@file-viewer/vue2.7-full'
 Vue.use(FileViewer)
 ```
 
+Vue 2.6 + Vue CLI 3 / webpack 4 老后台如果在导入 `@file-viewer/preset-office` 后构建报错，可直接参考独立示例 [`examples/vue2.6-cli3-office`](./examples/vue2.6-cli3-office)，里面包含 `transpileDependencies`、webpack 4 子路径 alias、PDF.js legacy `.mjs` 兼容、PPTX `import.meta.url` 兼容、Vue CLI 3.1 HMR 预览规避和离线 worker 资产复制脚本。
+
 ### React
 
 ```bash
