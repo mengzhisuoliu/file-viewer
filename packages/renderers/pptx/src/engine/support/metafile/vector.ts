@@ -1,5 +1,5 @@
-import { BinaryReader } from '../core/binary.js';
-import { dataUrlFromBytes, escapeHtml } from '../core/utils.js';
+import { BinaryReader } from './binary.js';
+import { dataUrlFromBytes, escapeHtml } from './utils.js';
 
 export interface ConvertedVectorImage {
   mime: 'image/svg+xml';
@@ -666,21 +666,32 @@ function dominantBaseline(textAlign: number): string {
   return 'text-before-edge';
 }
 
+function effectiveFontSize(ctx: ParseContext, fontSize: number): number {
+  const mapped = mapVector(ctx, { x: 0, y: Math.abs(fontSize) || 12 });
+  const scaled = Math.hypot(mapped.x, mapped.y);
+  if (!Number.isFinite(scaled) || scaled <= 0) {
+    return Math.max(1, Math.abs(fontSize) || 12);
+  }
+  return Math.max(1, scaled);
+}
+
+function normalizeFontFamily(family: string): string {
+  const trimmed = String(family || '').trim();
+  if (!trimmed) return 'sans-serif';
+  // Drop charset/script suffixes such as "Times New Roman Baltic".
+  return trimmed.replace(/\s+(?:Baltic|CE|Cyr|Greek|Tur|Vietnamese|Hebrew|Arabic|Thai|Symbol)$/i, '') || 'sans-serif';
+}
+
 function addText(ctx: ParseContext, point: Point, text: string): void {
   if (!text) return;
   const mapped = mapPoint(ctx, point);
-  const mappedSize = mapVector(ctx, { x: 0, y: Math.abs(ctx.state.font.size) || 12 });
-  const scaledSize = Math.hypot(mappedSize.x, mappedSize.y);
-  const fontSize = Math.max(1, Number.isFinite(scaledSize) && scaledSize > 0 ? scaledSize : Math.abs(ctx.state.font.size) || 12);
-  const family = String(ctx.state.font.family || 'sans-serif')
-    .replace(/\s+(?:Baltic|CE|Cyr|Greek|Tur|Vietnamese|Hebrew|Arabic|Thai|Symbol)$/i, '')
-    || 'sans-serif';
+  const fontSize = effectiveFontSize(ctx, ctx.state.font.size || 12);
   const attrs = [
     `x="${numberCss(mapped.x)}"`,
     `y="${numberCss(mapped.y)}"`,
     `fill="${escapeHtml(ctx.state.textColor)}"`,
     `font-size="${numberCss(fontSize)}"`,
-    `font-family="${escapeHtml(family)}"`,
+    `font-family="${escapeHtml(normalizeFontFamily(ctx.state.font.family))}"`,
     `text-anchor="${textAnchor(ctx.state.textAlign)}"`,
     `dominant-baseline="${dominantBaseline(ctx.state.textAlign)}"`,
   ];
@@ -705,7 +716,7 @@ function finalizeSvg(ctx: ParseContext, sourceMime: VectorSourceMime): Converted
   });
   const width = Math.max(1, Math.round(rectWidth(viewBox)));
   const height = Math.max(1, Math.round(rectHeight(viewBox)));
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="${numberCss(viewBox.left)} ${numberCss(viewBox.top)} ${numberCss(rectWidth(viewBox))} ${numberCss(rectHeight(viewBox))}" preserveAspectRatio="xMinYMin meet">\n${ctx.nodes.join('\n')}\n</svg>`;
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="${numberCss(viewBox.left)} ${numberCss(viewBox.top)} ${numberCss(rectWidth(viewBox))} ${numberCss(rectHeight(viewBox))}" preserveAspectRatio="xMinYMin meet">\n<rect x="${numberCss(viewBox.left)}" y="${numberCss(viewBox.top)}" width="${numberCss(rectWidth(viewBox))}" height="${numberCss(rectHeight(viewBox))}" fill="#ffffff"/>\n${ctx.nodes.join('\n')}\n</svg>`;
   const encoded = new TextEncoder().encode(svg);
   return {
     mime: 'image/svg+xml',

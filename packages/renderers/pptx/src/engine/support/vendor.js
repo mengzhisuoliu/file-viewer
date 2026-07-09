@@ -2,6 +2,7 @@ import tinycolor from 'tinycolor2'
 import { parse } from './txml'
 import * as dingbatToUnicode from "dingbat-to-unicode";
 import UTIFModule from 'utif';
+import { convertMetafileToSvg } from './metafile/vector.js';
 
 const UTIF = UTIFModule.default || UTIFModule;
 
@@ -187,7 +188,10 @@ export async function readXmlFile(zip, filename, isSlideContent = false) {
       //remove "<![CDATA[ ... ]]>" tag
       fileContent = fileContent.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1');
     }
-    const xmlData = parse(fileContent, { simplify: true });
+    // Keep whitespace-only <a:t> runs (spaces/tabs used for layout gaps).
+    // Without this, txml trims them away and genSpanElement falls back to a
+    // single &nbsp;, collapsing intentional multi-space gaps in slides.
+    const xmlData = parse(fileContent, { simplify: true, keepWhitespace: true });
     if (xmlData['?xml']) {
       delete xmlData['?xml']
     }
@@ -612,421 +616,18 @@ function formatSvgNumber(value) {
   return Math.round(value * 1000) / 1000;
 }
 
-function colorRefToHex(colorRef) {
-  var r = colorRef & 255;
-  var g = (colorRef >> 8) & 255;
-  var b = (colorRef >> 16) & 255;
-  return [r, g, b].map(function (value) {
-    return ("0" + value.toString(16)).slice(-2);
-  }).join("");
-}
-
-function emfStockObject(handle) {
-  switch (handle) {
-    case 0x80000000:
-      return { kind: "brush", style: 0, color: "ffffff" };
-    case 0x80000004:
-      return { kind: "brush", style: 0, color: "000000" };
-    case 0x80000005:
-      return { kind: "brush", style: 1, color: "none" };
-    case 0x80000006:
-      return { kind: "pen", style: 0, width: 1, color: "ffffff" };
-    case 0x80000007:
-      return { kind: "pen", style: 0, width: 1, color: "000000" };
-    case 0x80000008:
-      return { kind: "pen", style: 5, width: 0, color: "none" };
-    default:
-      return undefined;
-  }
-}
-
-function cloneEmfState(state) {
-  return {
-    windowOrgX: state.windowOrgX,
-    windowOrgY: state.windowOrgY,
-    viewportOrgX: state.viewportOrgX,
-    viewportOrgY: state.viewportOrgY,
-    windowExtX: state.windowExtX,
-    windowExtY: state.windowExtY,
-    viewportExtX: state.viewportExtX,
-    viewportExtY: state.viewportExtY,
-    polyFillMode: state.polyFillMode,
-    currentBrush: state.currentBrush,
-    currentPen: state.currentPen,
-    currentX: state.currentX,
-    currentY: state.currentY,
-    inPath: state.inPath,
-    pathD: state.pathD,
-    lastPathD: state.lastPathD,
-    clipId: state.clipId
-  };
-}
-
-function emfPoint(state, x, y) {
-  var scaleX = state.windowExtX ? state.viewportExtX / state.windowExtX : 1;
-  var scaleY = state.windowExtY ? state.viewportExtY / state.windowExtY : 1;
-  return {
-    x: state.viewportOrgX + (x - state.windowOrgX) * scaleX,
-    y: state.viewportOrgY + (y - state.windowOrgY) * scaleY
-  };
-}
-
-function emfPathMove(state, x, y) {
-  var point = emfPoint(state, x, y);
-  state.currentX = x;
-  state.currentY = y;
-  var cmd = "M" + formatSvgNumber(point.x) + " " + formatSvgNumber(point.y);
-  if (state.inPath) {
-    state.pathD += (state.pathD ? " " : "") + cmd;
-  }
-  return cmd;
-}
-
-function emfLineTo(state, x, y) {
-  var startX = state.currentX;
-  var startY = state.currentY;
-  var point = emfPoint(state, x, y);
-  state.currentX = x;
-  state.currentY = y;
-  var cmd = "L" + formatSvgNumber(point.x) + " " + formatSvgNumber(point.y);
-  if (state.inPath) {
-    if (!state.pathD) {
-      emfPathMove(state, startX, startY);
-    }
-    state.pathD += " " + cmd;
-  }
-  return cmd;
-}
-
-function emfBezierTo(state, p1, p2, p3) {
-  var startX = state.currentX;
-  var startY = state.currentY;
-  var c1 = emfPoint(state, p1.x, p1.y);
-  var c2 = emfPoint(state, p2.x, p2.y);
-  var end = emfPoint(state, p3.x, p3.y);
-  state.currentX = p3.x;
-  state.currentY = p3.y;
-  var cmd = "C" + formatSvgNumber(c1.x) + " " + formatSvgNumber(c1.y) + " " +
-    formatSvgNumber(c2.x) + " " + formatSvgNumber(c2.y) + " " +
-    formatSvgNumber(end.x) + " " + formatSvgNumber(end.y);
-  if (state.inPath) {
-    if (!state.pathD) {
-      var start = emfPoint(state, startX, startY);
-      state.pathD = "M" + formatSvgNumber(start.x) + " " + formatSvgNumber(start.y);
-    }
-    state.pathD += " " + cmd;
-  }
-  return cmd;
-}
-
-function emfStrokeWidth(state, pen) {
-  var width = pen && pen.width ? pen.width : 1;
-  var scaleX = state.windowExtX ? Math.abs(state.viewportExtX / state.windowExtX) : 1;
-  var scaleY = state.windowExtY ? Math.abs(state.viewportExtY / state.windowExtY) : 1;
-  return Math.max(0.5, width * ((scaleX + scaleY) / 2));
-}
-
-function emfStyleAttrs(state, mode) {
-  var brush = state.currentBrush || { style: 1, color: "none" };
-  var pen = state.currentPen || { style: 0, width: 1, color: "000000" };
-  var penStyle = pen.style & 15;
-  var fill = "none";
-  var stroke = "none";
-  var attrs = [];
-
-  if (mode != "stroke" && brush.style !== 1) {
-    fill = "#" + brush.color;
-  }
-  if (mode != "fillOnly" && penStyle !== 5) {
-    stroke = "#" + pen.color;
-  }
-
-  attrs.push("fill=\"" + fill + "\"");
-  attrs.push("stroke=\"" + stroke + "\"");
-  if (stroke != "none") {
-    attrs.push("stroke-width=\"" + formatSvgNumber(emfStrokeWidth(state, pen)) + "\"");
-  }
-  attrs.push("fill-rule=\"" + (state.polyFillMode == 1 ? "evenodd" : "nonzero") + "\"");
-  if (state.clipId) {
-    attrs.push("clip-path=\"url(#" + state.clipId + ")\"");
-  }
-  return attrs.join(" ");
-}
-
-function utf8ToBase64(text) {
-  if (typeof TextEncoder !== "undefined") {
-    return base64ArrayBuffer(new TextEncoder().encode(text).buffer);
-  }
-  return btoa(unescape(encodeURIComponent(text)));
-}
-
-function convertEmfToSvgDataUrl(arrayBuffer) {
+function convertMetafileToSvgDataUrl(arrayBuffer, mime) {
   try {
-    var view = new DataView(arrayBuffer);
-    if (view.byteLength < 16 || view.getUint32(0, true) !== 1) {
+    var bytes = arrayBuffer instanceof Uint8Array
+      ? arrayBuffer
+      : new Uint8Array(arrayBuffer);
+    var converted = convertMetafileToSvg(mime, bytes);
+    if (!converted || !converted.dataUrl) {
       return undefined;
     }
-
-    var boundsLeft = view.getInt32(8, true);
-    var boundsTop = view.getInt32(12, true);
-    var boundsRight = view.getInt32(16, true);
-    var boundsBottom = view.getInt32(20, true);
-    var state = {
-      windowOrgX: 0,
-      windowOrgY: 0,
-      viewportOrgX: 0,
-      viewportOrgY: 0,
-      windowExtX: 1,
-      windowExtY: 1,
-      viewportExtX: 1,
-      viewportExtY: 1,
-      polyFillMode: 1,
-      currentBrush: { kind: "brush", style: 1, color: "none" },
-      currentPen: { kind: "pen", style: 0, width: 1, color: "000000" },
-      currentX: 0,
-      currentY: 0,
-      inPath: false,
-      pathD: "",
-      lastPathD: "",
-      clipId: undefined
-    };
-    var objects = {};
-    var stack = [];
-    var shapes = [];
-    var defs = [];
-    var clipIndex = 0;
-    var offset = 0;
-
-    function readPoint16(pointOffset) {
-      return {
-        x: view.getInt16(pointOffset, true),
-        y: view.getInt16(pointOffset + 2, true)
-      };
-    }
-
-    function outputPath(d, mode) {
-      if (!d) {
-        return;
-      }
-      shapes.push("<path d=\"" + d + "\" " + emfStyleAttrs(state, mode) + "/>");
-    }
-
-    function outputPoly16(recordOffset, closePath, strokeOnly) {
-      var polygonCount = view.getUint32(recordOffset + 24, true);
-      var pointTotal = view.getUint32(recordOffset + 28, true);
-      var countsOffset = recordOffset + 32;
-      var pointsOffset = countsOffset + polygonCount * 4;
-      var cursor = pointsOffset;
-      var path = "";
-
-      for (var p = 0; p < polygonCount; p++) {
-        var count = view.getUint32(countsOffset + p * 4, true);
-        if (count === 0) {
-          continue;
-        }
-        for (var i = 0; i < count && cursor + 4 <= recordOffset + recordSize; i++) {
-          var point = readPoint16(cursor);
-          cursor += 4;
-          var mapped = emfPoint(state, point.x, point.y);
-          path += (path ? " " : "") + (i === 0 ? "M" : "L") +
-            formatSvgNumber(mapped.x) + " " + formatSvgNumber(mapped.y);
-          state.currentX = point.x;
-          state.currentY = point.y;
-        }
-        if (closePath) {
-          path += " Z";
-        }
-      }
-      if (pointTotal > 0) {
-        outputPath(path, strokeOnly ? "stroke" : "fillStroke");
-      }
-    }
-
-    while (offset + 8 <= view.byteLength) {
-      var recordType = view.getUint32(offset, true);
-      var recordSize = view.getUint32(offset + 4, true);
-      if (recordSize < 8 || offset + recordSize > view.byteLength) {
-        break;
-      }
-
-      switch (recordType) {
-        case 1:
-          break;
-        case 9:
-          state.windowExtX = view.getInt32(offset + 8, true) || 1;
-          state.windowExtY = view.getInt32(offset + 12, true) || 1;
-          break;
-        case 10:
-          state.windowOrgX = view.getInt32(offset + 8, true);
-          state.windowOrgY = view.getInt32(offset + 12, true);
-          break;
-        case 11:
-          state.viewportExtX = view.getInt32(offset + 8, true) || 1;
-          state.viewportExtY = view.getInt32(offset + 12, true) || 1;
-          break;
-        case 12:
-          state.viewportOrgX = view.getInt32(offset + 8, true);
-          state.viewportOrgY = view.getInt32(offset + 12, true);
-          break;
-        case 19:
-          state.polyFillMode = view.getUint32(offset + 8, true);
-          break;
-        case 33:
-          stack.push(cloneEmfState(state));
-          break;
-        case 34:
-          if (stack.length) {
-            var saved = stack.pop();
-            Object.assign(state, saved);
-          }
-          break;
-        case 37: {
-          var selectHandle = view.getUint32(offset + 8, true);
-          var selected = objects[selectHandle] || emfStockObject(selectHandle);
-          if (selected !== undefined) {
-            if (selected.kind == "brush") {
-              state.currentBrush = selected;
-            } else if (selected.kind == "pen") {
-              state.currentPen = selected;
-            }
-          }
-          break;
-        }
-        case 38: {
-          var penHandle = view.getUint32(offset + 8, true);
-          objects[penHandle] = {
-            kind: "pen",
-            style: view.getUint32(offset + 12, true),
-            width: view.getInt32(offset + 16, true),
-            color: colorRefToHex(view.getUint32(offset + 20, true))
-          };
-          break;
-        }
-        case 39: {
-          var brushHandle = view.getUint32(offset + 8, true);
-          objects[brushHandle] = {
-            kind: "brush",
-            style: view.getUint32(offset + 12, true),
-            color: colorRefToHex(view.getUint32(offset + 16, true))
-          };
-          break;
-        }
-        case 40:
-          delete objects[view.getUint32(offset + 8, true)];
-          break;
-        case 59:
-          state.inPath = true;
-          state.pathD = "";
-          break;
-        case 60:
-          state.inPath = false;
-          state.lastPathD = state.pathD;
-          break;
-        case 61:
-          if (state.inPath) {
-            state.pathD += " Z";
-          }
-          break;
-        case 62:
-          outputPath(state.lastPathD || state.pathD, "fillOnly");
-          break;
-        case 63:
-          outputPath(state.lastPathD || state.pathD, "fillStroke");
-          break;
-        case 64:
-          outputPath(state.lastPathD || state.pathD, "stroke");
-          break;
-        case 67:
-          if (state.lastPathD || state.pathD) {
-            var clipId = "emfClip" + (++clipIndex);
-            defs.push("<clipPath id=\"" + clipId + "\"><path d=\"" + (state.lastPathD || state.pathD) + "\"/></clipPath>");
-            state.clipId = clipId;
-          }
-          break;
-        case 27:
-          emfPathMove(state, view.getInt32(offset + 8, true), view.getInt32(offset + 12, true));
-          break;
-        case 6: {
-          var linePointCount = view.getUint32(offset + 24, true);
-          var linePath = "";
-          if (!state.inPath) {
-            var start = emfPoint(state, state.currentX, state.currentY);
-            linePath = "M" + formatSvgNumber(start.x) + " " + formatSvgNumber(start.y);
-          }
-          for (var lp = 0; lp < linePointCount; lp++) {
-            var lpOffset = offset + 28 + lp * 8;
-            var lineCmd = emfLineTo(state, view.getInt32(lpOffset, true), view.getInt32(lpOffset + 4, true));
-            if (!state.inPath) {
-              linePath += " " + lineCmd;
-            }
-          }
-          if (!state.inPath) {
-            outputPath(linePath, "stroke");
-          }
-          break;
-        }
-        case 88: {
-          var bezierCount = view.getUint32(offset + 24, true);
-          var bezierPath = "";
-          if (!state.inPath) {
-            var bezierStart = emfPoint(state, state.currentX, state.currentY);
-            bezierPath = "M" + formatSvgNumber(bezierStart.x) + " " + formatSvgNumber(bezierStart.y);
-          }
-          var bezierPoints = [];
-          for (var bp = 0; bp < bezierCount; bp++) {
-            bezierPoints.push(readPoint16(offset + 28 + bp * 4));
-          }
-          for (var bi = 0; bi + 2 < bezierPoints.length; bi += 3) {
-            var bezierCmd = emfBezierTo(state, bezierPoints[bi], bezierPoints[bi + 1], bezierPoints[bi + 2]);
-            if (!state.inPath) {
-              bezierPath += " " + bezierCmd;
-            }
-          }
-          if (!state.inPath) {
-            outputPath(bezierPath, "stroke");
-          }
-          break;
-        }
-        case 90:
-          outputPoly16(offset, false, true);
-          break;
-        case 91:
-          outputPoly16(offset, true, false);
-          break;
-        case 95: {
-          var extPenHandle = view.getUint32(offset + 8, true);
-          objects[extPenHandle] = {
-            kind: "pen",
-            style: view.getUint32(offset + 28, true),
-            width: view.getInt32(offset + 32, true),
-            color: colorRefToHex(view.getUint32(offset + 40, true))
-          };
-          break;
-        }
-        case 14:
-          offset = view.byteLength;
-          continue;
-        default:
-          break;
-      }
-      offset += recordSize;
-    }
-
-    if (!shapes.length) {
-      return undefined;
-    }
-
-    var width = Math.max(1, boundsRight - boundsLeft);
-    var height = Math.max(1, boundsBottom - boundsTop);
-    var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"" +
-      boundsLeft + " " + boundsTop + " " + width + " " + height +
-      "\" width=\"" + width + "\" height=\"" + height + "\" preserveAspectRatio=\"none\">" +
-      (defs.length ? "<defs>" + defs.join("") + "</defs>" : "") +
-      shapes.join("") +
-      "</svg>";
-    return "data:image/svg+xml;base64," + utf8ToBase64(svg);
+    return converted.dataUrl;
   } catch (e) {
-    console.warn("Unable to convert EMF image", e);
+    console.warn("Unable to convert metafile image", e);
     return undefined;
   }
 }
@@ -1100,11 +701,12 @@ async function getImageDataUrl(imgFileExt, imgArrayBuffer) {
   if (normalizedExt == "tif" || normalizedExt == "tiff") {
     return await convertTiffToPngDataUrl(imgArrayBuffer);
   }
-  if (normalizedExt == "emf") {
-    var svgDataUrl = convertEmfToSvgDataUrl(imgArrayBuffer);
-    if (svgDataUrl !== undefined) {
-      return svgDataUrl;
-    }
+  if (normalizedExt == "emf" || normalizedExt == "wmf") {
+    // Browsers cannot display raw EMF/WMF; only return a converted SVG data URL.
+    return convertMetafileToSvgDataUrl(
+      imgArrayBuffer,
+      normalizedExt == "wmf" ? "image/wmf" : "image/emf"
+    );
   }
 
   var mimeType = getMimeType(normalizedExt);
@@ -11545,7 +11147,8 @@ function getCssFontFamilies(fontName) {
 }
 
 function escapeTextForHtml(text) {
-  return String(text)
+  var raw = String(text);
+  var value = raw
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
@@ -11555,10 +11158,18 @@ function escapeTextForHtml(text) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-    .replace(/\u00a0/g, "&nbsp;")
-    .replace(/ {2,}/g, function (spaces) {
-      return " " + new Array(spaces.length).join("&nbsp;");
-    });
+    .replace(/\u00a0/g, "&nbsp;");
+
+  // Pure whitespace runs (spaces/tabs) are often used as layout gaps between
+  // Chinese/English fragments. Convert every space to &nbsp; so HTML does not
+  // collapse the intentional width down to a single space.
+  if (/^[\s\u00a0]*$/.test(raw)) {
+    return value.replace(/ /g, "&nbsp;");
+  }
+
+  return value.replace(/ {2,}/g, function (spaces) {
+    return " " + new Array(spaces.length).join("&nbsp;");
+  });
 }
 
 function getDefaultFontIdx(type, pFontStyle) {
