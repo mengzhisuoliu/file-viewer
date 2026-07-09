@@ -1,4 +1,4 @@
-import { FileViewerAiOptions, FileViewerApplyViewStateOptions, FileViewerArchiveOptions, FileViewerCadOptions, FileViewerDocxOptions, FileViewerDocumentAnchor, FileViewerDocumentChunk, FileViewerEvent, FileViewerEventHandler, FileViewerEventType, FileViewerFileRef, FileViewerFitMode, FileViewerFitOptions, FileViewerFitResult, FileViewerInstance, FileViewerLifecycleContext, FileViewerOperationAvailability, FileViewerOperationContext, FileViewerOptions, FileViewerPdfOptions, FileViewerSpreadsheetOptions, FileViewerPublicApi, FileViewerSearchOptions, FileViewerSearchState, FileViewerThemeMode, FileViewerToolbarOptions, FileViewerToolbarPosition, FileViewerTypstOptions, FileViewerViewState, FileViewerWatermarkOptions, FileViewerZoomState, RendererRegistry } from '@file-viewer/core';
+import { FileViewerAiOptions, FileViewerApplyViewStateOptions, FileViewerArchiveOptions, FileViewerCadOptions, FileViewerDocxOptions, FileViewerDocumentAnchor, FileViewerDocumentChunk, FileViewerEvent, FileViewerEventHandler, FileViewerEventType, FileViewerFileRef, FileViewerFitMode, FileViewerFitOptions, FileViewerFitResult, FileViewerInstance, FileViewerLifecycleContext, FileViewerOperationAvailability, FileViewerOperationContext, FileViewerOptions, FileViewerPdfOptions, FileViewerPrintOptions, FileViewerSpreadsheetOptions, FileViewerPublicApi, FileViewerSearchOptions, FileViewerSearchState, FileViewerThemeMode, FileViewerToolbarOptions, FileViewerToolbarPosition, FileViewerTypstOptions, FileViewerViewState, FileViewerWatermarkOptions, FileViewerZoomState, RendererRegistry } from '@file-viewer/core';
 export type FileRef = FileViewerFileRef;
 export type ViewerWatermarkOptions = FileViewerWatermarkOptions;
 export type ViewerToolbarPosition = FileViewerToolbarPosition;
@@ -76,7 +76,8 @@ export interface ViewerController {
     destroy(): void;
     getApi(): FileViewerPublicApi | FileViewerInstance | null;
     downloadOriginalFile(): Promise<void>;
-    printRenderedHtml(): Promise<void>;
+    printRenderedHtml(options?: FileViewerPrintOptions): Promise<void>;
+    printWithMask(options?: FileViewerPrintOptions): Promise<void>;
     exportRenderedHtml(): Promise<void>;
     zoomIn(): Promise<FileViewerZoomState | null>;
     zoomOut(): Promise<FileViewerZoomState | null>;
@@ -107,7 +108,8 @@ export interface ViewerControllerHandle {
     getController(): ViewerController | null;
     getApi(): FileViewerPublicApi | FileViewerInstance | null;
     downloadOriginalFile(): Promise<void>;
-    printRenderedHtml(): Promise<void>;
+    printRenderedHtml(options?: FileViewerPrintOptions): Promise<void>;
+    printWithMask(options?: FileViewerPrintOptions): Promise<void>;
     exportRenderedHtml(): Promise<void>;
     zoomIn(): Promise<FileViewerZoomState | null>;
     zoomOut(): Promise<FileViewerZoomState | null>;
