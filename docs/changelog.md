@@ -2,6 +2,13 @@
 
 这份日志记录的是当前仓库主线中，对外最值得说明的能力演进。
 
+## `v2.1.25` PDF 渲染器兼容性修复
+
+- 全仓版本、workspace 依赖和 release matrix 推进到 `2.1.25`。
+- 修复 UMI v4 项目启动报错 `Invalid regular expression flag`（GitHub #98）：`@file-viewer/renderer-pdf` 改为固定使用 `pdfjs-dist@4.10.38`，不再依赖新版 PDF.js 才需要的 JBIG2/OpenJPEG/QCMS/QuickJS wasm 辅助模块，PDF wasm 资源清单调整为可选（`required: false`）。
+- 修复生产环境部署到二级路径（如 nginx 反代 `/workspace/`）时 PDF worker 路径解析错误（GitHub #99）：worker、cMap、标准字体等 PDF 资源统一按 `document.baseURI` 解析，移除单独的"仅站点根目录"回退逻辑，与其他渲染器的资源路径解析行为保持一致。
+- 同步刷新 `pdf.worker.mjs` 等本地 vendor 资源与 CAD wasm 拷贝脚本。
+
 ## `v2.1.24` OFD 签章、DOC/PPTX 修复与打印体验
 
 - 全仓版本、workspace 依赖和 release matrix 推进到 `2.1.24`。
