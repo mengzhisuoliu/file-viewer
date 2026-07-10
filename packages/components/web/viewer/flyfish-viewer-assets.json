@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-09T09:46:39.277Z",
+  "generatedAt": "2026-07-10T02:28:37.953Z",
   "rendererAssetManifests": [
     {
       "rendererId": "drawing",
@@ -54,10 +54,10 @@
           "rendererId": "pdf",
           "kind": "wasm-directory",
           "target": "public",
-          "required": false,
+          "required": true,
           "defaultPath": "vendor/pdf/wasm/",
           "optionPath": "pdf.wasmUrl",
-          "description": "Optional PDF.js WebAssembly helper directory when the bundled PDF.js version ships one."
+          "description": "PDF.js WebAssembly helpers for image decoding and fully self-hosted PDF rendering."
         },
         {
           "id": "pdf-standard-fonts",
@@ -68,6 +68,16 @@
           "defaultPath": "vendor/pdf/standard_fonts/",
           "optionPath": "pdf.standardFontDataUrl",
           "description": "PDF.js standard font data used when PDF files reference base fonts."
+        },
+        {
+          "id": "pdf-cjk-font-fallback",
+          "rendererId": "pdf",
+          "kind": "directory",
+          "target": "public",
+          "required": true,
+          "defaultPath": "vendor/pdf/fonts/",
+          "optionPath": "pdf.cjkFontFallbackPath",
+          "description": "Self-hosted Noto Sans SC variable font shards used for missing unembedded CJK fonts."
         }
       ]
     },
@@ -242,7 +252,7 @@
   ],
   "validation": {
     "valid": true,
-    "checkedAt": "2026-07-09T09:46:39.276Z",
+    "checkedAt": "2026-07-10T02:28:37.953Z",
     "assets": [
       {
         "id": "drawio-viewer-script",
@@ -289,10 +299,10 @@
         "rendererId": "pdf",
         "kind": "wasm-directory",
         "target": "public",
-        "required": false,
+        "required": true,
         "relativePath": "vendor/pdf/wasm/",
-        "exists": false,
-        "description": "Optional PDF.js WebAssembly helper directory when the bundled PDF.js version ships one."
+        "exists": true,
+        "description": "PDF.js WebAssembly helpers for image decoding and fully self-hosted PDF rendering."
       },
       {
         "id": "pdf-standard-fonts",
@@ -303,6 +313,16 @@
         "relativePath": "vendor/pdf/standard_fonts/",
         "exists": true,
         "description": "PDF.js standard font data used when PDF files reference base fonts."
+      },
+      {
+        "id": "pdf-cjk-font-fallback",
+        "rendererId": "pdf",
+        "kind": "directory",
+        "target": "public",
+        "required": true,
+        "relativePath": "vendor/pdf/fonts/",
+        "exists": true,
+        "description": "Self-hosted Noto Sans SC variable font shards used for missing unembedded CJK fonts."
       },
       {
         "id": "libarchive-worker",
@@ -436,17 +456,6 @@
       }
     ],
     "missingRequired": [],
-    "missingOptional": [
-      {
-        "id": "pdf-wasm",
-        "rendererId": "pdf",
-        "kind": "wasm-directory",
-        "target": "public",
-        "required": false,
-        "relativePath": "vendor/pdf/wasm/",
-        "exists": false,
-        "description": "Optional PDF.js WebAssembly helper directory when the bundled PDF.js version ships one."
-      }
-    ]
+    "missingOptional": []
   }
 }

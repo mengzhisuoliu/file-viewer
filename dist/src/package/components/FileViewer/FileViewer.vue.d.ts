@@ -1,4 +1,4 @@
-import { FileViewerComponentProps as FileViewerProps } from '@file-viewer/core';
+import { FileViewerComponentProps as FileViewerProps, FileViewerResolvedThemeMode } from '@file-viewer/core';
 declare const __VLS_export: import('vue').DefineComponent<FileViewerProps, import('@file-viewer/core').FileViewerPublicApi, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
     "load-start": (context: import('@file-viewer/core').FileViewerLifecycleContext) => any;
     "load-complete": (context: import('@file-viewer/core').FileViewerLifecycleContext) => any;
@@ -12,6 +12,7 @@ declare const __VLS_export: import('vue').DefineComponent<FileViewerProps, impor
     "fit-change": (result: import('@file-viewer/core').FileViewerFitResult) => any;
     "zoom-change": (state: import('@file-viewer/core').FileViewerZoomState) => any;
     "view-state-change": (change: import('@file-viewer/core').FileViewerViewStateChange) => any;
+    "theme-change": (theme: FileViewerResolvedThemeMode) => any;
 }, string, import('vue').PublicProps, Readonly<FileViewerProps> & Readonly<{
     "onLoad-start"?: ((context: import('@file-viewer/core').FileViewerLifecycleContext) => any) | undefined;
     "onLoad-complete"?: ((context: import('@file-viewer/core').FileViewerLifecycleContext) => any) | undefined;
@@ -25,6 +26,7 @@ declare const __VLS_export: import('vue').DefineComponent<FileViewerProps, impor
     "onFit-change"?: ((result: import('@file-viewer/core').FileViewerFitResult) => any) | undefined;
     "onZoom-change"?: ((state: import('@file-viewer/core').FileViewerZoomState) => any) | undefined;
     "onView-state-change"?: ((change: import('@file-viewer/core').FileViewerViewStateChange) => any) | undefined;
+    "onTheme-change"?: ((theme: FileViewerResolvedThemeMode) => any) | undefined;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
 declare const _default: typeof __VLS_export;
 export default _default;
