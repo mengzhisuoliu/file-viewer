@@ -13,6 +13,22 @@
 - 修复 Vite 8 使用 spreadsheet renderer 时 `@xmldom/xmldom` 命名导出未预构建导致的浏览器启动错误，并加入独立 Vite 8 harness 回归。
 - 加固离线资产、包体预算与 npm tarball 校验；全仓版本和 workspace 依赖推进到 `2.1.28`。
 
+## 当前主线兼容性修复
+
+- 修复 Vue 2.6 + Vue CLI 3 / webpack 4 示例上传 DOCX 后报 `renderAsync is not a function`（生产压缩后表现为 `u is not a function`）：webpack 4 默认选择 `@file-viewer/docx` 的 UMD `browser` 入口，该入口再次经过 Babel 转译后会丢失 CommonJS 导出。此兼容修复独立于仍需原始文件和准确 Firefox/Webpack 环境才能确认的 GitHub #116。
+- 旧构建链通过 alias 固定使用 `@file-viewer/docx/dist/docx-preview.mjs`，Word renderer 同时兼容传统 bundler 将 CommonJS API 放在 `default` 的模块形状。
+- `pnpm verify:vue26-cli3-office-demo` 不再只验证内置 PDF；冷安装本地 tarball 后会真实上传 DOCX、等待文档页出现，并确认离线 DOCX Worker 被请求。`build`、`noApiBuild`、`nginx` 三种模式均纳入回归。
+- 修复标准组件启用 `styleIsolation: 'shadow'` 后 Excel 单元格内容空白（GitHub #117）：`e-virt-table` 默认写入 `document.head` 的完整样式无法穿透 ShadowRoot，导致承载单元格文字的 overlayer 失去绝对定位并被画布裁掉。
+- Spreadsheet renderer 会识别当前 `e-virt-table` 版本实际注入的完整样式，将其复制到渲染 ShadowRoot，并把 vendor `:root` 变量收敛到 host / `.excel-wrapper`；新增 harness 会先在 npm `2.1.23` 复现空白布局，再验证本地 Vite 开发与生产构建的多 sheet、合并单元格、公式、样式和 overlayer 几何关系。
+- 移除 OFD vendor 对 `Array.prototype.pipeline` 的可枚举污染（GitHub #111），避免先加载 OFD 后 PDF.js 把数组误判为非法请求参数；OFD→PDF、PDF→OFD、重复切换和取消均纳入浏览器回归。
+- 打印掩膜新增可选的零基 `pageIndex` 并保持旧全局坐标兼容（GitHub #112）；浏览模式允许滚轮/触摸翻页，绘制只武装当前页一次，PDF、DOCX、OFD、PPTX 的导出页均提供稳定页索引。
+- 修复 Vite 开发入口 `/src/main.*` 被误当成运行时资产目录（GitHub #113）：资源基址排除 `/src/`、`/@fs/`、`/@id/`、`/@vite/` 和 `/node_modules/`，根路径/子路径 dev 不再请求 `/src/vendor/pdf` 或触发 fake worker / CMap EOF。
+- Archive Worker 与 WASM 统一使用当前文档的运行时资源基址（GitHub #114/#115），同时保留显式绝对 URL 的最高优先级；ZIP、RAR5、7z、加密 ZIP 与 worker 失败边界均使用独立 Vite dev/build harness 验证。
+- Vite 插件复制 PDF.js 资产时优先从 PDF renderer 自己的依赖树解析，并校验 API/Worker 版本和来源（GitHub #118）；消费项目根安装 `pdfjs-dist 6.x` 时不会再覆盖 renderer 固定的 `5.4.624` worker。
+- PPTX renderer 的完成 Promise 现在等待 Worker、整体渲染及异步图表后处理全部结束（GitHub #119）；致命错误只触发错误事件，单页错误继续作为警告，切换文件或取消期间的旧任务无法回写完成状态。
+- PDF 初始化和 ResizeObserver 统一重放规范化 fit 请求（GitHub #120/#121），保留 `padding`、`maxScale` 与三种 resize 策略；“1:1”固定回到 100%，居中按导航栏后的实际可视区域计算。
+- Web Full、Viewer Demo 和 Component Demo 构建完成后自动净化上游 Chevrotain/Typst 公网默认值；离线扫描只精确豁免 canonical/OG/Twitter 的静态元数据属性，同行运行时 URL 仍会被拦截。
+
 ## `v2.1.27` 关键 PR 修复与缩略图能力
 
 - 发布浏览器缩略图生成 API，覆盖 PDF、DOCX、XLSX、EPUB、OFD、Typst、PPTX 等格式，并强化取消、销毁和压缩包资源安全。
