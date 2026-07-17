@@ -7,6 +7,11 @@
   Renderers are loaded on demand, so opening a lightweight text file does not force the browser to load every heavy document engine.
 </p>
 
+<div class="doc-shot">
+  <img src="/_media/file-viewer-demo-v2.2.2-samples-en.webp" alt="Flyfish Viewer v2.2.2 English format sample library with grouped filenames and format-specific icons" width="1440" height="900" loading="lazy" />
+  <p class="doc-caption">The demo groups representative samples for all 25 preview pipelines. The active group opens by default, and each item carries its real filename, format label, and theme-aware file icon.</p>
+</div>
+
 ## Main Preview Pipelines
 
 | Category | Examples |

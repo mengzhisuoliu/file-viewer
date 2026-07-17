@@ -198,7 +198,7 @@ For no-build pages that need the complete format matrix without local installati
 ```html
 <div id="viewer" style="height:720px"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <script>
   FlyfishFileViewerWebFull.mountViewer(document.getElementById('viewer'), {
     url: '/files/demo.pdf',
@@ -213,7 +213,7 @@ For no-build pages that need the complete format matrix without local installati
 The Custom Element route uses the same full bundle:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <flyfish-file-viewer
   src="/files/demo.xlsx"
   theme="light"

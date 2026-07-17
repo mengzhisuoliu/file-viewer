@@ -8,10 +8,10 @@
 
 <p class="doc-lead">
   一个好用的 Demo，不只是“给别人看看”，也是团队内部确认能力边界、联调文件样本和复现问题的最快入口。
-  当前仓库已经为所有已注册格式准备了可切换入口，适合在本地开发、依赖升级和上线前做完整回归。
+  v2.2.2 的能力矩阵包含 208 个扩展名映射和 25 条预览链路；Demo 为每条链路提供可重复验证的代表样例，适合在本地开发、依赖升级和上线前做完整回归。
 </p>
 
-## 本地可用的两个入口
+## 四个验证入口
 
 | 入口 | 地址 | 适合做什么 |
 | --- | --- | --- |
@@ -22,7 +22,9 @@
 
 ## 主示例页
 
-主示例页顶部提供 6 个场景快捷入口，可以直接打开 Word 合同、Excel 报表、PPT 材料、DWG 图纸、压缩包和邮件样例，帮助第一次访问的用户不用理解完整格式矩阵就先看到效果。每个当前样例都会在侧栏展示对应的 React `@file-viewer/react-full` 接入代码，点击复制后即可放进业务页试跑。
+主示例页采用沉浸式文档工作台。顶部胶囊只保留“打开文件”“粘贴链接”“样例”三个来源操作；当前文件名和真实格式图标悬浮在文档上方，鼠标移入顶部区域时展开，移出 1 秒后以融合动画回到操作栏。右侧搜索、适应、主题、下载和更多操作始终跟随文档能力显示，每个按钮只打开自己的就近浮层，不会让多个操作共用一个失去上下文的弹框。
+
+左下角“最近打开”使用浏览器 `localStorage` 记忆 URL 与样例记录，可逐项移除并随时从历史图标恢复。完整设置收进“更多”，集中展示主题、密度、背景、统一缩放、搜索、打印、导出、水印、压缩包和当前格式专项参数；移动端只保留一个“更多”入口，文档仍在自己的容器内滚动，顶部文件名保持视口居中。
 
 主示例页也内置了完整示例列表，包括 Word、Excel、PPT、PDF、OFD、Typst、XMind、压缩包、邮件、OLB/DRA/GDS/OASIS、CAD、地理数据、3D 模型、Excalidraw、draw.io、EPUB、UMD、Markdown、代码/文本、图片、音视频、字体/设计资产和结构化数据。示例选择器按文件类型分组展示，每个样例都提供图标、格式名和文件名，点击后会立即打开并自动收起选择器。它适合做三件事:
 
@@ -30,16 +32,21 @@
 - 用本地上传验证 `file` 方案
 - 在修改渲染逻辑后做肉眼回归检查
 
-Demo 默认跟随浏览器语言。中文浏览器进入中文样例体系，其他语言进入英文样例体系；也可以用 `?lang=zh-CN` 或 `?lang=en-US` 强制指定。英文体系包含公开英文 DOCX、PDF、PPTX、XLSX 样例，以及本地英文 Markdown、文本、日志、CSV、JSON、TypeScript、JavaScript、GeoJSON、glTF 和压缩包嵌套样例，运行时不依赖公网 CDN。
+Demo 默认跟随浏览器语言。中文浏览器进入中文样例体系，其他语言进入英文样例体系；推荐用 `?locale=zh-CN` 或 `?locale=en-US` 固定语言，历史 `lang` 参数继续兼容。英文体系包含公开英文 DOCX、PDF、PPTX、XLSX 样例，以及本地英文 Markdown、文本、日志、CSV、JSON、TypeScript、JavaScript、GeoJSON、glTF 和压缩包嵌套样例，运行时不依赖公网 CDN。
 
 <div class="doc-shot">
-  <img src="/_media/flyfish-viewer-demo-zh.gif" alt="Flyfish Viewer 中文主示例页与多格式预览动图" />
-  <p class="doc-caption">动图展示纯英文主示例页，并依次打开 DOCX、PPTX、GeoJSON 地图和 ZIP 内文件列表，是最直观的联调入口。</p>
+  <img src="/_media/file-viewer-demo-v2.2.2-zh.gif" alt="Flyfish Viewer v2.2.2 中文主 Demo，展示沉浸式文档画布、胶囊融合和多格式预览" width="1200" height="750" loading="lazy" />
+  <p class="doc-caption">动图从中文 DOCX 工作台开始，展示文件胶囊与顶部操作栏的融合交互，再打开样例库并切换不同预览链路。</p>
+</div>
+
+<div class="doc-shot">
+  <img src="/_media/file-viewer-demo-v2.2.2-samples-zh.webp" alt="Flyfish Viewer v2.2.2 中文深色样例选择器，按格式分组展示专业文件图标" width="1440" height="900" loading="lazy" />
+  <p class="doc-caption">样例选择器在当前文件附近打开，默认展开当前分组；不同文件类型使用一致的文档轮廓与专属色彩，暗色模式不会对整张图标粗暴套用滤镜。</p>
 </div>
 
 ## Demo 文件传入协议
 
-官方 Demo 的主入口和 iframe 入口共用同一套文件传入协议。推荐客户系统使用 `/iframe.html`，支持 clean URL 的静态平台也可以写成 `/iframe`；它默认隐藏左侧 Demo 控制面板，只保留预览内容。已有系统如果已经接入 `/index.html?from=...&name=...`，仍会继续按同样的 `postMessage(Blob)` 方式工作。
+官方 Demo 的主入口和 iframe 入口共用同一套文件传入协议。推荐客户系统使用 `/iframe.html`，支持 clean URL 的静态平台也可以写成 `/iframe`；显式传入 `url` 时会进入沉浸式模式，隐藏品牌、最近打开和来源操作，只保留文档与当前格式可用的工具栏。已有系统如果已经接入 `/index.html?from=...&name=...`，仍会继续按同样的 `postMessage(Blob)` 方式工作。
 
 URL 文件:
 
@@ -127,12 +134,7 @@ pnpm verify:demo-output
 
 ## Word 页面效果
 
-Word 示例被单独拿出来说明，因为它已经不只是“能打开”，而是具备更明确的页面感。`.doc` 和 `.docx` 都会尽量保留页面居中和宽度自适应的阅读体验；DOCX 会跟随 viewer 主题显示浅色纸张或深色文档面。
-
-<div class="doc-shot">
-  <img src="/_media/flyfish-viewer-demo-zh.gif" alt="Flyfish Viewer 中文 Office 与多格式预览动图" />
-  <p class="doc-caption">动图从英文 DOCX 阅读面开始，再切换到 PPTX、GeoJSON 和压缩包；Word 文件会显示在主题协调的文档工作台中，页面居中。</p>
-</div>
+Word 示例被单独拿出来说明，因为它已经不只是“能打开”，而是具备明确的沉浸式阅读面。`.doc` 和 `.docx` 都会保持页面居中和宽度自适应；DOCX 的页面之外背景可在“沉浸透明 / 格式默认”之间切换，文档本身按主题使用协调的浅色纸张或深色文档面。顶部和右侧工具组固定不动，滚动只发生在文档容器内，因此长文档向上滚动时不会被空白顶栏截断。
 
 ## Vanilla JS / React 组件 Demo
 

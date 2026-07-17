@@ -35,12 +35,12 @@
 | 工程附件平台 | `npm i @file-viewer/vue3 @file-viewer/preset-engineering` | CAD、3D、绘图、XMind、Geo、Typst、Archive、Data、EDA |
 | 完整 Demo 能力 | `npm i @file-viewer/vue3 @file-viewer/preset-all` | 全量一键安装，适合演示站、后台运维和内部全格式附件中心 |
 | 完整 full 包 | `npm i @file-viewer/vue3-full` | 默认启用 `preset-all`，不需要手动传 `options.preset` |
-| CDN 完整体验 | `https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | 适合 script 标签试跑；二进制 `.ppt` 从包内 `vendor/ppt/` 自动加载，无需配置运行时 URL |
+| CDN 完整体验 | `https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | 适合 script 标签试跑；二进制 `.ppt` 从包内 `vendor/ppt/` 自动加载，无需配置运行时 URL |
 | 极致裁剪 | `npm i @file-viewer/vue3 @file-viewer/renderer-pdf` | 只安装需要的 renderer，并通过 `options.renderers` 注入 |
 
 ## Full 包完整资产契约
 
-从 `2.1.30` 起，八个 Full 包使用同一套交付契约。它们已内置并启用 `preset-all`，同时携带版本对齐的 renderer、Worker、WASM、字体、Draw.io、SQLite 等 vendor 资产；Vite 或随包 CLI 会把这份包内资产发布到业务自己的静态源。`2.2.0` 在 `vendor/ppt/` 中加入经过完整性校验的二进制 `.ppt` 0.3.1 公开运行时，标准布局开箱即用，并保留该运行时自己的 LICENSE 与 NOTICE。
+从 `2.1.30` 起，八个 Full 包使用同一套交付契约。它们已内置并启用 `preset-all`，同时携带版本对齐的 renderer、Worker、WASM、字体、Draw.io、SQLite 等 vendor 资产；Vite 或随包 CLI 会把这份包内资产发布到业务自己的静态源。v2.2.2 的标准布局同时包含经过完整性校验的二进制 `.ppt` 0.3.1 公开运行时，以及按需加载的 EPUB 本地引擎和对应 NOTICE；两条链路都不需要运行时 CDN。
 
 | 构建方式 | 完整部署方式 |
 | --- | --- |

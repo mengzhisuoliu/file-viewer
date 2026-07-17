@@ -48,7 +48,7 @@
 | --- | --- | --- |
 | 最轻标准包 | `npm i @file-viewer/vue3 @file-viewer/preset-office` | 按业务选择 preset / renderer，安装体积最可控 |
 | 完整 full 包 | `npm i @file-viewer/vue3-full` | 内置 `preset-all`；再按构建工具把运行时资产发布到 `<部署基址>/file-viewer/` |
-| CDN full | `https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | 无需本地安装，适合传统页面快速试跑完整矩阵 |
+| CDN full | `https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | 无需本地安装，适合传统页面快速试跑完整矩阵 |
 
 需要预览具体文件格式时，再选择一个 preset 或单独 renderer:
 
@@ -210,7 +210,7 @@ setDefaultFullAssetBaseUrl('/static/file-viewer/')
 ```html
 <div id="viewer" style="height:720px"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <script>
   FlyfishFileViewerWebFull.mountViewer(document.getElementById('viewer'), {
     url: '/files/demo.pdf',
@@ -225,7 +225,7 @@ setDefaultFullAssetBaseUrl('/static/file-viewer/')
 也可以使用原生组件写法：
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <flyfish-file-viewer
   src="/files/demo.docx"
   theme="light"

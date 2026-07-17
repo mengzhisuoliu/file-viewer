@@ -21,12 +21,12 @@ Standard component packages are intentionally light. Installing `@file-viewer/vu
 | Engineering platform | `npm i @file-viewer/vue3 @file-viewer/preset-engineering` | CAD, 3D, drawing, XMind, Geo, Typst, Archive, Data, EDA |
 | Full demo capability | `npm i @file-viewer/vue3 @file-viewer/preset-all` | One-step full capability for demos, admin tools, and internal all-format workbenches |
 | Full package | `npm i @file-viewer/vue3-full` | Enables `preset-all` by default, no manual `options.preset` needed |
-| CDN full trial | `https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | Script-tag validation with lazy renderers and packaged binary-PPT 0.3.1 assets |
+| CDN full trial | `https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | Script-tag validation with lazy renderers and packaged binary-PPT 0.3.1 assets |
 | Strict custom cut | `npm i @file-viewer/vue3 @file-viewer/renderer-pdf` | Install one renderer and pass it through `options.renderers` |
 
 ## Full Package Asset Contract
 
-Since `2.1.30`, all eight Full packages share one delivery contract. They include and enable `preset-all` together with version-aligned renderer, Worker, WASM, font, Draw.io, SQLite, and other vendor assets; Vite or the included CLI publishes that payload on the application's own origin. Version `2.2.0` includes the verified binary `.ppt` 0.3.1 runtime under `vendor/ppt/`.
+Since `2.1.30`, all eight Full packages share one delivery contract. They include and enable `preset-all` together with version-aligned renderer, Worker, WASM, font, Draw.io, SQLite, and other vendor assets; Vite or the included CLI publishes that payload on the application's own origin. The v2.2.2 layout includes both the integrity-checked binary `.ppt` 0.3.1 runtime and the lazy local EPUB engine with its NOTICE, so neither path needs a runtime CDN.
 
 | Build path | Complete deployment |
 | --- | --- |

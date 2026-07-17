@@ -83,18 +83,18 @@ Flyfish Viewer is browser-side file preview infrastructure for business applicat
 <section id="demo" class="doc-demo-stage">
 <div class="doc-section-heading">
 <span>Live Experience</span>
-<h2>Validate the viewer before choosing your integration surface.</h2>
-<p>The demo uses real samples, lazy renderers, responsive controls, document comparison, and offline asset paths that mirror production deployment.</p>
+<h2>Try real files before choosing what to ship.</h2>
+<p>The v2.2.2 demo is an immersive document workspace: only the document surface scrolls, the source capsule and format toolbar stay fixed, each action owns a nearby panel, and mobile collapses secondary controls into one More menu.</p>
 </div>
 <div class="doc-demo-layout">
 <figure class="doc-demo-visual">
-<img src="/_media/flyfish-viewer-demo-en.gif" alt="Flyfish Viewer English demo showing DOCX, PPTX, GeoJSON, and archive preview" />
-<figcaption>English browser demo covering DOCX, PPTX, GeoJSON, and on-demand preview of files inside a ZIP archive.</figcaption>
+<img src="/_media/file-viewer-demo-v2.2.2-en.gif" alt="Flyfish Viewer v2.2.2 English demo with an immersive document canvas, file capsule, sample library, and format toolbar" width="1200" height="750" loading="lazy" />
+<figcaption>The current English demo: the file capsule flows into the top action bar, while the filename and Samples action open the icon-led sample library.</figcaption>
 </figure>
 <div class="doc-demo-actions">
 <a class="doc-path-card" href="https://demo.file-viewer.app" target="_blank" rel="noreferrer">
 <strong>Main Demo</strong>
-<span>Open samples, upload local files, test mobile viewports, and verify toolbar behavior.</span>
+<span>Upload a file, paste a URL, or open real samples across the 208-extension registry, then verify unified zoom and format-specific tools.</span>
 </a>
 <a class="doc-path-card" href="https://demo.file-viewer.app/compare.html" target="_blank" rel="noreferrer">
 <strong>Document Compare</strong>
@@ -168,8 +168,8 @@ npx --no-install file-viewer-copy-assets ./public/file-viewer</code></pre>
 <section id="formats" class="doc-section doc-format-panel">
 <div class="doc-section-heading">
 <span>Format Matrix</span>
-<h2>Broad business-file coverage with clear extension points.</h2>
-<p>Heavy parsers, workers, WASM files, and offline vendor assets load only when the active file type needs them.</p>
+<h2>208 extension mappings, backed by 25 real preview pipelines.</h2>
+<p>The matrix follows renderers registered in code. Heavy parsers, Workers, WASM, and offline vendor assets load only after a matching file type is selected; planned formats are not counted as current support.</p>
 </div>
 <div class="doc-format-grid">
 <div><strong>Office</strong><span>DOCX / XLSX / PPT / PPTX / PDF / OFD / Typst</span></div>

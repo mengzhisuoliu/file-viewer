@@ -7,6 +7,11 @@
   这一页不是“计划支持什么”，而是以当前代码里已经注册好的渲染器为准，告诉你项目现在到底能处理哪些格式、分别走哪条渲染链路，以及在真实业务里应该怎么选。
 </p>
 
+<div class="doc-shot">
+  <img src="/_media/file-viewer-demo-v2.2.2-samples-zh.webp" alt="Flyfish Viewer v2.2.2 中文格式样例库，展示分组、文件名与格式专属图标" width="1440" height="900" loading="lazy" />
+  <p class="doc-caption">Demo 把 25 条预览链路的代表样例按类型分组；当前文件所在分组默认展开，每个条目展示真实文件名、格式标签和主题协调的专属图标。</p>
+</div>
+
 <div class="doc-grid">
   <div class="doc-card">
     <h3>208 个扩展名映射</h3>
@@ -52,7 +57,7 @@
 | draw.io | `drawio`、`dio` | `@file-viewer/renderer-drawing` + 官方 diagrams.net `GraphViewer` 离线预览 | 独立绘图 renderer 默认加载随 viewer assets 分发的 `vendor/drawio/viewer-static.min.js`，并把 styles、shapes、stencils、img、mxgraph、math 都固定到本地目录；失败时回退安全 SVG | 流程图、架构图、业务泳道图 |
 | Mermaid | `mermaid`、`mmd` | `@file-viewer/renderer-drawing` + 官方 `mermaid` | 命中 Mermaid 时才按需加载官方渲染器，输出主题适配 SVG，并使用 `@panzoom/panzoom` 支持拖动、Ctrl/Command 滚轮缩放、统一缩放工具栏和重置 | 架构图、流程图、状态图、序列图 |
 | PlantUML | `plantuml`、`puml` | `@file-viewer/renderer-drawing` + 离线 SVG 源码预览 + 可自托管 PlantUML SVG 服务 | 默认不访问外网并显示源码预览；需要完整图形时可通过 `options.drawing.plantumlServerUrl` 指向内网 PlantUML SVG 服务；预览层支持拖动、缩放和主题容器适配 | UML 时序图、组件图、部署图 |
-| 电子书 | `epub` | `@file-viewer/renderer-epub` + `epubjs` | 解析 EPUB 包、目录和章节资源，使用滚动阅读避免超宽分页白板 | 电子书、培训手册、长篇阅读材料 |
+| 电子书 | `epub` | `@file-viewer/renderer-epub` + 包内固化的 EPUB 本地引擎 | 解析 EPUB 包、目录和章节资源，使用滚动阅读避免超宽分页白板；引擎按需加载且不访问运行时 CDN | 电子书、培训手册、长篇阅读材料 |
 | 电子书 | `umd` | `@file-viewer/renderer-epub` + UMD 结构解析 + `pako` | 解析老移动电子书的元数据、章节偏移、章节标题和 zlib 压缩正文 | 历史小说附件、旧移动阅读文件 |
 | Markdown | `md`、`markdown` | `@file-viewer/renderer-text` | 保留 Markdown 阅读样式，支持明暗主题阅读面 | README、知识文档、开发说明 |
 | 图片 | `gif`、`jpg`、`jpeg`、`bmp`、`tiff`、`tif`、`png`、`svg`、`webp`、`avif`、`ico`、`heic`、`heif`、`jxl` | `@file-viewer/renderer-image` | 原生图片浏览；HEIC/HEIF 命中时按需使用 `heic2any` 转成浏览器可展示图片，支持 lightbox 和统一缩放 | 图片附件、设计稿、截图、Logo、移动端照片 |
@@ -73,11 +78,6 @@
 - Word 打印和导出 HTML 使用独立导出适配器，只带文档内容和必要 Word 样式，不带 Demo 布局、滚动容器和缩放状态，长文档会完整输出。
 - DOCX 默认不分页；只有业务明确需要页式预览时再设置 `options.docx.visualPagination: true`，这会启用 Word 保存分页和预览层兜底分页。
 - 如果你的业务能控制导出格式，优先推荐 `docx`；如果你面对的是存量老文档，当前 `.doc` 已经可以作为正式能力对外说明。
-
-<div class="doc-shot">
-  <img src="/_media/flyfish-viewer-demo-zh.gif" alt="Flyfish Viewer 中文 Office 与多格式预览动图" />
-  <p class="doc-caption">动图展示英文 DOCX、PPTX、GeoJSON 和 ZIP 内文件预览；Word 类文件会显示在主题协调的文档工作台中，页面居中。</p>
-</div>
 
 ### Office 模板格式
 
@@ -170,7 +170,7 @@
 
 ### 电子书
 
-- EPUB 链路已拆为 `@file-viewer/renderer-epub` 独立包；内部使用 `epubjs`，由成熟开源库处理 EPUB zip 包、OPF、目录和章节资源。
+- EPUB 链路已拆为 `@file-viewer/renderer-epub` 独立包。v2.2.2 将阅读引擎构建为确定性的包内 vendor 资产，连同依赖许可 NOTICE 一起分发；只有命中 `.epub` 时才加载，不需要公网脚本，也不会把旧版 XML 解析依赖带进业务生产依赖树。
 - EPUB 预览提供目录窗格、上一章/下一章式导航和阅读进度。正文区域使用滚动文档模式，避免部分浏览器在超宽分页布局下出现白板。为了安全，阅读器不会允许书内脚本执行。
 - `umd` 是早期移动阅读器常见的电子书封装。当前没有可靠维护的前端 UMD 阅读库，组件按公开文件结构解析文件头、元数据、章节偏移、章节标题和正文数据块，正文 zlib 解压交给 `pako`。
 - UMD 文本正文按 UTF-16LE 解码，保留章节目录和换行；图片/漫画类 UMD 会尽量按图像数据块展示，但复杂混排文件建议用真实样本补充回归。

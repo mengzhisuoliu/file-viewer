@@ -164,7 +164,9 @@ const commercialUrl = 'https://product.flyfish.group/'
 const commercialDemoUrl = 'https://office.flyfish.dev/'
 const siteRootUrl = 'https://file-viewer.app/'
 const siteEnglishUrl = `${siteRootUrl}en/`
-const sitePreviewImageUrl = `${siteRootUrl}home-hero-premium.webp`
+const demoPreviewDesktopPath = '/file-viewer-demo-v2.2.2-desktop.webp'
+const demoPreviewMobilePath = '/file-viewer-demo-v2.2.2-mobile.webp'
+const sitePreviewImageUrl = `${siteRootUrl}${demoPreviewDesktopPath.slice(1)}`
 const siteLocalePreferenceKey = 'flyfish-site-locale-preference'
 
 type SiteMetadata = {
@@ -183,20 +185,20 @@ const siteMetadata = {
     canonical: siteRootUrl,
     title: 'Flyfish File Viewer - 浏览器里的多格式文件预览超级组件',
     description:
-      'Flyfish File Viewer 是纯前端、离线优先的多格式文件预览组件，维护 54 个 npm 目标、208 个扩展名和 25 条预览链路；二进制 PPT 与 PPTX 使用独立原生引擎。',
+      'Flyfish File Viewer 是浏览器原生、离线优先的多格式预览组件：208 个扩展名通过 25 条独立预览链路按需加载，54 个 npm 目标覆盖主流前端生态。',
     ogLocale: 'zh_CN',
     ogLocaleAlternate: 'en_US',
-    imageAlt: 'Flyfish File Viewer 多格式文件预览官网界面'
+    imageAlt: 'Flyfish File Viewer v2.2.2 沉浸式 DOCX 预览界面'
   },
   en: {
     lang: 'en',
     canonical: siteEnglishUrl,
     title: 'Flyfish File Viewer - Browser-native multi-format file preview',
     description:
-      'Flyfish File Viewer is a browser-native, offline-first preview component with 54 npm targets, 208 extensions, 25 pipelines, and separate native engines for binary PPT and PPTX.',
+      'Flyfish File Viewer is a browser-native, offline-first preview component. It routes 208 extensions through 25 lazy preview pipelines and ships 54 npm targets for the main frontend stacks.',
     ogLocale: 'en_US',
     ogLocaleAlternate: 'zh_CN',
-    imageAlt: 'Flyfish File Viewer multi-format file preview website'
+    imageAlt: 'Flyfish File Viewer v2.2.2 immersive DOCX preview UI'
   }
 } satisfies Record<Locale, SiteMetadata>
 
@@ -218,6 +220,7 @@ const activeSectionId = ref<SectionId>('top')
 const heroCanvasReady = ref(false)
 const demoRevealActive = ref(false)
 const demoFrameMounted = ref(false)
+const demoFrameReady = ref(false)
 const docsFrameMounted = ref(false)
 const quickStartSectionActive = ref(false)
 const activeQuickStartIndex = ref(0)
@@ -301,9 +304,9 @@ const copy = {
       commercial: '了解商业版',
       proof: ['54 个 npm 目标', '208 个文件扩展名', '25 条预览链路', 'Full 自托管资产契约']
     },
-    matrixTitle: '覆盖广，不等于粗糙。每条链路都面向真实业务。',
+    matrixTitle: '208 个扩展名，按 25 条真实预览链路组织。',
     matrixIntro:
-      '格式识别、资源加载、Worker/WASM、主题、水印、搜索、缩放、打印和导出都由预览器内部统一适配；PowerPoint 97–2003 二进制 .ppt 与 PPTX/OpenXML 使用彼此隔离的浏览器原生链路。Archive 已兼容 GBK/GB18030 旧 ZIP 中文文件名和 libarchive/ZIP fallback 边界，业务侧可以选 preset-lite、preset-office、preset-engineering 或单 renderer 精确裁剪。',
+      '这不是一个通用降级页面配一长串后缀。PDF/OFD、Word、Spreadsheet、二进制 PPT、PPTX、CAD、Archive、XMind 和 STEP 等格式会匹配独立 renderer；Worker、WASM、字体与 vendor 资产按需加载，Full 包可整套离线交付。',
     formatsTitle: '支持矩阵',
     solutionsTitle: '适合长期运行在企业系统里',
     solutionsIntro:
@@ -311,9 +314,9 @@ const copy = {
     ecosystemTitle: '原生组件接入，统一参数与事件。',
     ecosystemIntro:
       'Full 包直接内置 preset-all，无需再安装或传入 preset。Vite 注册插件并开启 copyAssets:true 后自动发布包内资产；Webpack、Vue CLI 等非 Vite 项目只需执行一次包内 CLI。',
-    demoTitle: '在线 Demo，直接验证真实预览体验。',
+    demoTitle: '不看截图想象。直接打开真实文件。',
     demoIntro:
-      '打开完整样例矩阵，验证 Word、PDF、二进制 PPT、PPTX、CAD、Typst、压缩包、图形、代码、媒体、上传预览与文档比对等核心场景。',
+      '用完整样例矩阵检查沉浸式文档滚动、独立工具弹层、格式图标、全局缩放、明暗主题、本地上传和显式 URL 模式；桌面与移动端共用同一渲染链路。',
     docsTitle: '接入文档，快速参阅关键能力。',
     docsIntro:
       '从快速开始进入，集中查阅 Full 包、Vite 自动资产、非 Vite 单次复制、完整 web-full dist、格式矩阵、组件参数与私有化部署。',
@@ -349,9 +352,9 @@ const copy = {
       commercial: 'Commercial Edition',
       proof: ['54 npm targets', '208 file extensions', '25 preview pipelines', 'Self-hosted Full assets']
     },
-    matrixTitle: 'Broad coverage, without treating fidelity as optional.',
+    matrixTitle: '208 extensions. 25 real preview pipelines.',
     matrixIntro:
-      'Format detection, assets, Worker/WASM loading, themes, watermarking, search, zoom, print, and export are adapted inside the viewer. Binary PowerPoint 97–2003 .ppt and PPTX/OpenXML use isolated browser-native paths. Archive handles legacy GBK/GB18030 ZIP entry names plus the libarchive/ZIP fallback boundary, and applications can choose preset-lite, preset-office, preset-engineering, or exact single-renderer cuts.',
+      'This is not one generic fallback page with a long suffix list. PDF/OFD, Word, Spreadsheet, binary PPT, PPTX, CAD, Archive, XMind, STEP, and other families match dedicated renderers. Workers, WASM, fonts, and vendor assets load on demand, while Full packages deliver the complete offline payload.',
     formatsTitle: 'Format matrix',
     solutionsTitle: 'Built for long-running enterprise workspaces',
     solutionsIntro:
@@ -359,9 +362,9 @@ const copy = {
     ecosystemTitle: 'Native integrations with one options and event model.',
     ecosystemIntro:
       'Full packages include preset-all, so there is no separate preset to install or pass. Vite publishes packaged assets with copyAssets:true; Webpack, Vue CLI, and other builds run the included CLI once.',
-    demoTitle: 'Live demo for real preview validation.',
+    demoTitle: 'Do not guess from screenshots. Open real files.',
     demoIntro:
-      'Open the complete sample matrix to validate Word, PDF, binary PPT, PPTX, CAD, Typst, archives, diagrams, code, media, upload preview, and document comparison flows.',
+      'Use the full sample matrix to check immersive document scrolling, anchored tool panels, format icons, global zoom, light and dark themes, local uploads, and explicit URL mode. Desktop and mobile use the same renderer paths.',
     docsTitle: 'Integration docs for fast technical reference.',
     docsIntro:
       'Start with Full packages, Vite asset publishing, the one-command non-Vite path, complete web-full dist, format coverage, component options, and self-hosted deployment.',
@@ -381,14 +384,14 @@ const copy = {
 const metrics = computed<MetricItem[]>(() =>
   isZh.value
     ? [
-        { title: '文件扩展名', value: '208', detail: '覆盖业务附件、脑图、工程资产、绘图、媒体与数据文件', tone: 'green' },
-        { title: '预览链路', value: '25', detail: '按格式异步加载，避免首屏被拖慢', tone: 'blue' },
+        { title: '文件扩展名', value: '208', detail: '由唯一格式注册表生成，官网、文档与发布物同源', tone: 'green' },
+        { title: '预览链路', value: '25', detail: '匹配独立 renderer，Worker/WASM 只在需要时加载', tone: 'blue' },
         { title: 'Preset 层级', value: '4', detail: 'lite、office、engineering、all 按产品形态装配', tone: 'violet' },
         { title: 'npm 发布目标', value: '54', detail: '48 个标准包与 6 个历史兼容 alias 同版本发布', tone: 'amber' }
       ]
     : [
-        { title: 'Extensions', value: '208', detail: 'Business attachments, mind maps, engineering files, diagrams, media, and data assets', tone: 'green' },
-        { title: 'Pipelines', value: '25', detail: 'Lazy renderer loading by matched file type', tone: 'blue' },
+        { title: 'Extensions', value: '208', detail: 'Generated from one format registry shared by the site, docs, and release artifacts', tone: 'green' },
+        { title: 'Pipelines', value: '25', detail: 'Dedicated renderer matches with lazy Worker and WASM loading', tone: 'blue' },
         { title: 'Preset tiers', value: '4', detail: 'lite, office, engineering, and all product-shaped bundles', tone: 'violet' },
         { title: 'npm targets', value: '54', detail: '48 standard packages and 6 historical aliases released together', tone: 'amber' }
       ]
@@ -1880,9 +1883,14 @@ function setDemoFrameActive(active: boolean) {
   demoFrameUnmountTimer = window.setTimeout(() => {
     if (!demoRevealActive.value) {
       demoFrameMounted.value = false
+      demoFrameReady.value = false
     }
     demoFrameUnmountTimer = undefined
   }, 5000)
+}
+
+function handleDemoFrameLoad() {
+  demoFrameReady.value = true
 }
 
 function setDocsFrameActive(active: boolean) {
@@ -1903,6 +1911,7 @@ function setDocsFrameActive(active: boolean) {
 }
 
 watch(locale, (nextLocale) => {
+  demoFrameReady.value = false
   updateDocumentMetadata(nextLocale)
 })
 
@@ -2186,17 +2195,27 @@ onBeforeUnmount(() => {
               <span />
               <strong>demo.file-viewer.app</strong>
             </div>
-            <iframe
-              v-if="demoFrameMounted"
-              :key="`demo-${locale}`"
-              :src="localizedDemoUrl"
-              :title="isZh ? 'Flyfish File Viewer 在线 Demo' : 'Flyfish File Viewer live demo'"
-              loading="lazy"
-            ></iframe>
-            <div v-else class="demo-frame-placeholder">
-              <MonitorPlay :size="28" />
-              <strong>{{ isZh ? '在线 Demo' : 'Live demo' }}</strong>
-              <span>{{ isZh ? '完整预览器即将加载' : 'Full viewer loading' }}</span>
+            <div class="demo-frame-stack">
+              <picture class="demo-frame-poster" :class="{ 'is-hidden': demoFrameReady }">
+                <source media="(max-width: 760px)" :srcset="demoPreviewMobilePath" />
+                <img
+                  :src="demoPreviewDesktopPath"
+                  :alt="isZh ? 'File Viewer v2.2.2 沉浸式 DOCX 预览界面' : 'File Viewer v2.2.2 immersive DOCX preview UI'"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <iframe
+                v-if="demoFrameMounted"
+                :key="`demo-${locale}`"
+                :class="{ 'is-ready': demoFrameReady }"
+                :src="localizedDemoUrl"
+                :title="isZh ? 'Flyfish File Viewer 在线 Demo' : 'Flyfish File Viewer live demo'"
+                loading="lazy"
+                @load="handleDemoFrameLoad"
+              ></iframe>
             </div>
           </div>
           <div class="demo-seam demo-seam-bottom">

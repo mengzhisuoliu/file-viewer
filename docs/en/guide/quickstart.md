@@ -33,7 +33,7 @@ If you want to validate the complete official demo capability first, use a full 
 | --- | --- | --- |
 | Light standard package | `npm i @file-viewer/vue3 @file-viewer/preset-office` | Pick exactly the preset / renderer your product needs |
 | Complete full package | `npm i @file-viewer/vue3-full` | Includes `preset-all`; publish runtime assets under `<deployment-base>/file-viewer/` for complete support |
-| CDN full | `https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | No local install, ideal for script-tag validation |
+| CDN full | `https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js` | No local install, ideal for script-tag validation |
 
 Add a preset or a single renderer package for the file formats your product actually needs:
 
@@ -195,7 +195,7 @@ No-build pages can load the full CDN bundle directly. Direct jsDelivr/unpkg usag
 ```html
 <div id="viewer" style="height:720px"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <script>
   FlyfishFileViewerWebFull.mountViewer(document.getElementById('viewer'), {
     url: '/files/demo.pdf',
@@ -210,7 +210,7 @@ No-build pages can load the full CDN bundle directly. Direct jsDelivr/unpkg usag
 The Custom Element route is available as well:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <flyfish-file-viewer
   src="/files/demo.docx"
   theme="light"

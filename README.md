@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <strong>208 extensions across 25 preview pipelines · 54 npm targets.</strong> Heavy paths load only when the active format needs them.
+  <strong>v2.2.2 · 208 extensions across 25 preview pipelines · 54 npm targets.</strong> Heavy paths load only when the active format needs them.
 </p>
 
 <p align="center">
@@ -36,8 +36,10 @@
 </p>
 
 <p align="center">
-  <a href="https://demo.file-viewer.app/"><img src="docs/public/_media/flyfish-viewer-demo-en.gif" width="920" alt="Flyfish File Viewer English demo showing multi-format browser preview"></a>
+  <a href="https://demo.file-viewer.app/"><img src="docs/public/_media/file-viewer-demo-v2.2.2-en.gif" width="920" alt="File Viewer v2.2.2 English product demo showing the immersive workspace, sample picker, file-capsule transition, and multi-format preview"></a>
 </p>
+
+The demo is the real product surface, not a static mockup: the fixed glass toolbar, filename-driven sample picker, local recent-file history, light/dark themes, responsive mobile controls, and document-only scrolling all run against the same renderers published to npm.
 
 > ⭐ If File Viewer saves your team from maintaining a conversion service for attachments, star the repo. It helps the next team with the same problem find it.
 
@@ -163,7 +165,7 @@ See [on-demand renderers and presets](https://doc.file-viewer.app/guide/on-deman
 
 ## Capability at a Glance
 
-The current matrix maps **208 file extensions** into **25 rendering pipelines**, distributed through **54 npm targets**. Presentation preview deliberately keeps two engine boundaries: PowerPoint 97–2003 `.ppt` uses the native-WASM `@file-viewer/ppt@0.3.1` engine, while PPTX/OpenXML uses the `@file-viewer/pptx` Worker engine. Other major groups include PDF; Word and spreadsheets; OFD; DWG/DXF/DWF/DWFX; archives; EML/MSG; Markdown and source code; Draw.io, Excalidraw, Mermaid and PlantUML; PSD and images; audio/video; ebooks; mind maps; 3D/geo/data/EDA formats; and Typst.
+The v2.2.2 registry maps **208 file extensions** into **25 rendering pipelines**, distributed through **54 npm targets**. Presentation preview deliberately keeps two engine boundaries: PowerPoint 97–2003 `.ppt` uses the native-WASM `@file-viewer/ppt@0.3.1` engine, while PPTX/OpenXML uses the `@file-viewer/pptx` Worker engine. STEP/STP, IGES/IGS, and BREP use the packaged local OCCT Worker/WASM path instead of a conversion hint. EPUB uses a packaged lazy engine built against the pinned safe XML DOM implementation, so it adds no external runtime or CDN dependency. Other major groups include PDF; Word and spreadsheets; OFD; DWG/DXF/DWF/DWFX; archives; EML/MSG; Markdown and source code; Draw.io, Excalidraw, Mermaid and PlantUML; PSD and images; audio/video; ebooks; mind maps; 3D/geo/data/EDA formats; and Typst.
 
 The exact implementation and support level varies by format. Use the maintained [format matrix](https://doc.file-viewer.app/guide/formats) as the source of truth rather than inferring support from an extension alone.
 

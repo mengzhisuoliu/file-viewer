@@ -7,8 +7,13 @@
 <div class="doc-kicker">Real Samples, Real Renderers</div>
 
 <p class="doc-lead">
-  The official demo is the fastest way to verify renderer behavior, toolbar operations, mobile layout, archive nesting, comparison, and offline asset loading.
+  The official demo is the fastest way to verify the 208-extension, 25-pipeline registry against real renderer behavior, toolbar operations, mobile layout, archive nesting, comparison, and offline asset loading.
 </p>
+
+<div class="doc-shot">
+  <img src="/_media/file-viewer-demo-v2.2.2-en.gif" alt="Flyfish Viewer v2.2.2 English demo showing the immersive document canvas, capsule fusion, and multi-format preview" width="1200" height="750" loading="lazy" />
+  <p class="doc-caption">The current workspace starts with a real DOCX, reveals the file capsule when the top controls are engaged, then opens the sample library and switches renderer pipelines.</p>
+</div>
 
 ## Demo URLs
 
@@ -21,25 +26,32 @@
 
 | Area | What to verify |
 | --- | --- |
-| Scenario shortcuts | First-time users can open Word, Excel, PowerPoint, DWG, archive, and email samples without navigating the full matrix |
-| Copyable code | The sidebar shows a React `@file-viewer/react-full` snippet for the current file, with a copy action |
-| Sample selector | Files are grouped by type, collapsible, and the selected group stays discoverable |
-| Toolbar | Download, print, HTML export, watermark, search, zoom, navigation, and format-specific actions appear only when supported |
+| Source controls | Open file, Paste link, and Samples each open their own anchored panel instead of sharing one generic dialog |
+| File capsule | The filename and correct format icon open the sample library; on desktop, the capsule separates on hover and flows back into the top bar one second after pointer leave |
+| Recent files | URL and sample history persists in local storage, each item can be removed, and the compact history control restores the panel |
+| Sample selector | Files are grouped by type, collapsible, icon-led, and the active file group stays discoverable in light and dark themes |
+| Toolbar | Search, fit, theme, download, print, HTML export, watermark, zoom, navigation, and format-specific actions appear only when supported |
+| Settings | More exposes the full option surface, including document-background mode, density, fit, watermark, archive, and current-format controls |
 | PDF | Page thumbnails, outline tree, floating toolbar, fit-to-width, search highlights, and side panel toggling |
 | Word | Stream-style document reading, correct text flow, printing without clipped first-page-only output |
 | Spreadsheet | Sheet tabs remain readable on desktop and mobile; optional column resize can be enabled |
 | Archive | Nested entries preview through the same renderer registry, with safe metadata filtering, cache support, optional compact `ui.density:'compact'` spacing via `?density=compact`, and `archive.entryActions.download` checks for hiding nested entry downloads independently from the viewer-level original download |
-| Mobile | Content stays central, controls move to compact floating actions, and heavy renderers remain lazy |
+| Mobile | The filename stays centered, secondary controls collapse into one More action, only the document container scrolls, and heavy renderers remain lazy |
 
 ## Language-Aware Samples
 
-The demo follows the browser language by default. Chinese browsers open the Chinese sample system; other languages open the English sample system. You can also force the language with `?lang=zh-CN` or `?lang=en-US`.
+The demo follows the browser language by default. Chinese browsers open the Chinese sample system; other languages open the English sample system. Use `?locale=zh-CN` or `?locale=en-US` for a stable locale; the historical `lang` parameter remains compatible.
 
 The English demo uses public real-world samples for DOCX, PDF, PPTX, and XLSX, plus local lightweight fixtures for Markdown, text, logs, CSV, JSON, TypeScript, JavaScript, GeoJSON, glTF, and archive nesting. All files are served from the demo origin so enterprise intranet deployments do not depend on public CDNs at runtime.
 
+<div class="doc-shot">
+  <img src="/_media/file-viewer-demo-v2.2.2-samples-en.webp" alt="Flyfish Viewer v2.2.2 English dark sample library with format-specific file icons" width="1440" height="900" loading="lazy" />
+  <p class="doc-caption">The sample library opens next to the active source, expands one group at a time, and uses coordinated dark-mode icon palettes instead of filtering light assets.</p>
+</div>
+
 ## Demo File Handoff Protocol
 
-The main demo and iframe entry share the same file handoff protocol. Prefer `/iframe.html` for customer systems because it hides the demo chrome and keeps only the preview surface; clean-URL static hosts can also use `/iframe`. Existing systems that already use `/index.html?from=...&name=...` continue to work with the same `postMessage(Blob)` flow.
+The main demo and iframe entry share the same file handoff protocol. Prefer `/iframe.html` for customer systems: an explicit `url` enters immersive mode, hiding brand, history, and source controls while retaining the document and the active format toolbar. Clean-URL static hosts can also use `/iframe`. Existing systems that already use `/index.html?from=...&name=...` continue to work with the same `postMessage(Blob)` flow.
 
 URL-based iframe:
 
@@ -81,6 +93,7 @@ The repository keeps browser smoke scripts for the demo and component packages:
 
 ```bash
 pnpm verify:demo-browser-smoke
+pnpm verify:demo-sample-click-regression
 pnpm verify:component-browser-smoke
 pnpm verify:browser-smoke
 ```

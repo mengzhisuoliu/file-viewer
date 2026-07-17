@@ -618,7 +618,7 @@ const options = {
 
 `.excalidraw` 默认使用 `roughjs` 生成只读 SVG 预览，运行环境提供官方 `@excalidraw/excalidraw` ESM 模块时会优先尝试 `exportToSvg`；`.drawio` / `.dio` 默认使用随 viewer assets 分发的官方 diagrams.net `GraphViewer` 离线预览。静态路径特殊时可通过 `options.drawing.viewerScriptUrl` 指定自托管 `viewer-static.min.js`，组件会把同目录下的 styles、shapes、stencils、img、mxgraph 和 math 资源用于离线渲染；官方 viewer 异常时会回退内置 SVG。
 
-`.epub` 会使用 `epubjs` 解析电子书包、目录和章节资源，并在浏览器内提供只读滚动阅读。阅读器会默认打开第一个正文章节，避免停留在封面或空白包装页。
+`.epub` 会按需加载包内固化的本地阅读引擎，解析电子书包、目录和章节资源，并在浏览器内提供只读滚动阅读；运行时不访问第三方 CDN。阅读器会默认打开第一个正文章节，避免停留在封面或空白包装页。
 
 `.umd` 会按早期移动电子书结构在浏览器端解析文件头、元数据、章节偏移、章节标题和压缩正文。正文数据块使用 `pako` 解压并按 UTF-16LE 解码，适合历史小说附件和旧移动阅读文件。Kindle 专有格式或 DRM 电子书建议先转换为 EPUB / UMD 文本电子书 / PDF 后再传入预览器。
 

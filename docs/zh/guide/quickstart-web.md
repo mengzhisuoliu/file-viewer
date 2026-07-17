@@ -220,7 +220,7 @@ IIFE 会自动执行 `defineFileViewerElement()` 并暴露 `window.FlyfishFileVi
 ```html
 <div id="viewer" style="height:720px"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <script>
   FlyfishFileViewerWebFull.mountViewer(document.getElementById('viewer'), {
     url: '/files/demo.pdf',
@@ -235,7 +235,7 @@ IIFE 会自动执行 `defineFileViewerElement()` 并暴露 `window.FlyfishFileVi
 Custom Element 也可以直接使用同一个 CDN full 包：
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
+<script src="https://unpkg.com/@file-viewer/web-full@latest/dist/flyfish-file-viewer-web-full.iife.js"></script>
 <flyfish-file-viewer
   src="/files/demo.xlsx"
   theme="light"
