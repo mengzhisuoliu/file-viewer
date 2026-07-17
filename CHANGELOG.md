@@ -2,6 +2,25 @@
 
 完整对外更新日志见 [docs/changelog.md](docs/changelog.md)。
 
+## File Viewer v2.2.1 — 2026-07-17
+
+这是 2.2.0 的发布后补丁，集中修复上传 PDF 的下载数据源、复杂 DOCX 锚定绘图布局和自托管 Docker 运行时。能力矩阵仍为 54 个 npm 目标、208 个扩展名和 25 条预览链路。
+
+### Fixes
+
+- 修复上传 PDF 渲染后下载为 0 字节（#139）：PDF.js 将 `ArrayBuffer` 转移给 Worker 后，下载会自动回退到仍然完整的原始 `File`；流式 URL 与合法空文件仍保持各自原有语义。
+- `@file-viewer/docx` 升级至 `0.3.21`，修复 WPS/WPG/图片锚点被重复偏移、嵌套组变换组合错误，以及同一段落中页面锚点与段落锚点混排造成的巨大空白（#133）；缺失页眉/页脚 root 的可选结构也在引擎层安全跳过（#130）。
+- 自托管 Nginx 为 `.mjs` 显式返回 `application/javascript`，避免 `nosniff` 阻止 PDF.js Worker、PPT 和其他 ESM 运行时加载。
+- CAD 运行时资源替换支持跨文件系统 `EXDEV`，复制、校验、交换与失败回滚均保留完整副本；Docker 构建上下文和 pnpm 缓存层同步收紧。
+- 真实浏览器回归覆盖 PDF 上传/渲染/下载、OFD→PDF 同会话切换、二进制 PPT、PPTX、复杂锚定 DOCX，以及 Docker 中的模块 MIME 和离线资源完整性；#133 附件不再产生页面溢出，关键区块相对参考 PDF 的横向误差小于 0.4 pt、纵向误差约 2–3 pt。
+
+### Upgrade
+
+```bash
+pnpm add @file-viewer/vue3-full@2.2.1
+pnpm add -D @file-viewer/vite-plugin@2.2.1
+```
+
 ## File Viewer v2.2.0 — 2026-07-17
 
 这次升级把主 Demo、运行时资源路径和近期真实用户反馈一起收口。主 Demo 采用新的产品化工作台布局，桌面端把文件来源、文档操作和预览画布重新分层，移动端收进轻量悬浮操作；暗色模式、样例分组、搜索、缩放、上传和链接预览都保留完整交互。

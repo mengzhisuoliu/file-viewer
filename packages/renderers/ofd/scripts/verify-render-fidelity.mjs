@@ -14,6 +14,7 @@ import JsZip from 'jszip'
 const packageDir = dirname(dirname(fileURLToPath(import.meta.url)))
 const fixturesDir = join(packageDir, 'test', 'fixtures')
 const fixturePath = join(fixturesDir, 'render-fidelity.ofd')
+const FIXTURE_DATE = new Date('2026-07-09T06:50:10.000Z')
 
 // 1x1 红色像素 PNG（用于验证 ImageObject + CTM 定位，不关心具体像素内容）。
 const PIXEL_PNG_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII='
@@ -77,6 +78,11 @@ const buildFixtureOfd = async () => {
     </ofd:Layer>
   </ofd:Content>
 </ofd:Page>`)
+  // Keep the committed ZIP byte-stable so this regression gate never dirties
+  // the release worktree merely because it ran at a different time.
+  for (const entry of Object.values(zip.files)) {
+    entry.date = FIXTURE_DATE
+  }
   return zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' })
 }
 
