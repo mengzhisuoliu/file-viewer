@@ -39,10 +39,6 @@
   <a href="https://demo.file-viewer.app/"><img src="docs/public/_media/file-viewer-demo-v2.2.2-formats-en.gif" width="920" alt="File Viewer v2.2.2 English product demo showing rich DOCX, PPTX, DWG, and interactive 3D STEP previews in the immersive workspace"></a>
 </p>
 
-The demo is the real product surface, not a static mockup: the fixed glass toolbar, filename-driven sample picker, local recent-file history, light/dark themes, responsive mobile controls, and document-only scrolling all run against the same renderers published to npm.
-
-> ⭐ If File Viewer saves your team from maintaining a conversion service for attachments, star the repo. It helps the next team with the same problem find it.
-
 ## Why File Viewer
 
 Uploading private files to a SaaS converter is awful. Running a separate preview backend for each format is not much better. File Viewer keeps the preview path in the browser and gives the host app one API.
