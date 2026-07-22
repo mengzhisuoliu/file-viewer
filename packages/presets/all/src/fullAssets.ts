@@ -18,6 +18,7 @@ import {
   DEFAULT_FILE_VIEWER_PDF_WORKER_PATH,
   DEFAULT_FILE_VIEWER_PPT_FONT_PATH,
   DEFAULT_FILE_VIEWER_PPT_MODULE_PATH,
+  DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION,
   DEFAULT_FILE_VIEWER_PPT_WASM_PATH,
   DEFAULT_FILE_VIEWER_PPT_WORKER_PATH,
   DEFAULT_FILE_VIEWER_PRESENTATION_WORKER_PATH,
@@ -71,6 +72,11 @@ function joinFullAssetUrl(baseUrl: string, path: string) {
   return `${baseUrl}${path.replace(/^\/+/, '')}`;
 }
 
+function versionPptRuntimeAssetUrl(url: string) {
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}file-viewer-ppt=${encodeURIComponent(DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION)}`;
+}
+
 export function createFullAssetOptions(
   assetBaseUrl?: string | URL | null
 ): FileViewerOptions {
@@ -79,6 +85,7 @@ export function createFullAssetOptions(
     return {};
   }
   const assetUrl = (path: string) => joinFullAssetUrl(baseUrl, path);
+  const pptAssetUrl = (path: string) => versionPptRuntimeAssetUrl(assetUrl(path));
   return {
     archive: {
       workerUrl: assetUrl(DEFAULT_FILE_VIEWER_ARCHIVE_WORKER_PATH),
@@ -112,10 +119,10 @@ export function createFullAssetOptions(
       cjkFontFallbackPath: assetUrl(DEFAULT_FILE_VIEWER_PDF_CJK_FONT_FALLBACK_PATH),
     },
     presentation: {
-      pptModuleUrl: assetUrl(DEFAULT_FILE_VIEWER_PPT_MODULE_PATH),
-      pptWorkerUrl: assetUrl(DEFAULT_FILE_VIEWER_PPT_WORKER_PATH),
-      pptWasmUrl: assetUrl(DEFAULT_FILE_VIEWER_PPT_WASM_PATH),
-      pptFontUrl: assetUrl(DEFAULT_FILE_VIEWER_PPT_FONT_PATH),
+      pptModuleUrl: pptAssetUrl(DEFAULT_FILE_VIEWER_PPT_MODULE_PATH),
+      pptWorkerUrl: pptAssetUrl(DEFAULT_FILE_VIEWER_PPT_WORKER_PATH),
+      pptWasmUrl: pptAssetUrl(DEFAULT_FILE_VIEWER_PPT_WASM_PATH),
+      pptFontUrl: pptAssetUrl(DEFAULT_FILE_VIEWER_PPT_FONT_PATH),
       workerUrl: assetUrl(DEFAULT_FILE_VIEWER_PRESENTATION_WORKER_PATH),
     },
     spreadsheet: {

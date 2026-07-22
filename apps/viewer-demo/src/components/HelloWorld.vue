@@ -27,6 +27,7 @@ import {
   ZoomOut
 } from '@lucide/vue'
 import {
+  DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION,
   resolveFileViewerColorScheme,
   toggleFileViewerColorScheme
 } from '@file-viewer/core'
@@ -95,6 +96,9 @@ const DEFAULT_DEMO_URL_BY_LOCALE: Record<DemoLocale, string> = {
   'en-US': '/example/en/calibre-demo.docx'
 }
 const githubRepositoryUrl = 'https://github.com/flyfish-dev/file-viewer'
+const demoPptRuntimeAssetUrl = (path: string) => (
+  `${path}?file-viewer-ppt=${encodeURIComponent(DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION)}`
+)
 
 const readDemoStorage = (key: string): string | null => {
   try {
@@ -1024,10 +1028,10 @@ const viewerOptions = computed((): FileViewerOptions => {
       : {})
   }
   options.presentation = {
-    pptModuleUrl: 'vendor/ppt/index.mjs',
-    pptWorkerUrl: 'vendor/ppt/worker.mjs',
-    pptWasmUrl: 'vendor/ppt/ppt-native.wasm',
-    pptFontUrl: 'vendor/ppt/ppt-font-cjk.otf',
+    pptModuleUrl: demoPptRuntimeAssetUrl('vendor/ppt/index.mjs'),
+    pptWorkerUrl: demoPptRuntimeAssetUrl('vendor/ppt/worker.mjs'),
+    pptWasmUrl: demoPptRuntimeAssetUrl('vendor/ppt/ppt-native.wasm'),
+    pptFontUrl: demoPptRuntimeAssetUrl('vendor/ppt/ppt-font-cjk.otf'),
     ...runtime.presentation
   }
   if (!immersiveMode.value) {
