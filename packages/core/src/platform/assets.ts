@@ -16,6 +16,7 @@ export const DEFAULT_FILE_VIEWER_ARCHIVE_WORKER_PATH = 'vendor/libarchive/worker
 export const DEFAULT_FILE_VIEWER_ARCHIVE_WASM_PATH = 'vendor/libarchive/libarchive.wasm';
 export const DEFAULT_FILE_VIEWER_DOCX_WORKER_PATH = 'vendor/docx/docx.worker.js';
 export const DEFAULT_FILE_VIEWER_DOCX_WORKER_JSZIP_PATH = 'vendor/docx/jszip.min.js';
+export const DEFAULT_FILE_VIEWER_DOCX_RUNTIME_VERSION = '0.3.23';
 export const DEFAULT_FILE_VIEWER_PRESENTATION_WORKER_PATH = 'vendor/pptx/pptx.worker.js';
 export const DEFAULT_FILE_VIEWER_PPT_RUNTIME_PATH = 'vendor/ppt';
 export const DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION = '0.3.2';
@@ -869,20 +870,30 @@ export const resolveFileViewerDocxWorkerUrl = (
   options?: Pick<FileViewerDocxOptions, 'workerUrl'> | null,
   documentBaseUrl?: string
 ) => {
-  return resolveFileViewerAssetUrl(options?.workerUrl, DEFAULT_FILE_VIEWER_DOCX_WORKER_PATH, {
+  const resolved = resolveFileViewerAssetUrl(options?.workerUrl, DEFAULT_FILE_VIEWER_DOCX_WORKER_PATH, {
     documentBaseUrl,
   });
+  if (options?.workerUrl) {
+    return resolved;
+  }
+  const separator = resolved.includes('?') ? '&' : '?';
+  return `${resolved}${separator}file-viewer-docx=${encodeURIComponent(DEFAULT_FILE_VIEWER_DOCX_RUNTIME_VERSION)}`;
 };
 
 export const resolveFileViewerDocxWorkerJsZipUrl = (
   options?: Pick<FileViewerDocxOptions, 'workerJsZipUrl'> | null,
   documentBaseUrl?: string
 ) => {
-  return resolveFileViewerAssetUrl(
+  const resolved = resolveFileViewerAssetUrl(
     options?.workerJsZipUrl,
     DEFAULT_FILE_VIEWER_DOCX_WORKER_JSZIP_PATH,
     { documentBaseUrl }
   );
+  if (options?.workerJsZipUrl) {
+    return resolved;
+  }
+  const separator = resolved.includes('?') ? '&' : '?';
+  return `${resolved}${separator}file-viewer-docx=${encodeURIComponent(DEFAULT_FILE_VIEWER_DOCX_RUNTIME_VERSION)}`;
 };
 
 export const resolveFileViewerSpreadsheetWorkerUrl = (

@@ -5,6 +5,7 @@ import {
   DEFAULT_FILE_VIEWER_CAD_WASM_PATH,
   DEFAULT_FILE_VIEWER_CAD_WORKER_PATH,
   DEFAULT_FILE_VIEWER_DATA_SQL_WASM_URL,
+  DEFAULT_FILE_VIEWER_DOCX_RUNTIME_VERSION,
   DEFAULT_FILE_VIEWER_DOCX_WORKER_JSZIP_PATH,
   DEFAULT_FILE_VIEWER_DOCX_WORKER_PATH,
   DEFAULT_FILE_VIEWER_MODEL_RUNTIME_URL,
@@ -77,6 +78,11 @@ function versionPptRuntimeAssetUrl(url: string) {
   return `${url}${separator}file-viewer-ppt=${encodeURIComponent(DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION)}`;
 }
 
+function versionDocxRuntimeAssetUrl(url: string) {
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}file-viewer-docx=${encodeURIComponent(DEFAULT_FILE_VIEWER_DOCX_RUNTIME_VERSION)}`;
+}
+
 export function createFullAssetOptions(
   assetBaseUrl?: string | URL | null
 ): FileViewerOptions {
@@ -85,6 +91,7 @@ export function createFullAssetOptions(
     return {};
   }
   const assetUrl = (path: string) => joinFullAssetUrl(baseUrl, path);
+  const docxAssetUrl = (path: string) => versionDocxRuntimeAssetUrl(assetUrl(path));
   const pptAssetUrl = (path: string) => versionPptRuntimeAssetUrl(assetUrl(path));
   return {
     archive: {
@@ -100,8 +107,8 @@ export function createFullAssetOptions(
       sqlWasmUrl: assetUrl(DEFAULT_FILE_VIEWER_DATA_SQL_WASM_URL),
     },
     docx: {
-      workerUrl: assetUrl(DEFAULT_FILE_VIEWER_DOCX_WORKER_PATH),
-      workerJsZipUrl: assetUrl(DEFAULT_FILE_VIEWER_DOCX_WORKER_JSZIP_PATH),
+      workerUrl: docxAssetUrl(DEFAULT_FILE_VIEWER_DOCX_WORKER_PATH),
+      workerJsZipUrl: docxAssetUrl(DEFAULT_FILE_VIEWER_DOCX_WORKER_JSZIP_PATH),
     },
     drawing: {
       viewerScriptUrl: assetUrl(DEFAULT_FILE_VIEWER_DRAWIO_VIEWER_SCRIPT_PATH),

@@ -1,4 +1,5 @@
 import {
+  DEFAULT_FILE_VIEWER_DOCX_RUNTIME_VERSION,
   DEFAULT_RENDERER_DEFINITIONS,
   DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION,
   resolveFileViewerRuntimeAssetBaseUrl,
@@ -143,6 +144,9 @@ function createFullAssetOptions(assetBaseUrl?: string | URL | null): ViewerOptio
   const pptAssetUrl = (path: string) => (
     `${baseUrl}${path}?file-viewer-ppt=${encodeURIComponent(DEFAULT_FILE_VIEWER_PPT_RUNTIME_VERSION)}`
   )
+  const docxAssetUrl = (path: string) => (
+    `${baseUrl}${path}?file-viewer-docx=${encodeURIComponent(DEFAULT_FILE_VIEWER_DOCX_RUNTIME_VERSION)}`
+  )
   return {
     archive: {
       workerUrl: `${baseUrl}vendor/libarchive/worker-bundle.js`,
@@ -157,8 +161,8 @@ function createFullAssetOptions(assetBaseUrl?: string | URL | null): ViewerOptio
       sqlWasmUrl: `${baseUrl}wasm/data/sql-wasm.wasm`
     },
     docx: {
-      workerUrl: `${baseUrl}vendor/docx/docx.worker.js`,
-      workerJsZipUrl: `${baseUrl}vendor/docx/jszip.min.js`
+      workerUrl: docxAssetUrl('vendor/docx/docx.worker.js'),
+      workerJsZipUrl: docxAssetUrl('vendor/docx/jszip.min.js')
     },
     drawing: {
       viewerScriptUrl: `${baseUrl}vendor/drawio/viewer-static.min.js`
