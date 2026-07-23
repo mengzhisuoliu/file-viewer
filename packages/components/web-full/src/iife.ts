@@ -157,9 +157,9 @@ function createFullAssetOptions(assetBaseUrl?: string | URL | null): ViewerOptio
       wasmUrl: `${baseUrl}vendor/libarchive/libarchive.wasm`
     },
     cad: {
-      wasmPath: `${baseUrl}wasm/cad/`,
-      workerUrl: cadAssetUrl('wasm/cad/dwg-worker.js'),
-      dwfWasmUrl: cadAssetUrl('wasm/cad/dwfv-render.wasm')
+      wasmPath: `${baseUrl}wasm/cad/${DEFAULT_FILE_VIEWER_CAD_RUNTIME_VERSION}/`,
+      workerUrl: cadAssetUrl(`wasm/cad/${DEFAULT_FILE_VIEWER_CAD_RUNTIME_VERSION}/dwg-worker.js`),
+      dwfWasmUrl: cadAssetUrl(`wasm/cad/${DEFAULT_FILE_VIEWER_CAD_RUNTIME_VERSION}/dwfv-render.wasm`)
     },
     data: {
       sqlWasmUrl: `${baseUrl}wasm/data/sql-wasm.wasm`

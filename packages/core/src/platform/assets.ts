@@ -33,12 +33,17 @@ export const DEFAULT_FILE_VIEWER_PDF_STANDARD_FONT_PATH = 'vendor/pdf/standard_f
 export const DEFAULT_FILE_VIEWER_PDF_CJK_FONT_FALLBACK_PATH = 'vendor/pdf/fonts/';
 export const DEFAULT_FILE_VIEWER_DRAWIO_VIEWER_SCRIPT_PATH = 'vendor/drawio/viewer-static.min.js';
 export const DEFAULT_FILE_VIEWER_DRAWIO_ASSET_PATH = 'vendor/drawio/';
-export const DEFAULT_FILE_VIEWER_CAD_WASM_PATH = 'wasm/cad/';
-export const DEFAULT_FILE_VIEWER_CAD_WORKER_PATH = 'wasm/cad/dwg-worker.js';
-export const DEFAULT_FILE_VIEWER_CAD_DWF_WASM_PATH = 'wasm/cad/dwfv-render.wasm';
 export const DEFAULT_FILE_VIEWER_CAD_RUNTIME_VERSION = '0.8.0';
-export const DEFAULT_FILE_VIEWER_CAD_LIBREDWG_SCRIPT_PATH = 'wasm/cad/libredwg-web.js';
-export const DEFAULT_FILE_VIEWER_CAD_LIBREDWG_WASM_PATH = 'wasm/cad/libredwg-web.wasm';
+export const DEFAULT_FILE_VIEWER_CAD_WASM_PATH =
+  `wasm/cad/${DEFAULT_FILE_VIEWER_CAD_RUNTIME_VERSION}/`;
+export const DEFAULT_FILE_VIEWER_CAD_WORKER_PATH =
+  `${DEFAULT_FILE_VIEWER_CAD_WASM_PATH}dwg-worker.js`;
+export const DEFAULT_FILE_VIEWER_CAD_DWF_WASM_PATH =
+  `${DEFAULT_FILE_VIEWER_CAD_WASM_PATH}dwfv-render.wasm`;
+export const DEFAULT_FILE_VIEWER_CAD_LIBREDWG_SCRIPT_PATH =
+  `${DEFAULT_FILE_VIEWER_CAD_WASM_PATH}libredwg-web.js`;
+export const DEFAULT_FILE_VIEWER_CAD_LIBREDWG_WASM_PATH =
+  `${DEFAULT_FILE_VIEWER_CAD_WASM_PATH}libredwg-web.wasm`;
 export const DEFAULT_FILE_VIEWER_TYPST_COMPILER_WASM_URL =
   'wasm/typst/typst_ts_web_compiler_bg.wasm';
 export const DEFAULT_FILE_VIEWER_TYPST_RENDERER_WASM_URL =
@@ -557,6 +562,42 @@ export const DEFAULT_FILE_VIEWER_RENDERER_ASSET_MANIFESTS: readonly FileViewerRe
         required: true,
         defaultPath: DEFAULT_FILE_VIEWER_CAD_LIBREDWG_WASM_PATH,
         description: 'LibreDWG WebAssembly runtime loaded by the CAD DWG worker for offline parsing.',
+      },
+      {
+        id: 'cad-legacy-dwg-worker',
+        rendererId: 'cad',
+        kind: 'worker',
+        target: 'public',
+        required: false,
+        defaultPath: 'wasm/cad/dwg-worker.js',
+        description: 'Unversioned compatibility alias for deployments that explicitly configured the former DWG worker path.',
+      },
+      {
+        id: 'cad-legacy-dwf-wasm',
+        rendererId: 'cad',
+        kind: 'wasm',
+        target: 'public',
+        required: false,
+        defaultPath: 'wasm/cad/dwfv-render.wasm',
+        description: 'Unversioned compatibility alias for deployments that explicitly configured the former DWF runtime path.',
+      },
+      {
+        id: 'cad-legacy-libredwg-script',
+        rendererId: 'cad',
+        kind: 'script',
+        target: 'public',
+        required: false,
+        defaultPath: 'wasm/cad/libredwg-web.js',
+        description: 'Unversioned compatibility alias for the former LibreDWG JavaScript runtime path.',
+      },
+      {
+        id: 'cad-legacy-libredwg-wasm',
+        rendererId: 'cad',
+        kind: 'wasm',
+        target: 'public',
+        required: false,
+        defaultPath: 'wasm/cad/libredwg-web.wasm',
+        description: 'Unversioned compatibility alias for the former LibreDWG WebAssembly runtime path.',
       },
     ],
   },
